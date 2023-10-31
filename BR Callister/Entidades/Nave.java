@@ -37,10 +37,10 @@ public class Nave extends Entidade{
             y -= velocidade;
             if(tecla.dirPress){
                 y -= velocidade / 4;
-                x += velocidade / 2;
+                x += velocidade / 1.5;
             } else if (tecla.esqPress){
                 y -= velocidade / 4;
-                x -= velocidade / 2;
+                x -= velocidade / 1.5;
             } else if (tecla.baixoPress){
                 y += velocidade;
             }
@@ -49,10 +49,10 @@ public class Nave extends Entidade{
             y += velocidade;
             if (tecla.dirPress){
                 y += velocidade / 4;
-                x += velocidade / 2;
+                x += velocidade / 1.5;
             } else if (tecla.esqPress){
                 y += velocidade / 4;
-                x -= velocidade / 2;
+                x -= velocidade / 1.5;
             } else if (tecla.cimaPress){
                 y -= velocidade;
             }

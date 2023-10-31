@@ -16,8 +16,8 @@ public class PainelJogo extends JPanel implements Runnable{
     public final int skinSizeWidth = originalSkinSize * scale * 2;
     final int maxColuna = 16;
     final int maxLinha = 12;
-    final int larguraTela = skinSize * maxColuna; // 1024 pixeis
-    final int comprimentoTela = skinSize * maxLinha; // 768 pixeis
+    final int larguraTela = skinSize * maxColuna; // 1536 pixeis
+    final int comprimentoTela = skinSize * maxLinha; // 1152 pixeis
     
     //FPS
     int fps = 60;
@@ -28,7 +28,7 @@ public class PainelJogo extends JPanel implements Runnable{
 
     public PainelJogo(){
         this.setPreferredSize(new Dimension(larguraTela, comprimentoTela));
-        this.setBackground(Color.black);
+        //this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(tecla);
         this.setFocusable(true);
