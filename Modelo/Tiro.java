@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Inimigo1 {
+public class Tiro {
 	private Image imagem;
 	private int x;
 	private int y;
@@ -13,27 +13,27 @@ public class Inimigo1 {
 	private int altura;
 	private boolean isVisivel;
 	
-	//private static final int LARGURA = 938;
+	private static final int LARGURA = 938;
 	private static int VELOCIDADE = 5;
 	
-	public Inimigo1(int x, int y) {
+	public Tiro(int x, int y) {
 		this.x = x;
 		this.y = y;
 		isVisivel = true;
 	}
 	public void load() {
-		ImageIcon referencia = new ImageIcon("res\\robo2.png");
+		ImageIcon referencia = new ImageIcon("res\\novo_tiro.png");
 		imagem = referencia.getImage();
 		
 		this.largura = imagem.getWidth(null);
 		this.altura = imagem.getHeight(null);
 	}
 	public void update() {
-		this.x -= VELOCIDADE;
+		this.x += VELOCIDADE;
 		
-		//if(this.x > LARGURA) {
-			//isVisivel = false;
-		//}
+		if(this.x > LARGURA) {
+			isVisivel = false;
+		}
 	}
 	public Rectangle getBounds() {
 		return new Rectangle(x,y,largura,altura);
