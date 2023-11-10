@@ -2,53 +2,149 @@ package meujogo.modelo;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
-public class Inimigo1 {
-	private Image imagem;
+public class Jogador {
+
 	private int x;
 	private int y;
-	private int largura;
+	private int dx;
+	private int dy;
+	private Image imagem;
 	private int altura;
+	private int largura;
 	private boolean isVisivel;
 	
-	//private static final int LARGURA = 938;
-	private static int VELOCIDADE = 5;
+	private List <Tiro> tiros;
 	
-	public Inimigo1(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public Jogador() {
+		this.x=100;
+		this.y=100;
 		isVisivel = true;
+		
+		tiros = new ArrayList<Tiro>();
 	}
 	public void load() {
-		ImageIcon referencia = new ImageIcon("res\\robo2.png");
+		ImageIcon referencia =  new ImageIcon("res\\br-callister (2).png");
 		imagem = referencia.getImage();
-		
-		this.largura = imagem.getWidth(null);
-		this.altura = imagem.getHeight(null);
+		altura = imagem.getHeight(null);
+		largura = imagem.getWidth(null);
 	}
 	public void update() {
-		this.x -= VELOCIDADE;
-		
-		//if(this.x > LARGURA) {
-			//isVisivel = false;
-		//}
+		x += dx;
+		y += dy;
+	}
+	
+	public void tiroSimples() {
+		this.tiros.add(new Tiro(x+largura, y+(altura/2)));
 	}
 	public Rectangle getBounds() {
 		return new Rectangle(x,y,largura,altura);
 	}
+	public void keyPressed(KeyEvent tecla) {
+		int codigo = tecla.getKeyCode();
+		
+		if(codigo == KeyEvent.VK_E) {
+			tiroSimples();
+		}
+
+		if(codigo == KeyEvent.VK_W) {
+			dy=-3;
+		} if (codigo == KeyEvent.VK_A){
+			dx=-3;
+		} else if (codigo == KeyEvent.VK_D){
+			dx=3;
+		} else if (codigo == KeyEvent.VK_S){
+			dy=3;
+		}
+
+		else if(codigo == KeyEvent.VK_S) {
+			dy=3;
+		} if (codigo == KeyEvent.VK_A){
+			dx=-3;
+		} else if (codigo == KeyEvent.VK_D){
+			dx=3;
+		} else if(codigo == KeyEvent.VK_W) {
+			dy=-3;
+		}
+
+		else if(codigo == KeyEvent.VK_A) {
+			dx=-3;
+		} if (codigo == KeyEvent.VK_W){
+			dy=-3;
+		} else if (codigo == KeyEvent.VK_S){
+			dy=3;
+		} else if(codigo == KeyEvent.VK_D) {
+			dx=3;
+		}
+
+		else if(codigo == KeyEvent.VK_D) {
+			dx=3;
+		} if (codigo == KeyEvent.VK_W){
+			dy=-3;
+		} else if (codigo == KeyEvent.VK_S){
+			dy=3;
+		} else if(codigo == KeyEvent.VK_A) {
+			dx=-3;
+		}
+	}
+	public void keyRelease(KeyEvent tecla) {
+		int codigo = tecla.getKeyCode();
+
+		if(codigo == KeyEvent.VK_W) {
+			dy=0;
+		} if (codigo == KeyEvent.VK_A){
+			dx=0;
+		} else if (codigo == KeyEvent.VK_D){
+			dx=0;
+		} else if (codigo == KeyEvent.VK_S){
+			dy=0;
+		}
+
+		else if(codigo == KeyEvent.VK_S) {
+			dy=0;
+		} if (codigo == KeyEvent.VK_A){
+			dx=0;
+		} else if (codigo == KeyEvent.VK_D){
+			dx=0;
+		} else if(codigo == KeyEvent.VK_W) {
+			dy=0;
+		}
+
+		else if(codigo == KeyEvent.VK_A) {
+			dx=0;
+		} if (codigo == KeyEvent.VK_W){
+			dy=0;
+		} else if (codigo == KeyEvent.VK_S){
+			dy=0;
+		} else if(codigo == KeyEvent.VK_D) {
+			dx=0;
+		}
+
+		else if(codigo == KeyEvent.VK_D) {
+			dx=0;
+		} if (codigo == KeyEvent.VK_W){
+			dy=0;
+		} else if (codigo == KeyEvent.VK_S){
+			dy=0;
+		} else if(codigo == KeyEvent.VK_A) {
+			dx=0;
+		}
+	}
+	
+	public List<Tiro> getTiros() {
+		return tiros;
+	}
+	
 	public boolean isVisivel() {
 		return isVisivel;
 	}
 	public void setVisivel(boolean isVisivel) {
 		this.isVisivel = isVisivel;
-	}
-	public static int getVELOCIDADE() {
-		return VELOCIDADE;
-	}
-	public static void setVELOCIDADE(int vELOCIDADE) {
-		VELOCIDADE = vELOCIDADE;
 	}
 	public int getX() {
 		return x;
@@ -59,6 +155,5 @@ public class Inimigo1 {
 	public Image getImagem() {
 		return imagem;
 	}
-	
 	
 }
