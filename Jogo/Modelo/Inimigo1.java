@@ -22,7 +22,7 @@ public class Inimigo1 {
 		isVisivel = true;
 	}
 	public void load() {
-		ImageIcon referencia = new ImageIcon("res\\robo2.png");
+		ImageIcon referencia = new ImageIcon("assets//robo.png");
 		imagem = referencia.getImage();
 		
 		this.largura = imagem.getWidth(null);

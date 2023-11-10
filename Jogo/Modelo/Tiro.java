@@ -22,7 +22,7 @@ public class Tiro {
 		isVisivel = true;
 	}
 	public void load() {
-		ImageIcon referencia = new ImageIcon("res\\novo_tiro.png");
+		ImageIcon referencia = new ImageIcon("assets//novo_tiro.png");
 		imagem = referencia.getImage();
 		
 		this.largura = imagem.getWidth(null);

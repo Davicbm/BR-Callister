@@ -29,7 +29,7 @@ public class Jogador {
 		tiros = new ArrayList<Tiro>();
 	}
 	public void load() {
-		ImageIcon referencia =  new ImageIcon("res\\br-callister (2).png");
+		ImageIcon referencia =  new ImageIcon("assets//br-callister.png");
 		imagem = referencia.getImage();
 		altura = imagem.getHeight(null);
 		largura = imagem.getWidth(null);
