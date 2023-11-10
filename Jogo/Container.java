@@ -1,8 +1,8 @@
-package meujogo;
+package Jogo;
 
 import javax.swing.JFrame;
 
-import meujogo.modelo.Fase;
+import Jogo.Modelo.Fase;
 
 public class Container extends JFrame{
 	

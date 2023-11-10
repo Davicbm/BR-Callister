@@ -1,4 +1,4 @@
-package meujogo.modelo;
+package Jogo.Modelo;
 
 import java.awt.Image;
 import java.awt.Rectangle;
