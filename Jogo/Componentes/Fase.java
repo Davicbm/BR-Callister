@@ -1,4 +1,4 @@
-package Jogo.Modelo;
+package Jogo.Componentes;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,12 +16,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import Jogo.Componentes.Inimigos.Robo;
+import Jogo.Componentes.Jogadores.Jogador1;
+import Jogo.Componentes.Jogadores.Jogador2;
+
 public class Fase extends JPanel implements ActionListener {
 
 	private Image fundo;
-	private Jogador jogador;
+	private Jogador1 jogador1;
+	private Jogador2 jogador2;
 	private Timer timer;
-	private List<Inimigo1> inimigo1;
+	private List<Robo> inimigo1;
 	private boolean emJogo;
 
 	public Fase() {
@@ -32,8 +37,11 @@ public class Fase extends JPanel implements ActionListener {
 		ImageIcon referencia = new ImageIcon("assets//fase1.png");
 		fundo = referencia.getImage();
 
-		jogador = new Jogador();
-		jogador.load();
+		jogador1 = new Jogador1();
+		jogador2 = new Jogador2();
+
+		jogador1.load();
+		jogador2.load();
 
 		addKeyListener(new TecladoAdapter());
 
@@ -46,12 +54,12 @@ public class Fase extends JPanel implements ActionListener {
 
 	public void inicializaInimigos() {
 		int coordenadas[] = new int[40];
-		inimigo1 = new ArrayList<Inimigo1>();
+		inimigo1 = new ArrayList<Robo>();
 
 		for (int i = 0; i < coordenadas.length; i++) {
 			int x = (int) (Math.random() * 8000 + 1024);
 			int y = (int) (Math.random() * 650 + 30);
-			inimigo1.add(new Inimigo1(x, y));
+			inimigo1.add(new Robo(x, y));
 		}
 	}
 
@@ -59,64 +67,81 @@ public class Fase extends JPanel implements ActionListener {
 		Graphics2D graficos = (Graphics2D) g;
 		if (emJogo == true) {
 			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
-			graficos.drawImage(jogador.getImagem(), jogador.getX(), jogador.getY(), this);
+			
+			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
+			graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
 
-			List<Tiro> tiros = jogador.getTiros();
+			List<Tiro> tiros1 = jogador1.getTiros();
+			List<Tiro> tiros2 = jogador2.getTiros();
 
-			for (int i = 0; i < tiros.size(); i++) {
-				Tiro m = tiros.get(i);
+			for (int i = 0; i < tiros1.size(); i++) {
+				Tiro m = tiros1.get(i);
+				m.load();
+				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
+			}
+
+			for (int i = 0; i < tiros2.size(); i++) {
+				Tiro m = tiros2.get(i);
 				m.load();
 				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
 			}
 
 			for (int j = 0; j < inimigo1.size(); j++) {
-				Inimigo1 inimigo = inimigo1.get(j);
+				Robo inimigo = inimigo1.get(j);
 				inimigo.load();
 				graficos.drawImage(inimigo.getImagem(), inimigo.getX(), inimigo.getY(), this);
 
 			}
-			// }else {
-			// ImageIcon fimJogo= new ImageIcon("res\\fimdejogo.png");
-			// graficos.drawImage(fimJogo.getImage(), 0, 0, null);
-			// }
+			} else {
+				ImageIcon fimJogo= new ImageIcon("res\\fimdejogo.png");
+				graficos.drawImage(fimJogo.getImage(), 0, 0, null);
+			}
 			g.dispose();
-		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		jogador.update();
-		List<Tiro> tiros = jogador.getTiros();
+		jogador1.update();
+		jogador2.update();
 
-		for (int i = 0; i < tiros.size(); i++) {
-			Tiro m = tiros.get(i);
+		List<Tiro> tiros1 = jogador1.getTiros();
+		List<Tiro> tiros2 = jogador2.getTiros();
+
+		for (int i = 0; i < tiros1.size(); i++) {
+			Tiro m = tiros1.get(i);
 			if (m.isVisivel()) {
 				m.update();
 			} else {
-				tiros.remove(i);
+				tiros1.remove(i);
+			}
+		}
+
+		for (int i = 0; i < tiros2.size(); i++) {
+			Tiro m = tiros2.get(i);
+			if (m.isVisivel()) {
+				m.update();
+			} else {
+				tiros2.remove(i);
 			}
 		}
 
 		for (int j = 0; j < inimigo1.size(); j++) {
-			Inimigo1 inimigo = inimigo1.get(j);
+			Robo inimigo = inimigo1.get(j);
 
-			if (inimigo.isVisivel()) {
-				inimigo.update();
-			} else {
+			if (inimigo.isVisivel() == false) {
 				inimigo1.remove(j);
 			}
 		}
-		// checarColisoes();
+		checarColisoes();
 		repaint();
-
 	}
 
 	public void checarColisoes() {
-		Rectangle formaNave = jogador.getBounds();
+		//Rectangle formaNave = jogador1.getBounds();
 		Rectangle formaInimigo1;
 		Rectangle formaTiro;
 
-		for (int i = 0; i < inimigo1.size(); i++) {
+		/*for (int i = 0; i < inimigo1.size(); i++) {
 			Inimigo1 tempInimigo1 = inimigo1.get(i);
 			formaInimigo1 = tempInimigo1.getBounds();
 			if (formaNave.intersects(formaInimigo1)) {
@@ -124,13 +149,26 @@ public class Fase extends JPanel implements ActionListener {
 				tempInimigo1.setVisivel(false);
 				emJogo = false;
 			}
-		}
-		List<Tiro> tiros = jogador.getTiros();
-		for (int j = 0; j < tiros.size(); j++) {
-			Tiro tempTiro = tiros.get(j);
+		}*/
+		List<Tiro> tiros1 = jogador1.getTiros();
+		for (int j = 0; j < tiros1.size(); j++) {
+			Tiro tempTiro = tiros1.get(j);
 			formaTiro = tempTiro.getBounds();
 			for (int o = 0; o < inimigo1.size(); o++) {
-				Inimigo1 tempInimigo1 = inimigo1.get(o);
+				Robo tempInimigo1 = inimigo1.get(o);
+				formaInimigo1 = tempInimigo1.getBounds();
+				if (formaTiro.intersects(formaInimigo1)) {
+					tempInimigo1.setVisivel(false);
+					tempTiro.setVisivel(false);
+				}
+			}
+		}
+		List<Tiro> tiros2 = jogador2.getTiros();
+		for (int j = 0; j < tiros1.size(); j++) {
+			Tiro tempTiro = tiros1.get(j);
+			formaTiro = tempTiro.getBounds();
+			for (int o = 0; o < inimigo1.size(); o++) {
+				Robo tempInimigo1 = inimigo1.get(o);
 				formaInimigo1 = tempInimigo1.getBounds();
 				if (formaTiro.intersects(formaInimigo1)) {
 					tempInimigo1.setVisivel(false);
@@ -145,12 +183,14 @@ public class Fase extends JPanel implements ActionListener {
 		@Override
 
 		public void keyPressed(KeyEvent e) {
-			jogador.keyPressed(e);
+			jogador1.keyPressed(e);
+			jogador2.keyPressed(e);
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			jogador.keyRelease(e);
+			jogador1.keyRelease(e);
+			jogador2.keyRelease(e);
 		}
 
 		@Override

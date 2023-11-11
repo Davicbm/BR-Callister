@@ -2,7 +2,7 @@ package Jogo;
 
 import javax.swing.JFrame;
 
-import Jogo.Modelo.Fase;
+import Jogo.Componentes.Fase;
 
 public class Container extends JFrame {
 
@@ -15,7 +15,6 @@ public class Container extends JFrame {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setVisible(true);
 	}
-
 	public static void main(String[] args) {
 		new Container();
 	}
