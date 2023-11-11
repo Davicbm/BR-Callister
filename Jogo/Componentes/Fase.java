@@ -26,7 +26,7 @@ public class Fase extends JPanel implements ActionListener {
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
 	private Timer timer;
-	private List<Robo> inimigo1;
+	private List<Robo> robo;
 	private boolean emJogo;
 
 	public Fase() {
@@ -54,12 +54,12 @@ public class Fase extends JPanel implements ActionListener {
 
 	public void inicializaInimigos() {
 		int coordenadas[] = new int[40];
-		inimigo1 = new ArrayList<Robo>();
+		robo = new ArrayList<Robo>();
 
 		for (int i = 0; i < coordenadas.length; i++) {
 			int x = (int) (Math.random() * 8000 + 1024);
 			int y = (int) (Math.random() * 650 + 30);
-			inimigo1.add(new Robo(x, y));
+			robo.add(new Robo(x, y));
 		}
 	}
 
@@ -86,8 +86,8 @@ public class Fase extends JPanel implements ActionListener {
 				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
 			}
 
-			for (int j = 0; j < inimigo1.size(); j++) {
-				Robo inimigo = inimigo1.get(j);
+			for (int j = 0; j < robo.size(); j++) {
+				Robo inimigo = robo.get(j);
 				inimigo.load();
 				graficos.drawImage(inimigo.getImagem(), inimigo.getX(), inimigo.getY(), this);
 
@@ -124,11 +124,11 @@ public class Fase extends JPanel implements ActionListener {
 			}
 		}
 
-		for (int j = 0; j < inimigo1.size(); j++) {
-			Robo inimigo = inimigo1.get(j);
+		for (int j = 0; j < robo.size(); j++) {
+			Robo inimigo = robo.get(j);
 
 			if (inimigo.isVisivel() == false) {
-				inimigo1.remove(j);
+				robo.remove(j);
 			}
 		}
 		checarColisoes();
@@ -137,7 +137,7 @@ public class Fase extends JPanel implements ActionListener {
 
 	public void checarColisoes() {
 		//Rectangle formaNave = jogador1.getBounds();
-		Rectangle formaInimigo1;
+		Rectangle formaRobo;
 		Rectangle formaTiro;
 
 		/*for (int i = 0; i < inimigo1.size(); i++) {
@@ -153,11 +153,11 @@ public class Fase extends JPanel implements ActionListener {
 		for (int j = 0; j < tiros1.size(); j++) {
 			Tiro tempTiro = tiros1.get(j);
 			formaTiro = tempTiro.getBounds();
-			for (int o = 0; o < inimigo1.size(); o++) {
-				Robo tempInimigo1 = inimigo1.get(o);
-				formaInimigo1 = tempInimigo1.getBounds();
-				if (formaTiro.intersects(formaInimigo1)) {
-					tempInimigo1.setVisivel(false);
+			for (int o = 0; o < robo.size(); o++) {
+				Robo tempRobo = robo.get(o);
+				formaRobo = tempRobo.getBounds();
+				if (formaTiro.intersects(formaRobo)) {
+					tempRobo.setVisivel(false);
 					tempTiro.setVisivel(false);
 				}
 			}
@@ -166,11 +166,11 @@ public class Fase extends JPanel implements ActionListener {
 		for (int j = 0; j < tiros2.size(); j++) {
 			Tiro tempTiro = tiros2.get(j);
 			formaTiro = tempTiro.getBounds();
-			for (int o = 0; o < inimigo1.size(); o++) {
-				Robo tempInimigo1 = inimigo1.get(o);
-				formaInimigo1 = tempInimigo1.getBounds();
-				if (formaTiro.intersects(formaInimigo1)) {
-					tempInimigo1.setVisivel(false);
+			for (int o = 0; o < robo.size(); o++) {
+				Robo tempRobo = robo.get(o);
+				formaRobo = tempRobo.getBounds();
+				if (formaTiro.intersects(formaRobo)) {
+					tempRobo.setVisivel(false);
 					tempTiro.setVisivel(false);
 				}
 			}
@@ -197,5 +197,4 @@ public class Fase extends JPanel implements ActionListener {
 
 		}
 	}
-
 }
