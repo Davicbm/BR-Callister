@@ -91,8 +91,7 @@ public class Fase extends JPanel implements ActionListener {
 				inimigo.load();
 				graficos.drawImage(inimigo.getImagem(), inimigo.getX(), inimigo.getY(), this);
 
-			}
-			} else {
+			} } else {
 				ImageIcon fimJogo= new ImageIcon("res\\fimdejogo.png");
 				graficos.drawImage(fimJogo.getImage(), 0, 0, null);
 			}
@@ -164,8 +163,8 @@ public class Fase extends JPanel implements ActionListener {
 			}
 		}
 		List<Tiro> tiros2 = jogador2.getTiros();
-		for (int j = 0; j < tiros1.size(); j++) {
-			Tiro tempTiro = tiros1.get(j);
+		for (int j = 0; j < tiros2.size(); j++) {
+			Tiro tempTiro = tiros2.get(j);
 			formaTiro = tempTiro.getBounds();
 			for (int o = 0; o < inimigo1.size(); o++) {
 				Robo tempInimigo1 = inimigo1.get(o);
