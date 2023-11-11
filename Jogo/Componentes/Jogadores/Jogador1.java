@@ -46,7 +46,6 @@ public class Jogador1 {
 
 	public void tiroSimples() {
 		long tempoAtual = System.currentTimeMillis();
-		this.tiros.add(new TiroNave(x + largura, y + (altura / 2)));
         if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
             this.tiros.add(new TiroNave(x + largura, y + (altura / 2)));
             tempoUltimoTiro = tempoAtual;
@@ -54,7 +53,7 @@ public class Jogador1 {
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y - 14, largura, altura);
+		return new Rectangle(x, y, largura, altura);
 	}
 
 	public void keyPressed(KeyEvent tecla) {
@@ -116,7 +115,7 @@ public class Jogador1 {
 			
 	public void keyRelease(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
-
+		
 		switch (codigo) {
 			case KeyEvent.VK_W:
 				dy=0;
@@ -166,7 +165,18 @@ public class Jogador1 {
             podeAtirar = true;
         }
 	}
+	public void atirar(){
+		List<TiroNave> tiros = getTiros();
 
+		for (int i = 0; i < tiros.size(); i++) {
+			TiroNave m = tiros.get(i);
+			if (m.isVisivel()) {
+				m.update();
+			} else {
+				tiros.remove(i);
+			}
+		}
+	}
 	public List<TiroNave> getTiros() {
 		return tiros;
 	}

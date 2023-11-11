@@ -164,6 +164,18 @@ public class Jogador2 {
             podeAtirar = true;
         }
 	}
+	public void atirar(){
+		List<TiroNave> tiros = getTiros();
+
+		for (int i = 0; i < tiros.size(); i++) {
+			TiroNave m = tiros.get(i);
+			if (m.isVisivel()) {
+				m.update();
+			} else {
+				tiros.remove(i);
+			}
+		}
+	}
 
 	public List<TiroNave> getTiros() {
 		return tiros;

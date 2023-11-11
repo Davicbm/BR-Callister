@@ -18,9 +18,8 @@ public class Robo {
 	private boolean isVisivel;
 	
 	private List<TiroRobo> tiros;
-	private boolean podeAtirar = true;
     private long tempoUltimoTiro = System.currentTimeMillis();
-    private long intervaloTiros = 500;
+    private long intervaloTiros = 1000;
 
 	private static int velocidade = 5;
 	
@@ -41,14 +40,22 @@ public class Robo {
 	}
 	public void tiroSimples() {
 		long tempoAtual = System.currentTimeMillis();
-        if (isVisivel) {
-            this.tiros.add(new TiroRobo(x - largura / 2, y + (altura / 2)));
+        if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
+            this.tiros.add(new TiroRobo(x + largura, y + (altura / 2)));
             tempoUltimoTiro = tempoAtual;
         }
-		
 	}
 	public void atirar() {
 		tiroSimples();
+		List<TiroRobo> tiros = getTiros();
+			for (int i = 0; i < tiros.size(); i++) {
+				TiroRobo m = tiros.get(i);
+				if (m.isVisivel()) {
+					m.update();
+				} else {
+					tiros.remove(i);
+				}
+			}
 	}
 
 	public Rectangle getBounds() {

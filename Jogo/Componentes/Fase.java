@@ -61,11 +61,10 @@ public class Fase extends JPanel implements ActionListener {
 	}
 
 	public void inicializaInimigos() {
-		int x = 1200;
 
-		robo1 = new Robo(x, 150);
-		robo2 = new Robo(x, 350);
-		robo3 = new Robo(x, 600);
+		robo1 = new Robo(1200, 150);
+		robo2 = new Robo(1000, 350);
+		robo3 = new Robo(1200, 600);
 
 	}
 
@@ -105,27 +104,28 @@ public class Fase extends JPanel implements ActionListener {
 				m.load();
 				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
 			}
-			
-			robo1.atirar();
-			for (int j = 0; j < tiros3.size(); j++) {
-				TiroRobo m = tiros3.get(j);
-				m.load();
-				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
-			} 
-			robo2.atirar();;
-			for (int j = 0; j < tiros4.size(); j++) {
-				TiroRobo m = tiros4.get(j);
-				m.load();
-				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
-			}
-			robo3.atirar();;
-			for (int j = 0; j < tiros5.size(); j++) {
-				TiroRobo m = tiros5.get(j);
-				m.load();
-				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
+			if (robo1.isVisivel()){
+				for (int j = 0; j < tiros3.size(); j++) {
+					TiroRobo m = tiros3.get(j);
+					m.load();
+					graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, this);
+				}
 			} 
 
-			} else {
+			if (robo2.isVisivel()){
+				for (int j = 0; j < tiros4.size(); j++) {
+					TiroRobo m = tiros4.get(j);
+					m.load();
+					graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, this);
+				}
+			}
+			if (robo3.isVisivel()){
+				for (int j = 0; j < tiros5.size(); j++) {
+					TiroRobo m = tiros5.get(j);
+					m.load();
+					graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, this);
+				} 
+			} } else {
 				ImageIcon fimJogo= new ImageIcon("res\\fimdejogo.png");
 				graficos.drawImage(fimJogo.getImage(), 0, 0, null);
 			}
@@ -137,35 +137,13 @@ public class Fase extends JPanel implements ActionListener {
 		jogador1.update();
 		jogador2.update();
 
-		List<TiroNave> tiros1 = jogador1.getTiros();
-		List<TiroNave> tiros2 = jogador2.getTiros();
-		List<TiroRobo> tiros3 = robo1.getTiros();
+		jogador1.atirar();
+		jogador2.atirar();
 
-		for (int i = 0; i < tiros1.size(); i++) {
-			TiroNave m = tiros1.get(i);
-			if (m.isVisivel()) {
-				m.update();
-			} else {
-				tiros1.remove(i);
-			}
-		}
+		robo1.atirar();
+		robo2.atirar();
+		robo3.atirar();
 
-		for (int i = 0; i < tiros2.size(); i++) {
-			TiroNave m = tiros2.get(i);
-			if (m.isVisivel()) {
-				m.update();
-			} else {
-				tiros2.remove(i);
-			}
-		}
-		for (int i = 0; i < tiros3.size(); i++) {
-			TiroRobo m = tiros3.get(i);
-			if (m.isVisivel()) {
-				m.update();
-			} else {
-				tiros3.remove(i);
-			}
-		}
 		checarColisoes();
 		repaint();
 	}
