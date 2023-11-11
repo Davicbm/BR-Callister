@@ -83,7 +83,7 @@ public class Fase extends JPanel implements ActionListener {
 			if (robo2.isVisivel()){
 				graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
 			}
-			if (robo2.isVisivel()){
+			if (robo3.isVisivel()){
 				graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
 			}
 			
