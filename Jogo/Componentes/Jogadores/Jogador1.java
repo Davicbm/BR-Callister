@@ -75,7 +75,7 @@ public class Jogador1 {
 					dy=4;
 				}
 				break;
-			
+				
 			case KeyEvent.VK_A:
 				dx=-4;
 				if (codigo == KeyEvent.VK_W){
@@ -86,7 +86,7 @@ public class Jogador1 {
 					dx=4;
 				}
 				break;
-
+	
 			case KeyEvent.VK_D:
 				dx=4;
 				if (codigo == KeyEvent.VK_W){
@@ -97,7 +97,7 @@ public class Jogador1 {
 					dx=-4;
 				}
 				break;
-
+	
 			case KeyEvent.VK_S:
 				dy=4;
 				if (codigo == KeyEvent.VK_A){
@@ -109,11 +109,12 @@ public class Jogador1 {
 				}
 				break;
 		}
+
 		if (codigo == KeyEvent.VK_SPACE) {
             podeAtirar = true;
         }
-	}
-
+	} 
+			
 	public void keyRelease(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
 
@@ -125,7 +126,7 @@ public class Jogador1 {
 				} else if (codigo == KeyEvent.VK_D){
 					dx=0;
 				} else if (codigo == KeyEvent.VK_S){
-					dy=0;
+					dy=4;
 				}
 				break;
 			
@@ -136,7 +137,7 @@ public class Jogador1 {
 				} else if (codigo == KeyEvent.VK_S){
 					dy=0;
 				} else if(codigo == KeyEvent.VK_D) {
-					dx=0;
+					dx=4;
 				}
 				break;
 
@@ -147,7 +148,7 @@ public class Jogador1 {
 				} else if (codigo == KeyEvent.VK_S){
 					dy=0;
 				} else if(codigo == KeyEvent.VK_A) {
-					dx=0;
+					dx=-4;
 				}
 				break;
 
@@ -158,7 +159,7 @@ public class Jogador1 {
 				} else if (codigo == KeyEvent.VK_D){
 					dx=0;
 				} else if(codigo == KeyEvent.VK_W) {
-					dy=0;
+					dy=-4;
 				}
 				break;
 		}
@@ -190,5 +191,4 @@ public class Jogador1 {
 	public Image getImagem() {
 		return imagem;
 	}
-
 }

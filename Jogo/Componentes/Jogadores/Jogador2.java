@@ -93,14 +93,14 @@ public class Jogador2 {
 					dy=-4;
 				} else if (codigo == KeyEvent.VK_DOWN){
 					dy=4;
-				} else if(codigo == KeyEvent.VK_UP) {
+				} else if(codigo == KeyEvent.VK_LEFT) {
 					dx=-4;
 				}
 				break;
 
 			case KeyEvent.VK_DOWN:
 				dy=4;
-				if (codigo == KeyEvent.VK_UP){
+				if (codigo == KeyEvent.VK_LEFT){
 					dx=-4;
 				} else if (codigo == KeyEvent.VK_RIGHT){
 					dx=4;
@@ -153,7 +153,7 @@ public class Jogador2 {
 
 			case KeyEvent.VK_DOWN:
 				dy=0;
-				if (codigo == KeyEvent.VK_UP){
+				if (codigo == KeyEvent.VK_LEFT){
 					dx=0;
 				} else if (codigo == KeyEvent.VK_RIGHT){
 					dx=0;
