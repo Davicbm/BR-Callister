@@ -35,7 +35,7 @@ public class Jogador2 {
 	}
 
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//br_callister2.png");
+		ImageIcon referencia = new ImageIcon("assets//br-callister2.gif");
 		imagem = referencia.getImage();
 		altura = imagem.getHeight(null);
 		largura = imagem.getWidth(null);
