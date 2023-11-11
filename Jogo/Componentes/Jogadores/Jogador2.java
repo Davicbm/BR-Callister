@@ -6,9 +6,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
-import Jogo.Componentes.Tiro;;
+import javax.swing.ImageIcon;;
 
 public class Jogador2 {
 
@@ -21,7 +19,7 @@ public class Jogador2 {
 	private int largura;
 	private boolean isVisivel;
 
-	private List<Tiro> tiros;
+	private List<TiroNave> tiros;
 	private boolean podeAtirar = true;
     private long tempoUltimoTiro = System.currentTimeMillis();
     private long intervaloTiros = 200;
@@ -31,7 +29,7 @@ public class Jogador2 {
 		this.y = 100;
 		isVisivel = true;
 
-		tiros = new ArrayList<Tiro>();
+		tiros = new ArrayList<TiroNave>();
 	}
 
 	public void load() {
@@ -49,7 +47,7 @@ public class Jogador2 {
 	public void tiroSimples() {
 		long tempoAtual = System.currentTimeMillis();
         if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
-            this.tiros.add(new Tiro(x + largura, y + (altura / 2)));
+            this.tiros.add(new TiroNave(x + largura, y + (altura / 2)));
             tempoUltimoTiro = tempoAtual;
         }
 	}
@@ -167,7 +165,7 @@ public class Jogador2 {
         }
 	}
 
-	public List<Tiro> getTiros() {
+	public List<TiroNave> getTiros() {
 		return tiros;
 	}
 

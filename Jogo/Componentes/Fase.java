@@ -17,8 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import Jogo.Componentes.Inimigos.Robo;
+import Jogo.Componentes.Inimigos.TiroRobo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
+import Jogo.Componentes.Jogadores.TiroNave;
 
 public class Fase extends JPanel implements ActionListener {
 
@@ -26,7 +28,9 @@ public class Fase extends JPanel implements ActionListener {
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
 	private Timer timer;
-	private List<Robo> inimigo1;
+	private Robo robo1;
+	private Robo robo2;
+	private Robo robo3;
 	private boolean emJogo;
 
 	public Fase() {
@@ -39,6 +43,7 @@ public class Fase extends JPanel implements ActionListener {
 
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
+		
 
 		jogador1.load();
 		jogador2.load();
@@ -49,18 +54,19 @@ public class Fase extends JPanel implements ActionListener {
 		timer.start();
 
 		inicializaInimigos();
+		robo1.load();
+		robo2.load();
+		robo3.load();
 		emJogo = true;
 	}
 
 	public void inicializaInimigos() {
-		int coordenadas[] = new int[40];
-		inimigo1 = new ArrayList<Robo>();
+		int x = 1200;
 
-		for (int i = 0; i < coordenadas.length; i++) {
-			int x = (int) (Math.random() * 8000 + 1024);
-			int y = (int) (Math.random() * 650 + 30);
-			inimigo1.add(new Robo(x, y));
-		}
+		robo1 = new Robo(x, 150);
+		robo2 = new Robo(x, 350);
+		robo3 = new Robo(x, 600);
+
 	}
 
 	public void paint(Graphics g) {
@@ -70,28 +76,55 @@ public class Fase extends JPanel implements ActionListener {
 			
 			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
 			graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
+			
+			if (robo1.isVisivel()){
+				graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
+			}
+			if (robo2.isVisivel()){
+				graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
+			}
+			if (robo2.isVisivel()){
+				graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
+			}
+			
+			List<TiroNave> tiros1 = jogador1.getTiros();
+			List<TiroNave> tiros2 = jogador2.getTiros();
 
-			List<Tiro> tiros1 = jogador1.getTiros();
-			List<Tiro> tiros2 = jogador2.getTiros();
-
+			List<TiroRobo> tiros3 = robo1.getTiros();
+			List<TiroRobo> tiros4 = robo2.getTiros();
+			List<TiroRobo> tiros5 = robo3.getTiros();
+			
 			for (int i = 0; i < tiros1.size(); i++) {
-				Tiro m = tiros1.get(i);
+				TiroNave m = tiros1.get(i);
 				m.load();
 				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
 			}
 
 			for (int i = 0; i < tiros2.size(); i++) {
-				Tiro m = tiros2.get(i);
+				TiroNave m = tiros2.get(i);
 				m.load();
 				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
 			}
-
-			for (int j = 0; j < inimigo1.size(); j++) {
-				Robo inimigo = inimigo1.get(j);
-				inimigo.load();
-				graficos.drawImage(inimigo.getImagem(), inimigo.getX(), inimigo.getY(), this);
-
+			
+			robo1.atirar();
+			for (int j = 0; j < tiros3.size(); j++) {
+				TiroRobo m = tiros3.get(j);
+				m.load();
+				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
+			} 
+			robo2.atirar();;
+			for (int j = 0; j < tiros4.size(); j++) {
+				TiroRobo m = tiros4.get(j);
+				m.load();
+				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
 			}
+			robo3.atirar();;
+			for (int j = 0; j < tiros5.size(); j++) {
+				TiroRobo m = tiros5.get(j);
+				m.load();
+				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
+			} 
+
 			} else {
 				ImageIcon fimJogo= new ImageIcon("res\\fimdejogo.png");
 				graficos.drawImage(fimJogo.getImage(), 0, 0, null);
@@ -104,11 +137,12 @@ public class Fase extends JPanel implements ActionListener {
 		jogador1.update();
 		jogador2.update();
 
-		List<Tiro> tiros1 = jogador1.getTiros();
-		List<Tiro> tiros2 = jogador2.getTiros();
+		List<TiroNave> tiros1 = jogador1.getTiros();
+		List<TiroNave> tiros2 = jogador2.getTiros();
+		List<TiroRobo> tiros3 = robo1.getTiros();
 
 		for (int i = 0; i < tiros1.size(); i++) {
-			Tiro m = tiros1.get(i);
+			TiroNave m = tiros1.get(i);
 			if (m.isVisivel()) {
 				m.update();
 			} else {
@@ -117,19 +151,19 @@ public class Fase extends JPanel implements ActionListener {
 		}
 
 		for (int i = 0; i < tiros2.size(); i++) {
-			Tiro m = tiros2.get(i);
+			TiroNave m = tiros2.get(i);
 			if (m.isVisivel()) {
 				m.update();
 			} else {
 				tiros2.remove(i);
 			}
 		}
-
-		for (int j = 0; j < inimigo1.size(); j++) {
-			Robo inimigo = inimigo1.get(j);
-
-			if (inimigo.isVisivel() == false) {
-				inimigo1.remove(j);
+		for (int i = 0; i < tiros3.size(); i++) {
+			TiroRobo m = tiros3.get(i);
+			if (m.isVisivel()) {
+				m.update();
+			} else {
+				tiros3.remove(i);
 			}
 		}
 		checarColisoes();
@@ -137,46 +171,90 @@ public class Fase extends JPanel implements ActionListener {
 	}
 
 	public void checarColisoes() {
-		//Rectangle formaNave = jogador1.getBounds();
-		Rectangle formaInimigo1;
+		Rectangle formaNave1 = jogador1.getBounds();
+		Rectangle formaNave2 = jogador2.getBounds();
+		Rectangle formaRobo1 = robo1.getBounds();
+		Rectangle formaRobo2 = robo2.getBounds();
+		Rectangle formaRobo3 = robo3.getBounds();
 		Rectangle formaTiro;
 
-		/*for (int i = 0; i < inimigo1.size(); i++) {
-			Inimigo1 tempInimigo1 = inimigo1.get(i);
-			formaInimigo1 = tempInimigo1.getBounds();
-			if (formaNave.intersects(formaInimigo1)) {
-				jogador.setVisivel(false);
-				tempInimigo1.setVisivel(false);
+		if (robo1.isVisivel()){
+			if (formaNave1.intersects(formaRobo1)) {
+				jogador1.setVisivel(false);
+				robo1.setVisivel(false);
 				emJogo = false;
-			}
-		}*/
-		List<Tiro> tiros1 = jogador1.getTiros();
+			} 
+			if (formaNave2.intersects(formaRobo1)) {
+				jogador2.setVisivel(false);
+				robo1.setVisivel(false);
+				emJogo = false;
+			} 
+		}
+		if (robo2.isVisivel()){
+			if (formaNave1.intersects(formaRobo2)) {
+				jogador1.setVisivel(false);
+				robo2.setVisivel(false);
+				emJogo = false;
+			} 
+			if (formaNave2.intersects(formaRobo2)) {
+				jogador2.setVisivel(false);
+				robo2.setVisivel(false);
+				emJogo = false;
+			} 
+		}
+		if (robo3.isVisivel()){
+			if (formaNave1.intersects(formaRobo3)) {
+				jogador1.setVisivel(false);
+				robo3.setVisivel(false);
+				emJogo = false;
+			} 
+			if (formaNave2.intersects(formaRobo3)) {
+				jogador2.setVisivel(false);
+				robo3.setVisivel(false);
+				emJogo = false;
+			} 
+		}
+		List<TiroNave> tiros1 = jogador1.getTiros();
 		for (int j = 0; j < tiros1.size(); j++) {
-			Tiro tempTiro = tiros1.get(j);
+			TiroNave tempTiro = tiros1.get(j);
 			formaTiro = tempTiro.getBounds();
-			for (int o = 0; o < inimigo1.size(); o++) {
-				Robo tempInimigo1 = inimigo1.get(o);
-				formaInimigo1 = tempInimigo1.getBounds();
-				if (formaTiro.intersects(formaInimigo1)) {
-					tempInimigo1.setVisivel(false);
+				formaRobo1 = robo1.getBounds();
+				if (formaTiro.intersects(formaRobo1)) {
+					robo1.setVisivel(false);
+					tempTiro.setVisivel(false);
+				}
+				formaRobo2 = robo2.getBounds();
+				if (formaTiro.intersects(formaRobo2)) {
+					robo2.setVisivel(false);
+					tempTiro.setVisivel(false);
+				}
+				formaRobo3 = robo3.getBounds();
+				if (formaTiro.intersects(formaRobo3)) {
+					robo3.setVisivel(false);
+					tempTiro.setVisivel(false);
+				}
+		}
+		List<TiroNave> tiros2 = jogador2.getTiros();
+		for (int j = 0; j < tiros2.size(); j++) {
+			TiroNave tempTiro = tiros2.get(j);
+			formaTiro = tempTiro.getBounds();
+				
+				formaRobo1 = robo1.getBounds();
+				if (formaTiro.intersects(formaRobo1)) {
+					robo1.setVisivel(false);
+					tempTiro.setVisivel(false);
+				}
+				formaRobo2 = robo2.getBounds();
+				if (formaTiro.intersects(formaRobo2)) {
+					robo2.setVisivel(false);
+					tempTiro.setVisivel(false);
+				}
+				formaRobo3 = robo3.getBounds();
+				if (formaTiro.intersects(formaRobo3)) {
+					robo3.setVisivel(false);
 					tempTiro.setVisivel(false);
 				}
 			}
-		}
-		List<Tiro> tiros2 = jogador2.getTiros();
-		for (int j = 0; j < tiros1.size(); j++) {
-			Tiro tempTiro = tiros1.get(j);
-			formaTiro = tempTiro.getBounds();
-			for (int o = 0; o < inimigo1.size(); o++) {
-				Robo tempInimigo1 = inimigo1.get(o);
-				formaInimigo1 = tempInimigo1.getBounds();
-				if (formaTiro.intersects(formaInimigo1)) {
-					tempInimigo1.setVisivel(false);
-					tempTiro.setVisivel(false);
-				}
-			}
-		}
-
 	}
 
 	private class TecladoAdapter implements KeyListener {

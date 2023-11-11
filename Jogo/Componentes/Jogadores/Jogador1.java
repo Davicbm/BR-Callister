@@ -8,8 +8,6 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
-import Jogo.Componentes.Tiro;
-
 public class Jogador1 {
 
 	private int x;
@@ -21,7 +19,7 @@ public class Jogador1 {
 	private int largura;
 	private boolean isVisivel;
 
-	private List<Tiro> tiros;
+	private List<TiroNave> tiros;
 	private boolean podeAtirar = true;
     private long tempoUltimoTiro = System.currentTimeMillis();
     private long intervaloTiros = 200;
@@ -31,7 +29,7 @@ public class Jogador1 {
 		this.y = 100;
 		isVisivel = true;
 
-		tiros = new ArrayList<Tiro>();
+		tiros = new ArrayList<TiroNave>();
 	}
 
 	public void load() {
@@ -48,14 +46,15 @@ public class Jogador1 {
 
 	public void tiroSimples() {
 		long tempoAtual = System.currentTimeMillis();
+		this.tiros.add(new TiroNave(x + largura, y + (altura / 2)));
         if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
-            this.tiros.add(new Tiro(x + largura, y + (altura / 2)));
+            this.tiros.add(new TiroNave(x + largura, y + (altura / 2)));
             tempoUltimoTiro = tempoAtual;
         }
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, largura, altura);
+		return new Rectangle(x, y - 14, largura, altura);
 	}
 
 	public void keyPressed(KeyEvent tecla) {
@@ -168,7 +167,7 @@ public class Jogador1 {
         }
 	}
 
-	public List<Tiro> getTiros() {
+	public List<TiroNave> getTiros() {
 		return tiros;
 	}
 
