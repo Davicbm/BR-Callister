@@ -21,7 +21,7 @@ public class Robo {
 		isVisivel = true;
 	}
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//robo.png");
+		ImageIcon referencia = new ImageIcon("assets//robo.gif");
 		imagem = referencia.getImage();
 		
 		this.largura = imagem.getWidth(null);
