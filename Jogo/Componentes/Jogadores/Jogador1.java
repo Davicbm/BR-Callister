@@ -22,6 +22,9 @@ public class Jogador1 {
 	private boolean isVisivel;
 
 	private List<Tiro> tiros;
+	private boolean podeAtirar = true;
+    private long tempoUltimoTiro = System.currentTimeMillis();
+    private long intervaloTiros = 200;
 
 	public Jogador1() {
 		this.x = 100;
@@ -44,7 +47,11 @@ public class Jogador1 {
 	}
 
 	public void tiroSimples() {
-		this.tiros.add(new Tiro(x + largura, y + (altura / 2)));
+		long tempoAtual = System.currentTimeMillis();
+        if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
+            this.tiros.add(new Tiro(x + largura, y + (altura / 2)));
+            tempoUltimoTiro = tempoAtual;
+        }
 	}
 
 	public Rectangle getBounds() {
@@ -53,8 +60,9 @@ public class Jogador1 {
 
 	public void keyPressed(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
-		if (codigo == KeyEvent.VK_SPACE){
+		if (codigo == KeyEvent.VK_SPACE && podeAtirar){
 			tiroSimples();
+			podeAtirar = false;
 		}
 		switch (codigo) {
 			case KeyEvent.VK_W:
@@ -101,6 +109,9 @@ public class Jogador1 {
 				}
 				break;
 		}
+		if (codigo == KeyEvent.VK_SPACE) {
+            podeAtirar = true;
+        }
 	}
 
 	public void keyRelease(KeyEvent tecla) {
@@ -151,6 +162,9 @@ public class Jogador1 {
 				}
 				break;
 		}
+		if (codigo == KeyEvent.VK_SPACE) {
+            podeAtirar = true;
+        }
 	}
 
 	public List<Tiro> getTiros() {
