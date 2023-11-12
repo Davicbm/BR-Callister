@@ -1,5 +1,6 @@
 package Jogo.Componentes.Inimigos;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import Jogo.Componentes.Jogadores.Jogador1;
+import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
 
 public class Robo {
@@ -17,9 +20,9 @@ public class Robo {
 	private int altura;
 	private boolean isVisivel;
 	
-	private List<TiroRobo> tiros;
+	private List<TiroRobo> tiros1;
     private long tempoUltimoTiro = System.currentTimeMillis();
-    private long intervaloTiros = 1000;
+    private long intervaloTiros = 2000;
 
 	private static int velocidade = 5;
 	
@@ -28,7 +31,7 @@ public class Robo {
 		this.y = y;
 		isVisivel = true;
 
-		tiros = new ArrayList<TiroRobo>();
+		tiros1 = new ArrayList<TiroRobo>();
 	}
 
 	public void load() {
@@ -41,21 +44,75 @@ public class Robo {
 	public void tiroSimples() {
 		long tempoAtual = System.currentTimeMillis();
         if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
-            this.tiros.add(new TiroRobo(x + largura, y + (altura / 2)));
+            this.tiros1.add(new TiroRobo(x + largura, y + (altura / 2)));
             tempoUltimoTiro = tempoAtual;
         }
 	}
 	public void atirar() {
 		tiroSimples();
-		List<TiroRobo> tiros = getTiros();
-			for (int i = 0; i < tiros.size(); i++) {
-				TiroRobo m = tiros.get(i);
-				if (m.isVisivel()) {
-					m.update();
-				} else {
-					tiros.remove(i);
-				}
+		tiros1 = getTiros();
+		for (int i = 0; i < tiros1.size(); i++) {
+			TiroRobo m = tiros1.get(i);
+			if (m.isVisivel()) {
+				m.update();
+			} else {
+				tiros1.remove(i);
 			}
+		}
+	}
+	public void drawTiroRobo(Graphics2D graficos){
+		List<TiroRobo> tiros2 = getTiros();
+		for (int j = 0; j < tiros2.size(); j++) {
+			TiroRobo m = tiros2.get(j);
+			m.load();
+			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, null);
+		}
+	}
+
+	public void colisaoRoboTiro (Jogador1 jogador, int j){
+		List<TiroNave> tiros3 = jogador.getTiros();
+			TiroNave tempTiro = tiros3.get(j);
+			Rectangle formaTiro = tempTiro.getBounds();
+			Rectangle formaRobo = getBounds();
+			if (formaTiro.intersects(formaRobo)) {
+				setVisivel(false);
+				tempTiro.setVisivel(false);
+			}
+	}
+	public void colisaoRoboTiro (Jogador2 jogador, int j){
+		List<TiroNave> tiros3 = jogador.getTiros();
+			TiroNave tempTiro = tiros3.get(j);
+			Rectangle formaTiro = tempTiro.getBounds();
+			Rectangle formaRobo = getBounds();
+			if (formaTiro.intersects(formaRobo)) {
+				setVisivel(false);
+				tempTiro.setVisivel(false);
+			}
+	}
+
+	public void colisaoNaveTiro(Jogador1 jogador){
+		List<TiroRobo> tiros3 = getTiros();
+		for (int j = 0; j < tiros3.size(); j++) {
+			TiroRobo tempTiroRobo = tiros3.get(j);
+			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
+			Rectangle formaNave = jogador.getBounds();
+			if (formaTiroRobo.intersects(formaNave)) {
+				jogador.perdeVida(5);
+				tempTiroRobo.setVisivel(false);
+			}
+		}
+	}
+	public void colisaoNaveTiro(Jogador2 jogador){
+		List<TiroRobo> tiros3 = getTiros();
+		for (int j = 0; j < tiros3.size(); j++) {
+			TiroRobo tempTiroRobo = tiros3.get(j);
+			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
+			Rectangle formaNave = jogador.getBounds();
+			if (formaTiroRobo.intersects(formaNave)) {
+				jogador.perdeVida(5);
+				tempTiroRobo.setVisivel(false);
+			}
+		}
 	}
 
 	public Rectangle getBounds() {
@@ -83,6 +140,6 @@ public class Robo {
 		return imagem;
 	}
 	public List<TiroRobo> getTiros() {
-		return tiros;
+		return tiros1;
 	} 
 }
