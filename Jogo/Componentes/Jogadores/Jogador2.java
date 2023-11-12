@@ -1,5 +1,6 @@
 package Jogo.Componentes.Jogadores;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -18,16 +19,18 @@ public class Jogador2 {
 	private int altura;
 	private int largura;
 	private boolean isVisivel;
+	private int vida;
 
 	private List<TiroNave> tiros;
 	private boolean podeAtirar = true;
     private long tempoUltimoTiro = System.currentTimeMillis();
-    private long intervaloTiros = 200;
+    private long intervaloTiros = 300;
 
 	public Jogador2() {
 		this.x = 100;
 		this.y = 100;
-		isVisivel = true;
+		this.vida = 20;
+		this.isVisivel = true;
 
 		tiros = new ArrayList<TiroNave>();
 	}
@@ -177,6 +180,18 @@ public class Jogador2 {
 		}
 	}
 
+	public void drawTiroNave (Graphics2D graficos){
+		List<TiroNave> tiros = getTiros();
+		for (int i = 0; i < tiros.size(); i++) {
+			TiroNave m = tiros.get(i);
+			m.load();
+			graficos.drawImage(m.getImagem(), m.getX(), m.getY(), null);
+		}
+	}
+	public void perdeVida(int dano){
+		this.vida = vida - dano;
+	}
+
 	public List<TiroNave> getTiros() {
 		return tiros;
 	}
@@ -199,5 +214,8 @@ public class Jogador2 {
 
 	public Image getImagem() {
 		return imagem;
+	}
+	public int getVida(){
+		return this.vida;
 	}
 }
