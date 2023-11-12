@@ -16,6 +16,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import org.w3c.dom.css.Rect;
+
 import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Inimigos.TiroRobo;
 import Jogo.Componentes.Jogadores.Jogador1;
@@ -73,8 +75,15 @@ public class Fase extends JPanel implements ActionListener {
 		if (emJogo == true) {
 			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 			
-			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
-			graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
+			if(jogador1.isVisivel()){
+				graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
+				jogador1.drawTiroNave(graficos);
+			}
+			
+			if(jogador2.isVisivel()){
+				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
+				jogador2.drawTiroNave(graficos);
+			}
 			
 			if (robo1.isVisivel()){
 				graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
@@ -86,47 +95,17 @@ public class Fase extends JPanel implements ActionListener {
 				graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
 			}
 			
-			List<TiroNave> tiros1 = jogador1.getTiros();
-			List<TiroNave> tiros2 = jogador2.getTiros();
-
-			List<TiroRobo> tiros3 = robo1.getTiros();
-			List<TiroRobo> tiros4 = robo2.getTiros();
-			List<TiroRobo> tiros5 = robo3.getTiros();
-			
-			for (int i = 0; i < tiros1.size(); i++) {
-				TiroNave m = tiros1.get(i);
-				m.load();
-				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
-			}
-
-			for (int i = 0; i < tiros2.size(); i++) {
-				TiroNave m = tiros2.get(i);
-				m.load();
-				graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
-			}
 			if (robo1.isVisivel()){
-				for (int j = 0; j < tiros3.size(); j++) {
-					TiroRobo m = tiros3.get(j);
-					m.load();
-					graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, this);
-				}
+				robo1.drawTiroRobo(graficos);
 			} 
 
 			if (robo2.isVisivel()){
-				for (int j = 0; j < tiros4.size(); j++) {
-					TiroRobo m = tiros4.get(j);
-					m.load();
-					graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, this);
-				}
+				robo2.drawTiroRobo(graficos);
 			}
 			if (robo3.isVisivel()){
-				for (int j = 0; j < tiros5.size(); j++) {
-					TiroRobo m = tiros5.get(j);
-					m.load();
-					graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, this);
-				} 
+				robo3.drawTiroRobo(graficos);
 			} } else {
-				ImageIcon fimJogo= new ImageIcon("res\\fimdejogo.png");
+				ImageIcon fimJogo = new ImageIcon("res\\fimdejogo.png");
 				graficos.drawImage(fimJogo.getImage(), 0, 0, null);
 			}
 			g.dispose();
@@ -155,7 +134,9 @@ public class Fase extends JPanel implements ActionListener {
 		Rectangle formaRobo2 = robo2.getBounds();
 		Rectangle formaRobo3 = robo3.getBounds();
 		Rectangle formaTiro;
+		Rectangle formaTiroRobo;
 
+		//Colisões de Nave com Robô:
 		if (robo1.isVisivel()){
 			if (formaNave1.intersects(formaRobo1)) {
 				jogador1.setVisivel(false);
@@ -192,47 +173,40 @@ public class Fase extends JPanel implements ActionListener {
 				emJogo = false;
 			} 
 		}
+
+		//Colisões de tiro da Nave com Robo:
 		List<TiroNave> tiros1 = jogador1.getTiros();
 		for (int j = 0; j < tiros1.size(); j++) {
-			TiroNave tempTiro = tiros1.get(j);
-			formaTiro = tempTiro.getBounds();
-				formaRobo1 = robo1.getBounds();
-				if (formaTiro.intersects(formaRobo1)) {
-					robo1.setVisivel(false);
-					tempTiro.setVisivel(false);
-				}
-				formaRobo2 = robo2.getBounds();
-				if (formaTiro.intersects(formaRobo2)) {
-					robo2.setVisivel(false);
-					tempTiro.setVisivel(false);
-				}
-				formaRobo3 = robo3.getBounds();
-				if (formaTiro.intersects(formaRobo3)) {
-					robo3.setVisivel(false);
-					tempTiro.setVisivel(false);
-				}
+			robo1.colisaoRoboTiro(jogador1, j);
+			robo2.colisaoRoboTiro(jogador1, j);
+			robo3.colisaoRoboTiro(jogador1, j);
 		}
 		List<TiroNave> tiros2 = jogador2.getTiros();
 		for (int j = 0; j < tiros2.size(); j++) {
-			TiroNave tempTiro = tiros2.get(j);
-			formaTiro = tempTiro.getBounds();
-				
-				formaRobo1 = robo1.getBounds();
-				if (formaTiro.intersects(formaRobo1)) {
-					robo1.setVisivel(false);
-					tempTiro.setVisivel(false);
-				}
-				formaRobo2 = robo2.getBounds();
-				if (formaTiro.intersects(formaRobo2)) {
-					robo2.setVisivel(false);
-					tempTiro.setVisivel(false);
-				}
-				formaRobo3 = robo3.getBounds();
-				if (formaTiro.intersects(formaRobo3)) {
-					robo3.setVisivel(false);
-					tempTiro.setVisivel(false);
-				}
-			}
+			robo1.colisaoRoboTiro(jogador2, j);
+			robo2.colisaoRoboTiro(jogador2, j);
+			robo3.colisaoRoboTiro(jogador2, j);
+		}
+
+		//Colisões de tiro do Robo com a Nave:
+		robo1.colisaoNaveTiro(jogador1);
+		robo1.colisaoNaveTiro(jogador2);
+
+		robo2.colisaoNaveTiro(jogador1);
+		robo2.colisaoNaveTiro(jogador2);
+
+		robo3.colisaoNaveTiro(jogador1);
+		robo3.colisaoNaveTiro(jogador2);
+		
+		if (jogador1.getVida() == 0 ){
+			jogador1.setVisivel(false);
+		}
+		if (jogador2.getVida() == 0 ){
+			jogador2.setVisivel(false);
+		} 
+		if (jogador1.getVida() == 0 && jogador2.getVida() == 0){
+			emJogo = false;
+		}
 	}
 
 	private class TecladoAdapter implements KeyListener {
