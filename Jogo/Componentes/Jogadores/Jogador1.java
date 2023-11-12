@@ -73,105 +73,98 @@ public class Jogador1 {
 			tiroSimples();
 			podeAtirar = false;
 		}
-		switch (codigo) {
-			case KeyEvent.VK_W:
-				dy=-4;
-				if (codigo == KeyEvent.VK_A){
-					dx=-4;
-				} else if (codigo == KeyEvent.VK_D){
-					dx=4;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=4;
-				}
-				break;
-				
-			case KeyEvent.VK_A:
+		if(codigo == KeyEvent.VK_W && getY() > 0) {
+			dy=-4;
+			if (codigo == KeyEvent.VK_A && getX() >= 0){
 				dx=-4;
-				if (codigo == KeyEvent.VK_W){
-					dy=-4;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=4;
-				} else if(codigo == KeyEvent.VK_D) {
-					dx=4;
-				}
-				break;
-	
-			case KeyEvent.VK_D:
+			} else if (codigo == KeyEvent.VK_D && getX() <= 1300){
 				dx=4;
-				if (codigo == KeyEvent.VK_W){
-					dy=-4;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=4;
-				} else if(codigo == KeyEvent.VK_A) {
-					dx=-4;
-				}
-				break;
-	
-			case KeyEvent.VK_S:
+			} else if (codigo == KeyEvent.VK_S && getY() <= 720){
 				dy=4;
-				if (codigo == KeyEvent.VK_A){
-					dx=-4;
-				} else if (codigo == KeyEvent.VK_D){
+			}
+		}
+			if (codigo == KeyEvent.VK_A && getX() >= 0){
+				dx=-4;
+				if (codigo == KeyEvent.VK_W && getY() >= 0){
+					dy=-4;
+				} else if (codigo == KeyEvent.VK_S && getY() <= 720){
+					dy=4;
+				} else if(codigo == KeyEvent.VK_D && getX() <= 1300) {
 					dx=4;
-				} else if(codigo == KeyEvent.VK_W) {
+				}
+			}
+	
+			if (codigo == KeyEvent.VK_D && getX() <= 1300){
+				dx=4;
+				if (codigo == KeyEvent.VK_W && getY() >= 0){
+					dy=-4;
+				} else if (codigo == KeyEvent.VK_S && getY() <= 720){
+					dy=4;
+				} else if(codigo == KeyEvent.VK_A && getX() >= 0) {
+					dx=-4;
+				}
+			}
+	
+			if (codigo == KeyEvent.VK_S && getY() <= 720){
+				dy=4;
+				if (codigo == KeyEvent.VK_A && getX() >= 0){
+					dx=-4;
+				} else if (codigo == KeyEvent.VK_D && getX() <= 1300){
+					dx=4;
+				} else if(codigo == KeyEvent.VK_W && getY() >= 0) {
 					dy=-4;
 				}
-				break;
-		}
-
+			}
 		if (codigo == KeyEvent.VK_SPACE) {
             podeAtirar = true;
         }
-	} 
+	}
 			
 	public void keyRelease(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
 		
-		switch (codigo) {
-			case KeyEvent.VK_W:
-				dy=0;
-				if (codigo == KeyEvent.VK_A){
-					dx=0;
-				} else if (codigo == KeyEvent.VK_D){
-					dx=0;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=4;
-				}
-				break;
-			
-			case KeyEvent.VK_A:
+		if(codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
+			dy=0;
+			if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)){
 				dx=0;
-				if (codigo == KeyEvent.VK_W){
-					dy=0;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=0;
-				} else if(codigo == KeyEvent.VK_D) {
-					dx=4;
-				}
-				break;
-
-			case KeyEvent.VK_D:
+			} else if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)){
 				dx=0;
-				if (codigo == KeyEvent.VK_W){
-					dy=0;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=0;
-				} else if(codigo == KeyEvent.VK_A) {
-					dx=-4;
-				}
-				break;
-
-			case KeyEvent.VK_S:
+			} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)){
 				dy=0;
-				if (codigo == KeyEvent.VK_A){
-					dx=0;
-				} else if (codigo == KeyEvent.VK_D){
-					dx=0;
-				} else if(codigo == KeyEvent.VK_W) {
-					dy=-4;
-				}
-				break;
+			}
 		}
+			if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)){
+				dx=0;
+				if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)){
+					dy=0;
+				} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)){
+					dy=0;
+				} else if(codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)) {
+					dx=0;
+				}
+			}
+	
+			if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)){
+				dx=0;
+				if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)){
+					dy=0;
+				} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)){
+					dy=0;
+				} else if(codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)) {
+					dx=0;
+				}
+			}
+	
+			if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)){
+				dy=0;
+				if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)){
+					dx=0;
+				} else if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)){
+					dx=0;
+				} else if(codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
+					dy=0;
+				}
+			}
 		if (codigo == KeyEvent.VK_SPACE) {
             podeAtirar = true;
         }
