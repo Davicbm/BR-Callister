@@ -38,7 +38,7 @@ public class TiroRobo {
 			isVisivel = false;
 		}
 	}
-
+	
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, largura, altura);
 	}
