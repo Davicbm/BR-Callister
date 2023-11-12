@@ -6,20 +6,16 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import org.w3c.dom.css.Rect;
-
 import Jogo.Componentes.Inimigos.Robo;
-import Jogo.Componentes.Inimigos.TiroRobo;
+
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
@@ -34,6 +30,7 @@ public class Fase extends JPanel implements ActionListener {
 	private Robo robo2;
 	private Robo robo3;
 	private boolean emJogo;
+	private boolean vitoria;
 
 	public Fase() {
 
@@ -60,6 +57,7 @@ public class Fase extends JPanel implements ActionListener {
 		robo2.load();
 		robo3.load();
 		emJogo = true;
+		vitoria = false;
 	}
 
 	public void inicializaInimigos() {
@@ -105,8 +103,12 @@ public class Fase extends JPanel implements ActionListener {
 			if (robo3.isVisivel()){
 				robo3.drawTiroRobo(graficos);
 			} } else {
-				ImageIcon fimJogo = new ImageIcon("res\\fimdejogo.png");
-				graficos.drawImage(fimJogo.getImage(), 0, 0, null);
+				ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
+				graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+			} 
+			if (vitoria == true){
+				ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
+				graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
 			g.dispose();
 	}
@@ -128,13 +130,11 @@ public class Fase extends JPanel implements ActionListener {
 	}
 
 	public void checarColisoes() {
-		Rectangle formaNave1 = jogador1.getBounds();
+		/*Rectangle formaNave1 = jogador1.getBounds();
 		Rectangle formaNave2 = jogador2.getBounds();
 		Rectangle formaRobo1 = robo1.getBounds();
 		Rectangle formaRobo2 = robo2.getBounds();
 		Rectangle formaRobo3 = robo3.getBounds();
-		Rectangle formaTiro;
-		Rectangle formaTiroRobo;
 
 		//Colisões de Nave com Robô:
 		if (robo1.isVisivel()){
@@ -172,7 +172,7 @@ public class Fase extends JPanel implements ActionListener {
 				robo3.setVisivel(false);
 				emJogo = false;
 			} 
-		}
+		}*/
 
 		//Colisões de tiro da Nave com Robo:
 		List<TiroNave> tiros1 = jogador1.getTiros();
@@ -207,6 +207,10 @@ public class Fase extends JPanel implements ActionListener {
 		if (jogador1.getVida() == 0 && jogador2.getVida() == 0){
 			emJogo = false;
 		}
+		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false){
+			vitoria = true;
+		}
+
 	}
 
 	private class TecladoAdapter implements KeyListener {
@@ -228,5 +232,4 @@ public class Fase extends JPanel implements ActionListener {
 
 		}
 	}
-
 }
