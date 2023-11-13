@@ -19,6 +19,7 @@ public class Robo {
 	private int largura;
 	private int altura;
 	private boolean isVisivel;
+	private int vida;
 	
 	private List<TiroRobo> tiros1;
     private long tempoUltimoTiro = System.currentTimeMillis();
@@ -29,7 +30,8 @@ public class Robo {
 	public Robo(int x, int y) {
 		this.x = x;
 		this.y = y;
-		isVisivel = true;
+		this.isVisivel = true;
+		this.vida = 3;
 
 		tiros1 = new ArrayList<TiroRobo>();
 	}
@@ -75,17 +77,18 @@ public class Robo {
 			Rectangle formaTiro = tempTiro.getBounds();
 			Rectangle formaRobo = getBounds();
 			if (formaTiro.intersects(formaRobo)) {
-				setVisivel(false);
+				perdeVida(1);
 				tempTiro.setVisivel(false);
 			}
 	}
 	public void colisaoRoboTiro (Jogador2 jogador, int j){
+		
 		List<TiroNave> tiros3 = jogador.getTiros();
 			TiroNave tempTiro = tiros3.get(j);
 			Rectangle formaTiro = tempTiro.getBounds();
 			Rectangle formaRobo = getBounds();
 			if (formaTiro.intersects(formaRobo)) {
-				setVisivel(false);
+				perdeVida(1);
 				tempTiro.setVisivel(false);
 			}
 	}
@@ -113,6 +116,9 @@ public class Robo {
 				tempTiroRobo.setVisivel(false);
 			}
 		}
+	}
+	public void perdeVida(int dano){
+		this.vida = vida - dano;
 	}
 
 	public Rectangle getBounds() {
@@ -142,4 +148,7 @@ public class Robo {
 	public List<TiroRobo> getTiros() {
 		return tiros1;
 	} 
+	public int getVida(){
+		return this.vida;
+	}
 }

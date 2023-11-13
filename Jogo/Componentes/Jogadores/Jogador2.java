@@ -28,7 +28,7 @@ public class Jogador2 {
 
 	public Jogador2() {
 		this.x = 100;
-		this.y = 100;
+		this.y = 700;
 		this.vida = 20;
 		this.isVisivel = true;
 

@@ -207,6 +207,15 @@ public class Fase extends JPanel implements ActionListener {
 		if (jogador1.getVida() == 0 && jogador2.getVida() == 0){
 			emJogo = false;
 		}
+		if (robo1.getVida() == 0 ){
+			robo1.setVisivel(false);
+		} 
+		if (robo2.getVida() == 0 ){
+			robo2.setVisivel(false);
+		} 
+		if (robo3.getVida() == 0 ){
+			robo3.setVisivel(false);
+		} 
 		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false){
 			vitoria = true;
 		}
