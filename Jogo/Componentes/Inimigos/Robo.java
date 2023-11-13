@@ -42,6 +42,7 @@ public class Robo {
 		this.largura = imagem.getWidth(null);
 		this.altura = imagem.getHeight(null);
 	}
+
 	public void load2(){
 		ImageIcon referencia = new ImageIcon("assets//robodecolisao.gif");
 		imagem = referencia.getImage();
@@ -57,12 +58,21 @@ public class Robo {
 			isVisivel = false;
 		}
 	}
-	public void updateRoboAtirador(){
-		this.x -= velocidade;
-		
-		if(this.x > 1200) {
-			isVisivel = false;
+	public void updateRoboAtirador(int localizacaoX, int localizacaoY){
+		boolean atualizado = false;
+		this.y -= velocidade;
+		if (this.y < localizacaoY){
+			this.y = localizacaoY;
+			atualizado = true;
 		}
+		if (atualizado){
+			this.x -= velocidade;
+		
+			if(this.x < localizacaoX) {
+				this.x = localizacaoX;
+			}
+		}
+		
 	}
 	
 	public void tiroSimples() {

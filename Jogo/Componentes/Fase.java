@@ -33,7 +33,7 @@ public class Fase extends JPanel implements ActionListener {
 	private List<Robo> robos;
 	private boolean emJogo;
 	private boolean vitoria;
-
+	private int contador = 0;
 	public Fase() {
 
 		setFocusable(true);
@@ -56,28 +56,28 @@ public class Fase extends JPanel implements ActionListener {
 
 		inicializaInimigos();
 
-		robo1.load();
-		robo2.load();
-		robo3.load();
-
 		emJogo = true;
 		vitoria = false;
 	}
 
 	public void inicializaInimigos() {
 
-		robo1 = new Robo(1200, 150);
-		robo2 = new Robo(1000, 350);
-		robo3 = new Robo(1200, 600);
-
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 15; i++) {
-			int x = (int) (Math.random() * 8000) + 1980;
+		for (int i = 0; i < 2; i++) {
+			int x = (int) (Math.random() * 2000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 			robos.add(new Robo(x, y));
 			robos.get(i).setVida(1);
 		}	
+
+		robo1 = new Robo(2000, 2000);
+		robo2 = new Robo(2000, 2000);
+		robo3 = new Robo(2000, 2000);
+
+		robo1.load();
+		robo2.load();
+		robo3.load();
 	}
 
 	public void paint(Graphics g) {
@@ -94,27 +94,40 @@ public class Fase extends JPanel implements ActionListener {
 				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
 				jogador2.drawTiroNave(graficos);
 			}
-			
-			if (robo1.isVisivel()){
-				graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
-			}
-			if (robo2.isVisivel()){
-				graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
-			}
-			if (robo3.isVisivel()){
-				graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
-			}
-			
-			if (robo1.isVisivel()){
-				robo1.drawTiroRobo(graficos);
-			} 
 
-			if (robo2.isVisivel()){
-				robo2.drawTiroRobo(graficos);
+			for (int i = 0; i < robos.size(); i++){
+				if (robos.get(i).isVisivel() == false){
+					contador += 1;
+				}
 			}
-			if (robo3.isVisivel()){
-				robo3.drawTiroRobo(graficos);
-			} 
+			
+			if (contador == robos.size()){
+				if (robo1.isVisivel()){
+					graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
+				}
+				if (robo2.isVisivel()){
+					graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
+				}
+				if (robo3.isVisivel()){
+					graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
+				}
+				if (robo1.getX() == 1200){
+					if (robo1.isVisivel()){
+					robo1.drawTiroRobo(graficos);
+					} 
+				}
+				if (robo2.getX() == 1100){
+					if (robo2.isVisivel()){
+						robo2.drawTiroRobo(graficos);
+					}
+				}
+				if (robo3.getX() == 1200){
+					if (robo3.isVisivel()){
+						robo3.drawTiroRobo(graficos);
+					} 
+				}	
+			}	
+			
 			for (int j = 0; j < robos.size(); j++) {
 				Robo robo = robos.get(j);
 				robo.load2();
@@ -138,6 +151,18 @@ public class Fase extends JPanel implements ActionListener {
 
 		jogador1.atirar();
 		jogador2.atirar();
+		
+		contador = 0;
+		for (int i = 0; i < robos.size(); i++){
+			if (robos.get(i).isVisivel() == false){
+				contador += 1;
+			}
+		}
+		if (contador == robos.size()){
+			robo1.updateRoboAtirador(1200, 150);
+			robo2.updateRoboAtirador(1100, 350);
+			robo3.updateRoboAtirador(1200, 600);
+		}
 
 		robo1.atirar();
 		robo2.atirar();
