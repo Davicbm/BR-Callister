@@ -20,6 +20,7 @@ public class Robo {
 	private int altura;
 	private boolean isVisivel;
 	private int vida;	
+
 	private List<TiroRobo> tiros1;
     private long tempoUltimoTiro = System.currentTimeMillis();
     private long intervaloTiros = 2000;
@@ -72,7 +73,6 @@ public class Robo {
 				this.x = localizacaoX;
 			}
 		}
-		
 	}
 	
 	public void tiroSimples() {
@@ -111,7 +111,9 @@ public class Robo {
 			if (formaTiro.intersects(formaRobo)) {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
+				jogador.setPontuacaoJogador1(10); 
 			}
+
 	}
 	public void colisaoRoboTiro (Jogador2 jogador, int j){
 		List<TiroNave> tiros3 = jogador.getTiros();
@@ -121,6 +123,7 @@ public class Robo {
 			if (formaTiro.intersects(formaRobo)) {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
+				jogador.setPontuacaoJogador2(10);
 			}
 	}
 

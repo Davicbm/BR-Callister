@@ -25,10 +25,11 @@ public class Jogador2 {
 	private boolean podeAtirar = true;
     private long tempoUltimoTiro = System.currentTimeMillis();
     private long intervaloTiros = 300;
+	private int pontuacaoJogador2 = 0;
 
 	public Jogador2() {
 		this.x = 100;
-		this.y = 700;
+		this.y = 650;
 		this.vida = 20;
 		this.isVisivel = true;
 
@@ -66,45 +67,45 @@ public class Jogador2 {
 			podeAtirar = false;
 		}
 		if(codigo == KeyEvent.VK_UP && getY() > 0) {
-			dy=-4;
+			dy=-3;
 			if (codigo == KeyEvent.VK_LEFT && getX() >= 0){
-				dx=-4;
+				dx=-3;
 			} else if (codigo == KeyEvent.VK_RIGHT && getX() <= 1300){
-				dx=4;
+				dx=3;
 			} else if (codigo == KeyEvent.VK_DOWN && getY() <= 720){
-				dy=4;
+				dy=3;
 			}
 		}
 			if (codigo == KeyEvent.VK_LEFT && getX() >= 0){
-				dx=-4;
+				dx=-3;
 				if (codigo == KeyEvent.VK_UP && getY() >= 0){
-					dy=-4;
+					dy=-3;
 				} else if (codigo == KeyEvent.VK_DOWN && getY() <= 720){
-					dy=4;
+					dy=3;
 				} else if(codigo == KeyEvent.VK_RIGHT && getX() <= 1300) {
-					dx=4;
+					dx=3;
 				}
 			}
 	
 			if (codigo == KeyEvent.VK_RIGHT && getX() <= 1300){
-				dx=4;
+				dx=3;
 				if (codigo == KeyEvent.VK_UP && getY() >= 0){
-					dy=-4;
+					dy=-3;
 				} else if (codigo == KeyEvent.VK_DOWN && getY() <= 720){
-					dy=4;
+					dy=3;
 				} else if(codigo == KeyEvent.VK_LEFT && getX() >= 0) {
-					dx=-4;
+					dx=-3;
 				}
 			}
 	
 			if (codigo == KeyEvent.VK_DOWN && getY() <= 720){
-				dy=4;
+				dy=3;
 				if (codigo == KeyEvent.VK_LEFT && getX() >= 0){
-					dx=-4;
+					dx=-3;
 				} else if (codigo == KeyEvent.VK_RIGHT && getX() <= 1300){
-					dx=4;
+					dx=3;
 				} else if(codigo == KeyEvent.VK_UP && getY() >= 0) {
-					dy=-4;
+					dy=-3;
 				}
 			}
 		if (codigo == KeyEvent.VK_ENTER) {
@@ -212,5 +213,11 @@ public class Jogador2 {
 	}
 	public int getVida(){
 		return this.vida;
+	}
+	public void setPontuacaoJogador2(int pontuacaoJogador2){
+		this.pontuacaoJogador2 += pontuacaoJogador2;
+	}
+	public int getPontuacaoJogador2() {
+		return this.pontuacaoJogador2;
 	}
 }
