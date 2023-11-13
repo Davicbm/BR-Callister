@@ -3,7 +3,6 @@ package Jogo.Componentes;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -24,6 +23,7 @@ import Jogo.Componentes.Jogadores.TiroNave;
 public class Fase extends JPanel implements ActionListener {
 
 	private Image fundo;
+	private Image alerta;
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
 	private Timer timer;
@@ -39,12 +39,12 @@ public class Fase extends JPanel implements ActionListener {
 		setFocusable(true);
 		setDoubleBuffered(true);
 
-		ImageIcon referencia = new ImageIcon("assets//fase1.png");
-		fundo = referencia.getImage();
-
+		ImageIcon referencia1 = new ImageIcon("assets//fase1.png");
+		fundo = referencia1.getImage();
+		ImageIcon referencia2 = new ImageIcon("assets//warninggif.gif");
+		alerta = referencia2.getImage();
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
-		
 
 		jogador1.load();
 		jogador2.load();
@@ -64,16 +64,16 @@ public class Fase extends JPanel implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 2; i++) {
-			int x = (int) (Math.random() * 2000) + 1980;
+		for (int i = 0; i < 40; i++) {
+			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 			robos.add(new Robo(x, y));
 			robos.get(i).setVida(1);
 		}	
 
-		robo1 = new Robo(2000, 2000);
-		robo2 = new Robo(2000, 2000);
-		robo3 = new Robo(2000, 2000);
+		robo1 = new Robo(1800, 2000);
+		robo2 = new Robo(1800, 2000);
+		robo3 = new Robo(1800, 2000);
 
 		robo1.load();
 		robo2.load();
@@ -84,7 +84,7 @@ public class Fase extends JPanel implements ActionListener {
 		Graphics2D graficos = (Graphics2D) g;
 		if (emJogo == true) {
 			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
-			
+	
 			if(jogador1.isVisivel()){
 				graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
 				jogador1.drawTiroNave(graficos);
@@ -104,24 +104,33 @@ public class Fase extends JPanel implements ActionListener {
 			if (contador == robos.size()){
 				if (robo1.isVisivel()){
 					graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
+					if(robo1.getX() != 1100){
+						graficos.drawImage(alerta, 1450, 150, this);
+					}
 				}
 				if (robo2.isVisivel()){
 					graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
+					if(robo2.getX() != 1000){
+						graficos.drawImage(alerta, 1450, 375, this);
+					}
 				}
 				if (robo3.isVisivel()){
 					graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
+					if(robo3.getX() != 1100){
+						graficos.drawImage(alerta, 1450, 600, this);
+					}
 				}
-				if (robo1.getX() == 1200){
+				if (robo1.getX() == 1100){
 					if (robo1.isVisivel()){
 					robo1.drawTiroRobo(graficos);
 					} 
 				}
-				if (robo2.getX() == 1100){
+				if (robo2.getX() == 1000){
 					if (robo2.isVisivel()){
 						robo2.drawTiroRobo(graficos);
 					}
 				}
-				if (robo3.getX() == 1200){
+				if (robo3.getX() == 1100){
 					if (robo3.isVisivel()){
 						robo3.drawTiroRobo(graficos);
 					} 
@@ -159,9 +168,9 @@ public class Fase extends JPanel implements ActionListener {
 			}
 		}
 		if (contador == robos.size()){
-			robo1.updateRoboAtirador(1200, 150);
-			robo2.updateRoboAtirador(1100, 350);
-			robo3.updateRoboAtirador(1200, 600);
+			robo1.updateRoboAtirador(1100, 150);
+			robo2.updateRoboAtirador(1000, 375);
+			robo3.updateRoboAtirador(1100, 600);
 		}
 
 		robo1.atirar();
@@ -182,7 +191,6 @@ public class Fase extends JPanel implements ActionListener {
 	}
 
 	public void checarColisoes() {
-
 		//Colisões de Nave com Robô:
 		if (robo1.isVisivel()){
 			robo1.colisaoNaveRobo(jogador1);
@@ -251,16 +259,13 @@ public class Fase extends JPanel implements ActionListener {
 		if (jogador2.getVida() == 0 ){
 			jogador2.setVisivel(false);
 		} 
-		if (jogador1.getVida() == 0 && jogador2.getVida() == 0){
-			emJogo = false;
-		}
-		if (robo1.getVida() == 0 ){
+		if (robo1.getVida() == 0){
 			robo1.setVisivel(false);
 		} 
-		if (robo2.getVida() == 0 ){
+		if (robo2.getVida() == 0){
 			robo2.setVisivel(false);
 		} 
-		if (robo3.getVida() == 0 ){
+		if (robo3.getVida() == 0){
 			robo3.setVisivel(false);
 		} 
 		for (int i = 0; i < robos.size(); i++){
@@ -271,8 +276,11 @@ public class Fase extends JPanel implements ActionListener {
 		}
 		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false){
 			vitoria = true;
+			System.out.println("Pontução jogador 1: " + jogador1.getPontuacaoJogador1());
+			System.out.println("Pontução jogador 2: " + jogador2.getPontuacaoJogador2());
+		} else if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0){
+			emJogo = false;
 		}
-
 	}
 
 	private class TecladoAdapter implements KeyListener {
