@@ -14,7 +14,7 @@ public class Container extends JFrame {
 		this.setResizable(false);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setVisible(true);
-	} 
+	}
 	public static void main(String[] args) {
 		new Container();
 	}

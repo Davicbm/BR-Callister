@@ -19,8 +19,7 @@ public class Robo {
 	private int largura;
 	private int altura;
 	private boolean isVisivel;
-	private int vida;
-	
+	private int vida;	
 	private List<TiroRobo> tiros1;
     private long tempoUltimoTiro = System.currentTimeMillis();
     private long intervaloTiros = 2000;
@@ -43,6 +42,29 @@ public class Robo {
 		this.largura = imagem.getWidth(null);
 		this.altura = imagem.getHeight(null);
 	}
+	public void load2(){
+		ImageIcon referencia = new ImageIcon("assets//robodecolisao.gif");
+		imagem = referencia.getImage();
+		
+		this.largura = imagem.getWidth(null);
+		this.altura = imagem.getHeight(null);
+	}
+
+	public void updateRoboDeColisao() {
+		this.x -= velocidade;
+		
+		if(this.x < 0) {
+			isVisivel = false;
+		}
+	}
+	public void updateRoboAtirador(){
+		this.x -= velocidade;
+		
+		if(this.x > 1200) {
+			isVisivel = false;
+		}
+	}
+	
 	public void tiroSimples() {
 		long tempoAtual = System.currentTimeMillis();
         if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
@@ -82,7 +104,6 @@ public class Robo {
 			}
 	}
 	public void colisaoRoboTiro (Jogador2 jogador, int j){
-		
 		List<TiroNave> tiros3 = jogador.getTiros();
 			TiroNave tempTiro = tiros3.get(j);
 			Rectangle formaTiro = tempTiro.getBounds();
@@ -117,6 +138,39 @@ public class Robo {
 			}
 		}
 	}
+
+	public void colisaoNaveRobo(Jogador1 jogador){
+		Rectangle formaNave = jogador.getBounds();
+		Rectangle formaRobo = getBounds();
+		if (formaNave.intersects(formaRobo)) {
+			jogador.perdeVida(2);
+		} 
+	}
+	public void colisaoNaveRobo(Jogador2 jogador){
+		Rectangle formaNave = jogador.getBounds();
+		Rectangle formaRobo = getBounds();
+		if (formaNave.intersects(formaRobo)) {
+			jogador.perdeVida(2);
+		} 
+	}
+
+	public void colisaoNaveRoboDeColisao(Jogador1 jogador){
+		Rectangle formaNave = jogador.getBounds();
+		Rectangle formaRobo = getBounds();
+		if (formaRobo.intersects(formaNave)) {
+			jogador.perdeVida(2);
+			setVisivel(false);
+		} 
+	}
+	public void colisaoNaveRoboDeColisao(Jogador2 jogador){
+		Rectangle formaNave = jogador.getBounds();
+		Rectangle formaRobo = getBounds();
+		if (formaRobo.intersects(formaNave)) {
+			jogador.perdeVida(2);
+			setVisivel(false);
+		} 
+	}
+
 	public void perdeVida(int dano){
 		this.vida = vida - dano;
 	}
@@ -130,12 +184,6 @@ public class Robo {
 	public void setVisivel(boolean isVisivel) {
 		this.isVisivel = isVisivel;
 	}
-	public static int getVelocidade() {
-		return velocidade;
-	}
-	public static void setVelocidade(int vELOCIDADE) {
-		velocidade = vELOCIDADE;
-	}
 	public int getX() {
 		return x;
 	}
@@ -148,6 +196,9 @@ public class Robo {
 	public List<TiroRobo> getTiros() {
 		return tiros1;
 	} 
+	public void setVida(int vida){
+		this.vida = vida;
+	}
 	public int getVida(){
 		return this.vida;
 	}
