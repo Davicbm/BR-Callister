@@ -134,7 +134,7 @@ public class Robo {
 			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
 			Rectangle formaNave = jogador.getBounds();
 			if (formaTiroRobo.intersects(formaNave)) {
-				jogador.perdeVida(5);
+				jogador.perdeVida(2);
 				tempTiroRobo.setVisivel(false);
 			}
 		}
@@ -146,7 +146,7 @@ public class Robo {
 			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
 			Rectangle formaNave = jogador.getBounds();
 			if (formaTiroRobo.intersects(formaNave)) {
-				jogador.perdeVida(5);
+				jogador.perdeVida(2);
 				tempTiroRobo.setVisivel(false);
 			}
 		}
@@ -156,30 +156,15 @@ public class Robo {
 		Rectangle formaNave = jogador.getBounds();
 		Rectangle formaRobo = getBounds();
 		if (formaNave.intersects(formaRobo)) {
-			jogador.perdeVida(2);
+			jogador.perdeVida(1);
+			setVisivel(false);
 		} 
 	}
 	public void colisaoNaveRobo(Jogador2 jogador){
 		Rectangle formaNave = jogador.getBounds();
 		Rectangle formaRobo = getBounds();
 		if (formaNave.intersects(formaRobo)) {
-			jogador.perdeVida(2);
-		} 
-	}
-
-	public void colisaoNaveRoboDeColisao(Jogador1 jogador){
-		Rectangle formaNave = jogador.getBounds();
-		Rectangle formaRobo = getBounds();
-		if (formaRobo.intersects(formaNave)) {
-			jogador.perdeVida(2);
-			setVisivel(false);
-		} 
-	}
-	public void colisaoNaveRoboDeColisao(Jogador2 jogador){
-		Rectangle formaNave = jogador.getBounds();
-		Rectangle formaRobo = getBounds();
-		if (formaRobo.intersects(formaNave)) {
-			jogador.perdeVida(2);
+			jogador.perdeVida(1);
 			setVisivel(false);
 		} 
 	}

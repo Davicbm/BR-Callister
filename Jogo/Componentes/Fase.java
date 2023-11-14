@@ -206,12 +206,12 @@ public class Fase extends JPanel implements ActionListener {
 		}
 		for (int i = 0; i < robos.size(); i++) {
 			Robo tempRobo = robos.get(i);
-			tempRobo.colisaoNaveRoboDeColisao(jogador1);
+			tempRobo.colisaoNaveRobo(jogador1);
 		}
 
 		for (int i = 0; i < robos.size(); i++) {
 			Robo tempRobo = robos.get(i);
-			tempRobo.colisaoNaveRoboDeColisao(jogador2);
+			tempRobo.colisaoNaveRobo(jogador2);
 		}
 
 		//Colisões de tiro da Nave com Robo:
