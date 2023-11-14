@@ -2,10 +2,6 @@ package Jogo.Componentes.Objetos;
 
 import javax.swing.ImageIcon;
 
-import Jogo.Componentes.Jogadores.Jogador1;
-
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 
 public class BarraVida {
@@ -19,6 +15,7 @@ public class BarraVida {
 	private Image barraVida3;
 	private Image barraVida2;
 	private Image barraVida1;
+	private Image barraVida0;
 
 	public BarraVida(){
 		ImageIcon referencia = new ImageIcon("assets//barravida_full.png");
@@ -50,6 +47,9 @@ public class BarraVida {
 
 		referencia = new ImageIcon("assets//barravida_1.png");
 		barraVida1 = referencia.getImage();
+
+		referencia = new ImageIcon("assets//barravida_0.png");
+		barraVida0 = referencia.getImage();
 	}
 
 	public Image getBarraVida10() {
@@ -92,5 +92,7 @@ public class BarraVida {
 		return barraVida1;
 	}
 
-	
+	public Image getBarraVida0() {
+		return barraVida0;
+	}
 }
