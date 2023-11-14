@@ -79,45 +79,45 @@ public class Jogador1 {
 			tiroSimples();
 			podeAtirar = false;
 		}
-		if (codigo == KeyEvent.VK_W && getY() > 0) {
+		if (codigo == KeyEvent.VK_W) {
 			dy = -3;
-			if (codigo == KeyEvent.VK_A && getX() >= 0) {
+			if (codigo == KeyEvent.VK_A) {
 				dx = -3;
-			} else if (codigo == KeyEvent.VK_D && getX() <= 1300) {
+			} else if (codigo == KeyEvent.VK_D) {
 				dx = 3;
-			} else if (codigo == KeyEvent.VK_S && getY() <= 720) {
+			} else if (codigo == KeyEvent.VK_S) {
 				dy = 3;
 			}
 		}
-		if (codigo == KeyEvent.VK_A && getX() >= 0) {
+		if (codigo == KeyEvent.VK_A) {
 			dx = -3;
-			if (codigo == KeyEvent.VK_W && getY() >= 0) {
+			if (codigo == KeyEvent.VK_W) {
 				dy = -3;
-			} else if (codigo == KeyEvent.VK_S && getY() <= 720) {
+			} else if (codigo == KeyEvent.VK_S) {
 				dy = 3;
-			} else if (codigo == KeyEvent.VK_D && getX() <= 1300) {
+			} else if (codigo == KeyEvent.VK_D) {
 				dx = 3;
 			}
 		}
 
-		if (codigo == KeyEvent.VK_D && getX() <= 1300) {
+		if (codigo == KeyEvent.VK_D) {
 			dx = 3;
-			if (codigo == KeyEvent.VK_W && getY() >= 0) {
+			if (codigo == KeyEvent.VK_W) {
 				dy = -3;
-			} else if (codigo == KeyEvent.VK_S && getY() <= 720) {
+			} else if (codigo == KeyEvent.VK_S) {
 				dy = 3;
-			} else if (codigo == KeyEvent.VK_A && getX() >= 0) {
+			} else if (codigo == KeyEvent.VK_A) {
 				dx = -3;
 			}
 		}
 
-		if (codigo == KeyEvent.VK_S && getY() <= 720) {
+		if (codigo == KeyEvent.VK_S) {
 			dy = 3;
-			if (codigo == KeyEvent.VK_A && getX() >= 0) {
+			if (codigo == KeyEvent.VK_A) {
 				dx = -3;
-			} else if (codigo == KeyEvent.VK_D && getX() <= 1300) {
+			} else if (codigo == KeyEvent.VK_D) {
 				dx = 3;
-			} else if (codigo == KeyEvent.VK_W && getY() >= 0) {
+			} else if (codigo == KeyEvent.VK_W) {
 				dy = -3;
 			}
 		}
@@ -129,45 +129,45 @@ public class Jogador1 {
 	public void keyRelease(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
 
-		if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
+		if (codigo == KeyEvent.VK_W) {
 			dy = 0;
-			if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)) {
+			if (codigo == KeyEvent.VK_A) {
 				dx = 0;
-			} else if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)) {
+			} else if (codigo == KeyEvent.VK_D) {
 				dx = 0;
-			} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)) {
+			} else if (codigo == KeyEvent.VK_S) {
 				dy = 0;
 			}
 		}
-		if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)) {
+		if (codigo == KeyEvent.VK_A) {
 			dx = 0;
-			if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
+			if (codigo == KeyEvent.VK_W) {
 				dy = 0;
-			} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)) {
+			} else if (codigo == KeyEvent.VK_S) {
 				dy = 0;
-			} else if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)) {
+			} else if (codigo == KeyEvent.VK_D) {
 				dx = 0;
 			}
 		}
 
-		if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)) {
+		if (codigo == KeyEvent.VK_D) {
 			dx = 0;
-			if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
+			if (codigo == KeyEvent.VK_W) {
 				dy = 0;
-			} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)) {
+			} else if (codigo == KeyEvent.VK_S) {
 				dy = 0;
-			} else if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)) {
+			} else if (codigo == KeyEvent.VK_A) {
 				dx = 0;
 			}
 		}
 
-		if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)) {
+		if (codigo == KeyEvent.VK_S) {
 			dy = 0;
-			if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)) {
+			if (codigo == KeyEvent.VK_A ) {
 				dx = 0;
-			} else if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)) {
+			} else if (codigo == KeyEvent.VK_D ) {
 				dx = 0;
-			} else if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
+			} else if (codigo == KeyEvent.VK_W ) {
 				dy = 0;
 			}
 		}

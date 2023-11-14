@@ -44,8 +44,12 @@ public class Jogador2 {
 	}
 
 	public void update() {
-		x += dx;
-		y += dy;
+		if (x + dx >= 0 && x + dx + largura / 2 <= 650) {
+			x += dx;
+		}
+		if (y + dy >= 0 && y + dy + altura <= 850) {
+			y += dy;
+		}
 	}
 
 	public void tiroSimples() {
