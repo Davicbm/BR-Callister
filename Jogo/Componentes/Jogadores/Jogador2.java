@@ -181,7 +181,7 @@ public class Jogador2 {
 		for (int i = 0; i < tiros.size(); i++) {
 			TiroNave m = tiros.get(i);
 			m.load();
-			graficos.drawImage(m.getImagem(), m.getX(), m.getY(), null);
+			graficos.drawImage(m.getImagem(), m.getX(), m.getY() + 10, null);
 		}
 	}
 	public void perdeVida(int dano){
