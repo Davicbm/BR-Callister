@@ -30,7 +30,7 @@ public class Jogador1 {
 	public Jogador1() {
 		this.x = 100;
 		this.y = 100;
-		this.vida = 20;
+		this.vida = 10;
 		this.isVisivel = true;
 
 		tiros = new ArrayList<TiroNave>();
