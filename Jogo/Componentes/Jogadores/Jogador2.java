@@ -44,7 +44,7 @@ public class Jogador2 {
 	}
 
 	public void update() {
-		if (x + dx >= 0 && x + dx + largura / 2 <= 650) {
+		if (x + dx >= 0 && x + dx + largura / 2 <= 750) {
 			x += dx;
 		}
 		if (y + dy >= 0 && y + dy + altura <= 850) {
@@ -71,45 +71,45 @@ public class Jogador2 {
 			podeAtirar = false;
 		}
 		if(codigo == KeyEvent.VK_UP) {
-			dy=-3;
+			dy=-4;
 			if (codigo == KeyEvent.VK_LEFT){
-				dx=-3;
+				dx=-4;
 			} else if (codigo == KeyEvent.VK_RIGHT){
-				dx=3;
+				dx=4;
 			} else if (codigo == KeyEvent.VK_DOWN){
-				dy=3;
+				dy=4;
 			}
 		}
 			if (codigo == KeyEvent.VK_LEFT){
-				dx=-3;
+				dx=-4;
 				if (codigo == KeyEvent.VK_UP){
-					dy=-3;
+					dy=-4;
 				} else if (codigo == KeyEvent.VK_DOWN){
-					dy=3;
+					dy=4;
 				} else if(codigo == KeyEvent.VK_RIGHT ) {
-					dx=3;
+					dx=4;
 				}
 			}
 	
 			if (codigo == KeyEvent.VK_RIGHT ){
-				dx=3;
+				dx=4;
 				if (codigo == KeyEvent.VK_UP ){
-					dy=-3;
+					dy=-4;
 				} else if (codigo == KeyEvent.VK_DOWN ){
-					dy=3;
+					dy=4;
 				} else if(codigo == KeyEvent.VK_LEFT ) {
-					dx=-3;
+					dx=-4;
 				}
 			}
 	
 			if (codigo == KeyEvent.VK_DOWN ){
-				dy=3;
+				dy=4;
 				if (codigo == KeyEvent.VK_LEFT ){
-					dx=-3;
+					dx=-4;
 				} else if (codigo == KeyEvent.VK_RIGHT ){
-					dx=3;
+					dx=4;
 				} else if(codigo == KeyEvent.VK_UP) {
-					dy=-3;
+					dy=-4;
 				}
 			}
 		if (codigo == KeyEvent.VK_ENTER) {

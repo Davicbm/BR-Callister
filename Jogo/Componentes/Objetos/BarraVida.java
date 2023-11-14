@@ -1,4 +1,4 @@
-package Jogo.Componentes;
+package Jogo.Componentes.Objetos;
 
 import javax.swing.ImageIcon;
 

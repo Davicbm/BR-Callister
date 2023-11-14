@@ -1,5 +1,7 @@
 package Jogo.Componentes;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -19,12 +21,14 @@ import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
+import Jogo.Componentes.Objetos.BarraVida;
 
 public class Fase extends JPanel implements ActionListener {
 
 	private Image fundo;
 	private Image alerta;
 	private Image danoJogador1;
+	private Image explosao;
 
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
@@ -43,11 +47,14 @@ public class Fase extends JPanel implements ActionListener {
 		setFocusable(true);
 		setDoubleBuffered(true);
 
-		ImageIcon referencia1 = new ImageIcon("assets//fase1.png");
-		fundo = referencia1.getImage();
-		ImageIcon referencia2 = new ImageIcon("assets//warninggif.gif");
-		alerta = referencia2.getImage();
+		ImageIcon referencia = new ImageIcon("assets//fase1.png");
+		fundo = referencia.getImage();
 
+		referencia = new ImageIcon("assets//warninggif.gif");
+		alerta = referencia.getImage();
+
+		referencia = new ImageIcon("assets//explosao.gif");
+		explosao = referencia.getImage();
 		/*ImageIcon referencia3 = new ImageIcon("assets//br-callisteralerta.gif");
 		danoJogador1 = referencia3.getImage();*/
 
@@ -81,9 +88,9 @@ public class Fase extends JPanel implements ActionListener {
 			robos.get(i).setVida(1);
 		}	
 
-		robo1 = new Robo(1800, 2000);
-		robo2 = new Robo(1800, 2000);
-		robo3 = new Robo(1800, 2000);
+		robo1 = new Robo(1600, 2000);
+		robo2 = new Robo(1600, 2000);
+		robo3 = new Robo(1600, 2000);
 
 		robo1.load();
 		robo2.load();
@@ -93,6 +100,7 @@ public class Fase extends JPanel implements ActionListener {
 	public void paint(Graphics g) {
 		barra = new BarraVida();
 		Graphics2D graficos = (Graphics2D) g;
+		Font fonte = new Font("Roboto", Font.BOLD, 32);
 		if (emJogo == true) {
 			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 	
@@ -123,18 +131,24 @@ public class Fase extends JPanel implements ActionListener {
 					if(robo1.getX() != 1100){
 						graficos.drawImage(alerta, 1450, 150, this);
 					}
+				} else if(robo1.isVisivel() == false){
+					graficos.drawImage(explosao, robo1.getX(), robo1.getY(), this);
 				}
 				if (robo2.isVisivel()){
 					graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
 					if(robo2.getX() != 1000){
 						graficos.drawImage(alerta, 1450, 375, this);
 					}
+				} else if(robo2.isVisivel() == false){
+					graficos.drawImage(explosao, robo2.getX(), robo2.getY(), this);
 				}
 				if (robo3.isVisivel()){
 					graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
 					if(robo3.getX() != 1100){
 						graficos.drawImage(alerta, 1450, 600, this);
 					}
+				} else if(robo3.isVisivel() == false){
+					graficos.drawImage(explosao, robo3.getX(), robo3.getY(), this);
 				}
 				if (robo1.getX() == 1100){
 					if (robo1.isVisivel()){
@@ -157,7 +171,13 @@ public class Fase extends JPanel implements ActionListener {
 				Robo robo = robos.get(j);
 				robo.load2();
 				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
+			}
 
+			for (int j = 0; j < robos.size(); j++) {
+				Robo robo = robos.get(j);
+				if (robo.isVisivel() == false){
+					graficos.drawImage(explosao, robo.getX(), robo.getY(), this);
+				}
 			}
 
 			graficos.drawImage(barra.getBarraVida10(), 10, 10, this);
@@ -180,17 +200,42 @@ public class Fase extends JPanel implements ActionListener {
 			} else if (jogador1.getVida() == 1){
 				graficos.drawImage(barra.getBarraVida1(), 10, 10, this);
 			}
-			
-			} else {
-				ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
-				graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
-			} 
-			if (vitoria == true){
-				ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
-				graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+
+			graficos.drawImage(barra.getBarraVida10(), 10, 700, this);
+			if (jogador2.getVida() == 9){
+				graficos.drawImage(barra.getBarraVida9(), 10, 700, this);
+			} else if (jogador2.getVida() == 8){
+				graficos.drawImage(barra.getBarraVida8(), 10, 700, this);
+			} else if (jogador2.getVida() == 7){
+				graficos.drawImage(barra.getBarraVida7(), 10, 700, this);
+			} else if (jogador2.getVida() == 6){
+				graficos.drawImage(barra.getBarraVida6(), 10, 700, this);
+			} else if (jogador2.getVida() == 5){
+				graficos.drawImage(barra.getBarraVida5(), 10, 700, this);
+			} else if (jogador2.getVida() == 4){
+				graficos.drawImage(barra.getBarraVida4(), 10, 700, this);
+			} else if (jogador2.getVida() == 3){
+				graficos.drawImage(barra.getBarraVida3(), 10, 700, this);
+			} else if (jogador2.getVida() == 2){
+				graficos.drawImage(barra.getBarraVida2(), 10, 700, this);
+			} else if (jogador2.getVida() == 1){
+				graficos.drawImage(barra.getBarraVida1(), 10, 700, this);
 			}
 			
-			g.dispose();
+		} else {
+			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
+			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+		} 
+		if (vitoria == true){
+			g.setFont(fonte);
+			g.setColor(Color.WHITE);
+			ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
+			graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+			graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
+			graficos.drawString("Pontuação Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1000, 40);
+		}
+			
+		g.dispose();
 	}
 
 	@Override
@@ -316,8 +361,6 @@ public class Fase extends JPanel implements ActionListener {
 		}
 		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false){
 			vitoria = true;
-			System.out.println("Pontução jogador 1: " + jogador1.getPontuacaoJogador1());
-			System.out.println("Pontução jogador 2: " + jogador2.getPontuacaoJogador2());
 		} else if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0){
 			emJogo = false;
 		}
