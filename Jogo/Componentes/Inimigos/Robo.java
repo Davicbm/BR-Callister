@@ -108,7 +108,7 @@ public class Robo {
 			TiroNave tempTiro = tiros3.get(j);
 			Rectangle formaTiro = tempTiro.getBounds();
 			Rectangle formaRobo = getBounds();
-			if (formaTiro.intersects(formaRobo)) {
+			if (formaTiro.intersects(formaRobo) && isVisivel()) {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
 				jogador.setPontuacaoJogador1(10); 
@@ -120,7 +120,7 @@ public class Robo {
 			TiroNave tempTiro = tiros3.get(j);
 			Rectangle formaTiro = tempTiro.getBounds();
 			Rectangle formaRobo = getBounds();
-			if (formaTiro.intersects(formaRobo)) {
+			if (formaTiro.intersects(formaRobo) && isVisivel()) {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
 				jogador.setPontuacaoJogador2(10);
@@ -133,7 +133,7 @@ public class Robo {
 			TiroRobo tempTiroRobo = tiros3.get(j);
 			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
 			Rectangle formaNave = jogador.getBounds();
-			if (formaTiroRobo.intersects(formaNave)) {
+			if (formaTiroRobo.intersects(formaNave) && jogador.isVisivel()) {
 				jogador.perdeVida(2);
 				tempTiroRobo.setVisivel(false);
 				jogador.setDano(true);
@@ -146,7 +146,7 @@ public class Robo {
 			TiroRobo tempTiroRobo = tiros3.get(j);
 			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
 			Rectangle formaNave = jogador.getBounds();
-			if (formaTiroRobo.intersects(formaNave)) {
+			if (formaTiroRobo.intersects(formaNave) && jogador.isVisivel()) {
 				jogador.perdeVida(2);
 				tempTiroRobo.setVisivel(false);
 			}
@@ -156,7 +156,7 @@ public class Robo {
 	public void colisaoNaveRobo(Jogador1 jogador){
 		Rectangle formaNave = jogador.getBounds();
 		Rectangle formaRobo = getBounds();
-		if (formaNave.intersects(formaRobo)) {
+		if (formaNave.intersects(formaRobo) && jogador.isVisivel()) {
 			jogador.perdeVida(1);
 			setVisivel(false);
 			jogador.setDano(true);
@@ -165,7 +165,7 @@ public class Robo {
 	public void colisaoNaveRobo(Jogador2 jogador){
 		Rectangle formaNave = jogador.getBounds();
 		Rectangle formaRobo = getBounds();
-		if (formaNave.intersects(formaRobo)) {
+		if (formaNave.intersects(formaRobo) && jogador.isVisivel()) {
 			jogador.perdeVida(1);
 			setVisivel(false);
 		} 
