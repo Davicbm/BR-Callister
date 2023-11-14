@@ -94,7 +94,7 @@ public class Fase extends JPanel implements ActionListener {
 				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
 				jogador2.drawTiroNave(graficos);
 			}
-
+			contador = 0;
 			for (int i = 0; i < robos.size(); i++){
 				if (robos.get(i).isVisivel() == false){
 					contador += 1;
