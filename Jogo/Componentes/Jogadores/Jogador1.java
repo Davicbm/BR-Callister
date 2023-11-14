@@ -23,8 +23,8 @@ public class Jogador1 {
 
 	private List<TiroNave> tiros;
 	private boolean podeAtirar = true;
-    private long tempoUltimoTiro = System.currentTimeMillis();
-    private long intervaloTiros = 300;
+	private long tempoUltimoTiro = System.currentTimeMillis();
+	private long intervaloTiros = 300;
 	private int pontuacaoJogador1 = 0;
 
 	public Jogador1() {
@@ -37,25 +37,30 @@ public class Jogador1 {
 	}
 
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//br-callister.gif");
+		ImageIcon referencia = new ImageIcon("assets//br-callisterjust.gif");
 		imagem = referencia.getImage();
 		altura = imagem.getHeight(null);
 		largura = imagem.getWidth(null);
 	}
 
 	public void update() {
-		x += dx;
-		y += dy;
+		if (x + dx >= 0 && x + dx + largura / 2 <= 650) {
+			x += dx;
+		}
+		if (y + dy >= 0 && y + dy + altura <= 850) {
+			y += dy;
+		}
 	}
 
 	public void tiroSimples() {
 		long tempoAtual = System.currentTimeMillis();
-        if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
-            this.tiros.add(new TiroNave(x + largura, y + (altura / 2)));
-            tempoUltimoTiro = tempoAtual;
-        }
+		if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
+			this.tiros.add(new TiroNave(x + largura, y + (altura / 2)));
+			tempoUltimoTiro = tempoAtual;
+		}
 	}
-	public void drawTiroNave (Graphics2D graficos){
+
+	public void drawTiroNave(Graphics2D graficos) {
 		List<TiroNave> tiros = getTiros();
 		for (int i = 0; i < tiros.size(); i++) {
 			TiroNave m = tiros.get(i);
@@ -70,107 +75,108 @@ public class Jogador1 {
 
 	public void keyPressed(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
-		if (codigo == KeyEvent.VK_SPACE && podeAtirar){
+		if (codigo == KeyEvent.VK_SPACE && podeAtirar) {
 			tiroSimples();
 			podeAtirar = false;
 		}
-		if(codigo == KeyEvent.VK_W && getY() > 0) {
-			dy=-3;
-			if (codigo == KeyEvent.VK_A && getX() >= 0){
-				dx=-3;
-			} else if (codigo == KeyEvent.VK_D && getX() <= 1300){
-				dx=3;
-			} else if (codigo == KeyEvent.VK_S && getY() <= 720){
-				dy=3;
+		if (codigo == KeyEvent.VK_W && getY() > 0) {
+			dy = -3;
+			if (codigo == KeyEvent.VK_A && getX() >= 0) {
+				dx = -3;
+			} else if (codigo == KeyEvent.VK_D && getX() <= 1300) {
+				dx = 3;
+			} else if (codigo == KeyEvent.VK_S && getY() <= 720) {
+				dy = 3;
 			}
 		}
-			if (codigo == KeyEvent.VK_A && getX() >= 0){
-				dx=-3;
-				if (codigo == KeyEvent.VK_W && getY() >= 0){
-					dy=-3;
-				} else if (codigo == KeyEvent.VK_S && getY() <= 720){
-					dy=3;
-				} else if(codigo == KeyEvent.VK_D && getX() <= 1300) {
-					dx=3;
-				}
+		if (codigo == KeyEvent.VK_A && getX() >= 0) {
+			dx = -3;
+			if (codigo == KeyEvent.VK_W && getY() >= 0) {
+				dy = -3;
+			} else if (codigo == KeyEvent.VK_S && getY() <= 720) {
+				dy = 3;
+			} else if (codigo == KeyEvent.VK_D && getX() <= 1300) {
+				dx = 3;
 			}
-	
-			if (codigo == KeyEvent.VK_D && getX() <= 1300){
-				dx=3;
-				if (codigo == KeyEvent.VK_W && getY() >= 0){
-					dy=-3;
-				} else if (codigo == KeyEvent.VK_S && getY() <= 720){
-					dy=3;
-				} else if(codigo == KeyEvent.VK_A && getX() >= 0) {
-					dx=-3;
-				}
+		}
+
+		if (codigo == KeyEvent.VK_D && getX() <= 1300) {
+			dx = 3;
+			if (codigo == KeyEvent.VK_W && getY() >= 0) {
+				dy = -3;
+			} else if (codigo == KeyEvent.VK_S && getY() <= 720) {
+				dy = 3;
+			} else if (codigo == KeyEvent.VK_A && getX() >= 0) {
+				dx = -3;
 			}
-	
-			if (codigo == KeyEvent.VK_S && getY() <= 720){
-				dy=3;
-				if (codigo == KeyEvent.VK_A && getX() >= 0){
-					dx=-3;
-				} else if (codigo == KeyEvent.VK_D && getX() <= 1300){
-					dx=3;
-				} else if(codigo == KeyEvent.VK_W && getY() >= 0) {
-					dy=-3;
-				}
+		}
+
+		if (codigo == KeyEvent.VK_S && getY() <= 720) {
+			dy = 3;
+			if (codigo == KeyEvent.VK_A && getX() >= 0) {
+				dx = -3;
+			} else if (codigo == KeyEvent.VK_D && getX() <= 1300) {
+				dx = 3;
+			} else if (codigo == KeyEvent.VK_W && getY() >= 0) {
+				dy = -3;
 			}
+		}
 		if (codigo == KeyEvent.VK_SPACE) {
-            podeAtirar = true;
-        }
+			podeAtirar = true;
+		}
 	}
-			
+
 	public void keyRelease(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
-		
-		if(codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
-			dy=0;
-			if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)){
-				dx=0;
-			} else if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)){
-				dx=0;
-			} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)){
-				dy=0;
+
+		if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
+			dy = 0;
+			if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)) {
+				dx = 0;
+			} else if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)) {
+				dx = 0;
+			} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)) {
+				dy = 0;
 			}
 		}
-			if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)){
-				dx=0;
-				if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)){
-					dy=0;
-				} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)){
-					dy=0;
-				} else if(codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)) {
-					dx=0;
-				}
+		if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)) {
+			dx = 0;
+			if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
+				dy = 0;
+			} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)) {
+				dy = 0;
+			} else if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)) {
+				dx = 0;
 			}
-	
-			if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)){
-				dx=0;
-				if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)){
-					dy=0;
-				} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)){
-					dy=0;
-				} else if(codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)) {
-					dx=0;
-				}
+		}
+
+		if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)) {
+			dx = 0;
+			if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
+				dy = 0;
+			} else if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)) {
+				dy = 0;
+			} else if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)) {
+				dx = 0;
 			}
-	
-			if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)){
-				dy=0;
-				if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)){
-					dx=0;
-				} else if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)){
-					dx=0;
-				} else if(codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
-					dy=0;
-				}
+		}
+
+		if (codigo == KeyEvent.VK_S && (getY() >= 720 || getY() <= 720)) {
+			dy = 0;
+			if (codigo == KeyEvent.VK_A && (getX() >= 0 || getX() <= 0)) {
+				dx = 0;
+			} else if (codigo == KeyEvent.VK_D && (getX() >= 1300 || getX() <= 1300)) {
+				dx = 0;
+			} else if (codigo == KeyEvent.VK_W && (getY() <= 0 || getY() >= 0)) {
+				dy = 0;
 			}
+		}
 		if (codigo == KeyEvent.VK_SPACE) {
-            podeAtirar = true;
-        }
+			podeAtirar = true;
+		}
 	}
-	public void atirar(){
+
+	public void atirar() {
 		List<TiroNave> tiros = getTiros();
 
 		for (int i = 0; i < tiros.size(); i++) {
@@ -183,7 +189,7 @@ public class Jogador1 {
 		}
 	}
 
-	public void perdeVida(int dano){
+	public void perdeVida(int dano) {
 		this.vida = vida - dano;
 	}
 
@@ -210,12 +216,15 @@ public class Jogador1 {
 	public Image getImagem() {
 		return imagem;
 	}
-	public int getVida(){
+
+	public int getVida() {
 		return this.vida;
 	}
-	public void setPontuacaoJogador1(int pontuacaoJogador1){
+
+	public void setPontuacaoJogador1(int pontuacaoJogador1) {
 		this.pontuacaoJogador1 += pontuacaoJogador1;
 	}
+
 	public int getPontuacaoJogador1() {
 		return this.pontuacaoJogador1;
 	}
