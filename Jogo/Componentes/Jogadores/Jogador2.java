@@ -70,45 +70,45 @@ public class Jogador2 {
 			tiroSimples();
 			podeAtirar = false;
 		}
-		if(codigo == KeyEvent.VK_UP && getY() > 0) {
+		if(codigo == KeyEvent.VK_UP) {
 			dy=-3;
-			if (codigo == KeyEvent.VK_LEFT && getX() >= 0){
+			if (codigo == KeyEvent.VK_LEFT){
 				dx=-3;
-			} else if (codigo == KeyEvent.VK_RIGHT && getX() <= 1300){
+			} else if (codigo == KeyEvent.VK_RIGHT){
 				dx=3;
-			} else if (codigo == KeyEvent.VK_DOWN && getY() <= 720){
+			} else if (codigo == KeyEvent.VK_DOWN){
 				dy=3;
 			}
 		}
-			if (codigo == KeyEvent.VK_LEFT && getX() >= 0){
+			if (codigo == KeyEvent.VK_LEFT){
 				dx=-3;
-				if (codigo == KeyEvent.VK_UP && getY() >= 0){
+				if (codigo == KeyEvent.VK_UP){
 					dy=-3;
-				} else if (codigo == KeyEvent.VK_DOWN && getY() <= 720){
+				} else if (codigo == KeyEvent.VK_DOWN){
 					dy=3;
-				} else if(codigo == KeyEvent.VK_RIGHT && getX() <= 1300) {
+				} else if(codigo == KeyEvent.VK_RIGHT ) {
 					dx=3;
 				}
 			}
 	
-			if (codigo == KeyEvent.VK_RIGHT && getX() <= 1300){
+			if (codigo == KeyEvent.VK_RIGHT ){
 				dx=3;
-				if (codigo == KeyEvent.VK_UP && getY() >= 0){
+				if (codigo == KeyEvent.VK_UP ){
 					dy=-3;
-				} else if (codigo == KeyEvent.VK_DOWN && getY() <= 720){
+				} else if (codigo == KeyEvent.VK_DOWN ){
 					dy=3;
-				} else if(codigo == KeyEvent.VK_LEFT && getX() >= 0) {
+				} else if(codigo == KeyEvent.VK_LEFT ) {
 					dx=-3;
 				}
 			}
 	
-			if (codigo == KeyEvent.VK_DOWN && getY() <= 720){
+			if (codigo == KeyEvent.VK_DOWN ){
 				dy=3;
-				if (codigo == KeyEvent.VK_LEFT && getX() >= 0){
+				if (codigo == KeyEvent.VK_LEFT ){
 					dx=-3;
-				} else if (codigo == KeyEvent.VK_RIGHT && getX() <= 1300){
+				} else if (codigo == KeyEvent.VK_RIGHT ){
 					dx=3;
-				} else if(codigo == KeyEvent.VK_UP && getY() >= 0) {
+				} else if(codigo == KeyEvent.VK_UP) {
 					dy=-3;
 				}
 			}
@@ -120,45 +120,45 @@ public class Jogador2 {
 	public void keyRelease(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
 
-		if(codigo == KeyEvent.VK_UP && (getY() <= 0 || getY() >= 0)) {
+		if(codigo == KeyEvent.VK_UP) {
 			dy=0;
-			if (codigo == KeyEvent.VK_LEFT && (getX() >= 0 || getX() <= 0)){
+			if (codigo == KeyEvent.VK_LEFT){
 				dx=0;
-			} else if (codigo == KeyEvent.VK_RIGHT && (getX() >= 1300 || getX() <= 1300)){
+			} else if (codigo == KeyEvent.VK_RIGHT ){
 				dx=0;
-			} else if (codigo == KeyEvent.VK_DOWN && (getY() >= 720 || getY() <= 720)){
+			} else if (codigo == KeyEvent.VK_DOWN ){
 				dy=0;
 			}
 		}
-			if (codigo == KeyEvent.VK_LEFT && (getX() >= 0 || getX() <= 0)){
+			if (codigo == KeyEvent.VK_LEFT ){
 				dx=0;
-				if (codigo == KeyEvent.VK_UNDO && (getY() <= 0 || getY() >= 0)){
+				if (codigo == KeyEvent.VK_UNDO ){
 					dy=0;
-				} else if (codigo == KeyEvent.VK_DOWN && (getY() >= 720 || getY() <= 720)){
+				} else if (codigo == KeyEvent.VK_DOWN ){
 					dy=0;
-				} else if(codigo == KeyEvent.VK_RIGHT && (getX() >= 1300 || getX() <= 1300)) {
+				} else if(codigo == KeyEvent.VK_RIGHT ) {
 					dx=0;
 				}
 			}
 	
-			if (codigo == KeyEvent.VK_RIGHT && (getX() >= 1300 || getX() <= 1300)){
+			if (codigo == KeyEvent.VK_RIGHT ){
 				dx=0;
-				if (codigo == KeyEvent.VK_UP && (getY() <= 0 || getY() >= 0)){
+				if (codigo == KeyEvent.VK_UP){
 					dy=0;
-				} else if (codigo == KeyEvent.VK_DOWN && (getY() >= 720 || getY() <= 720)){
+				} else if (codigo == KeyEvent.VK_DOWN){
 					dy=0;
-				} else if(codigo == KeyEvent.VK_LEFT && (getX() >= 0 || getX() <= 0)) {
+				} else if(codigo == KeyEvent.VK_LEFT) {
 					dx=0;
 				}
 			}
 	
-			if (codigo == KeyEvent.VK_DOWN && (getY() >= 720 || getY() <= 720)){
+			if (codigo == KeyEvent.VK_DOWN ){
 				dy=0;
-				if (codigo == KeyEvent.VK_LEFT && (getX() >= 0 || getX() <= 0)){
+				if (codigo == KeyEvent.VK_LEFT){
 					dx=0;
-				} else if (codigo == KeyEvent.VK_RIGHT && (getX() >= 1300 || getX() <= 1300)){
+				} else if (codigo == KeyEvent.VK_RIGHT){
 					dx=0;
-				} else if(codigo == KeyEvent.VK_UP && (getY() <= 0 || getY() >= 0)) {
+				} else if(codigo == KeyEvent.VK_UP) {
 					dy=0;
 				}
 			}
