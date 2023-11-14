@@ -2,6 +2,7 @@ package Jogo.Componentes;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -9,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,6 @@ public class Fase extends JPanel implements ActionListener {
 
 	private Image fundo;
 	private Image alerta;
-	private Image danoJogador1;
 	private Image explosao;
 
 	private Jogador1 jogador1;
@@ -55,8 +57,6 @@ public class Fase extends JPanel implements ActionListener {
 
 		referencia = new ImageIcon("assets//explosao.gif");
 		explosao = referencia.getImage();
-		/*ImageIcon referencia3 = new ImageIcon("assets//br-callisteralerta.gif");
-		danoJogador1 = referencia3.getImage();*/
 
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
@@ -97,21 +97,29 @@ public class Fase extends JPanel implements ActionListener {
 		robo3.load();
 	}
 
+	private static Font loadFont(String path, float size) {
+        try {
+            File fontFile = new File(path);
+            Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+            
+            return font.deriveFont(size);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            return new Font("Arial", Font.PLAIN, (int) size);
+        }
+    }
+
 	public void paint(Graphics g) {
 		barra = new BarraVida();
 		Graphics2D graficos = (Graphics2D) g;
-		Font fonte = new Font("Roboto", Font.BOLD, 32);
+		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 		if (emJogo == true) {
 			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 	
-			if(jogador1.isVisivel() /*&& (jogador1.isDano() == false)*/){
+			if(jogador1.isVisivel()){
 				graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
 				jogador1.drawTiroNave(graficos);
-			} /*else if (jogador1.isVisivel() && (jogador1.isDano() == true)){
-				graficos.drawImage(danoJogador1, jogador1.getX(), jogador1.getY(), this);
-				jogador1.drawTiroNave(graficos);
-				jogador1.setDano(false);
-			}*/
+			}
 			
 			if(jogador2.isVisivel()){
 				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
@@ -199,7 +207,9 @@ public class Fase extends JPanel implements ActionListener {
 				graficos.drawImage(barra.getBarraVida2(), 10, 10, this);
 			} else if (jogador1.getVida() == 1){
 				graficos.drawImage(barra.getBarraVida1(), 10, 10, this);
-			}
+			} else if (jogador1.getVida() <= 0){
+				graficos.drawImage(barra.getBarraVida0(), 10, 10, this);
+			} 
 
 			graficos.drawImage(barra.getBarraVida10(), 10, 700, this);
 			if (jogador2.getVida() == 9){
@@ -233,8 +243,7 @@ public class Fase extends JPanel implements ActionListener {
 			graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 			graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
 			graficos.drawString("Pontuação Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1000, 40);
-		}
-			
+		}	
 		g.dispose();
 	}
 
