@@ -136,6 +136,7 @@ public class Robo {
 			if (formaTiroRobo.intersects(formaNave)) {
 				jogador.perdeVida(2);
 				tempTiroRobo.setVisivel(false);
+				jogador.setDano(true);
 			}
 		}
 	}
@@ -158,6 +159,7 @@ public class Robo {
 		if (formaNave.intersects(formaRobo)) {
 			jogador.perdeVida(1);
 			setVisivel(false);
+			jogador.setDano(true);
 		} 
 	}
 	public void colisaoNaveRobo(Jogador2 jogador){

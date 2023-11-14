@@ -19,6 +19,7 @@ public class Jogador1 {
 	private int altura;
 	private int largura;
 	private boolean isVisivel;
+	private boolean dano;
 	private int vida;
 
 	private List<TiroNave> tiros;
@@ -37,7 +38,7 @@ public class Jogador1 {
 	}
 
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//br-callisterjust.gif");
+		ImageIcon referencia = new ImageIcon("assets//br-callister.gif");
 		imagem = referencia.getImage();
 		altura = imagem.getHeight(null);
 		largura = imagem.getWidth(null);
@@ -224,8 +225,14 @@ public class Jogador1 {
 	public void setPontuacaoJogador1(int pontuacaoJogador1) {
 		this.pontuacaoJogador1 += pontuacaoJogador1;
 	}
-
 	public int getPontuacaoJogador1() {
 		return this.pontuacaoJogador1;
 	}
+
+	public boolean isDano() {
+		return dano;
+	}
+	public void setDano(boolean dano) {
+		this.dano = dano;
+	}	
 }

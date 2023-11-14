@@ -24,8 +24,11 @@ public class Fase extends JPanel implements ActionListener {
 
 	private Image fundo;
 	private Image alerta;
+	private Image danoJogador1;
+
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
+	private BarraVida barra;
 	private Timer timer;
 	private Robo robo1;
 	private Robo robo2;
@@ -34,17 +37,24 @@ public class Fase extends JPanel implements ActionListener {
 	private boolean emJogo;
 	private boolean vitoria;
 	private int contador = 0;
+	
 	public Fase() {
 
 		setFocusable(true);
 		setDoubleBuffered(true);
 
-		ImageIcon referencia1 = new ImageIcon("assets//fase1.gif");
+		ImageIcon referencia1 = new ImageIcon("assets//fase1.png");
 		fundo = referencia1.getImage();
 		ImageIcon referencia2 = new ImageIcon("assets//warninggif.gif");
 		alerta = referencia2.getImage();
+
+		/*ImageIcon referencia3 = new ImageIcon("assets//br-callisteralerta.gif");
+		danoJogador1 = referencia3.getImage();*/
+
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
+
+		jogador1.setDano(false);
 
 		jogador1.load();
 		jogador2.load();
@@ -81,19 +91,25 @@ public class Fase extends JPanel implements ActionListener {
 	}
 
 	public void paint(Graphics g) {
+		barra = new BarraVida();
 		Graphics2D graficos = (Graphics2D) g;
 		if (emJogo == true) {
 			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 	
-			if(jogador1.isVisivel()){
+			if(jogador1.isVisivel() /*&& (jogador1.isDano() == false)*/){
 				graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
 				jogador1.drawTiroNave(graficos);
-			}
+			} /*else if (jogador1.isVisivel() && (jogador1.isDano() == true)){
+				graficos.drawImage(danoJogador1, jogador1.getX(), jogador1.getY(), this);
+				jogador1.drawTiroNave(graficos);
+				jogador1.setDano(false);
+			}*/
 			
 			if(jogador2.isVisivel()){
 				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
 				jogador2.drawTiroNave(graficos);
 			}
+
 			contador = 0;
 			for (int i = 0; i < robos.size(); i++){
 				if (robos.get(i).isVisivel() == false){
@@ -142,7 +158,30 @@ public class Fase extends JPanel implements ActionListener {
 				robo.load2();
 				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 
-			}} else {
+			}
+
+			graficos.drawImage(barra.getBarraVida10(), 10, 10, this);
+			if (jogador1.getVida() == 9){
+				graficos.drawImage(barra.getBarraVida9(), 10, 10, this);
+			} else if (jogador1.getVida() == 8){
+				graficos.drawImage(barra.getBarraVida8(), 10, 10, this);
+			} else if (jogador1.getVida() == 7){
+				graficos.drawImage(barra.getBarraVida7(), 10, 10, this);
+			} else if (jogador1.getVida() == 6){
+				graficos.drawImage(barra.getBarraVida6(), 10, 10, this);
+			} else if (jogador1.getVida() == 5){
+				graficos.drawImage(barra.getBarraVida5(), 10, 10, this);
+			} else if (jogador1.getVida() == 4){
+				graficos.drawImage(barra.getBarraVida4(), 10, 10, this);
+			} else if (jogador1.getVida() == 3){
+				graficos.drawImage(barra.getBarraVida3(), 10, 10, this);
+			} else if (jogador1.getVida() == 2){
+				graficos.drawImage(barra.getBarraVida2(), 10, 10, this);
+			} else if (jogador1.getVida() == 1){
+				graficos.drawImage(barra.getBarraVida1(), 10, 10, this);
+			}
+			
+			} else {
 				ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 				graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 			} 
@@ -150,6 +189,7 @@ public class Fase extends JPanel implements ActionListener {
 				ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
 				graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 			}
+			
 			g.dispose();
 	}
 
