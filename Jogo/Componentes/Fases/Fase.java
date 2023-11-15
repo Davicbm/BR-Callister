@@ -89,7 +89,7 @@ public class Fase extends JPanel implements ActionListener {
 
 		Timer timer2 = new Timer(10, e ->{
 			if (emJogo){
-				for (int i = 0; i < 40; i++) {
+				for (int i = 0; i < 60; i++) {
 					int x = (int) (Math.random() * 8000) + 1980;
 					int y = (int) (Math.random() * 650) + 10;
 					robos.add(new Robo(x, y));
