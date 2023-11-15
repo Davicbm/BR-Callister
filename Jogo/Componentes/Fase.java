@@ -49,7 +49,7 @@ public class Fase extends JPanel implements ActionListener {
 		setFocusable(true);
 		setDoubleBuffered(true);
 
-		ImageIcon referencia = new ImageIcon("assets//fase1.png");
+		ImageIcon referencia = new ImageIcon("assets//fase1.gif");
 		fundo = referencia.getImage();
 
 		referencia = new ImageIcon("assets//warninggif.gif");
@@ -75,6 +75,8 @@ public class Fase extends JPanel implements ActionListener {
 
 		emJogo = true;
 		vitoria = false;
+
+		this.requestFocusInWindow();
 	}
 
 	public void inicializaInimigos() {

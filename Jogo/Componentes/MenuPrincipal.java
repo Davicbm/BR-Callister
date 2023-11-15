@@ -62,4 +62,7 @@ public class MenuPrincipal extends JPanel implements ActionListener, KeyListener
     public void keyReleased(KeyEvent e) {
         // Não é necessário implementar nada aqui, mas é obrigatório por conta da interface KeyListener
     }
+    public void desativarKeyListener() {
+        removeKeyListener(this);
+    }
 }

@@ -7,25 +7,28 @@ import Jogo.Componentes.Fase;
 import Jogo.Componentes.MenuPrincipal;
 
 public class Container extends JFrame {
-	MenuPrincipal menu = new MenuPrincipal();
+    MenuPrincipal menu = new MenuPrincipal();
+    Fase fase = new Fase(); // Adiciona uma instância de Fase
 
-	public Container() {
-		setTitle("Br-Callister");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		this.setResizable(false);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setVisible(true);
+    public Container() {
+        setTitle("Br-Callister");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setVisible(true);
 
-		add(menu);
-		checkGameStatus();
+        add(menu);
+        checkGameStatus();
     }
 
     private void checkGameStatus() {
         Timer timer = new Timer(100, e -> {
             if (menu.isInicioJogo()) {
+                menu.desativarKeyListener();
                 remove(menu);
-                add(new Fase());
+                add(fase);
+                fase.requestFocusInWindow();
                 revalidate(); // Atualiza o JFrame para refletir as mudanças
                 repaint(); // Redesenha o JFrame
                 ((Timer) e.getSource()).stop(); // Para o timer, já que o jogo começou
@@ -33,7 +36,8 @@ public class Container extends JFrame {
         });
         timer.start();
     }
-	public static void main(String[] args) {
-		new Container();
-	}
+
+    public static void main(String[] args) {
+        new Container();
+    }
 }
