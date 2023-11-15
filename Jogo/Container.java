@@ -31,7 +31,7 @@ public class Container extends JFrame {
                 revalidate(); 
                 repaint();
                 ((Timer) e.getSource()).stop(); 
-            }
+            } 
         });
         timer.start();
     }

@@ -28,7 +28,7 @@ public class Jogador2 {
 	private int pontuacaoJogador2 = 0;
 
 	public Jogador2() {
-		this.x = 100;
+		this.x = 300;
 		this.y = 650;
 		this.vida = 10;
 		this.isVisivel = true;

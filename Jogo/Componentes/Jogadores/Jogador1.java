@@ -29,7 +29,7 @@ public class Jogador1 {
 	private int pontuacaoJogador1 = 0;
 
 	public Jogador1() {
-		this.x = 100;
+		this.x = 300;
 		this.y = 100;
 		this.vida = 10;
 		this.isVisivel = true;
