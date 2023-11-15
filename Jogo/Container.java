@@ -3,12 +3,11 @@ package Jogo;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-import Jogo.Componentes.MenuPrincipal;
 import Jogo.Componentes.Fases.Fase;
 import Jogo.Componentes.Fases.Fase2;
 
 public class Container extends JFrame {
-    MenuPrincipal menu = new MenuPrincipal();
+    Fase fase = new Fase();
     public Container() {
         setTitle("Br-Callister");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -17,21 +16,12 @@ public class Container extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
 
-        add(menu);
+        add(fase);
         checkGameStatus();
     }
 
     private void checkGameStatus() {
-        Fase fase = new Fase();
         Timer timer = new Timer(100, e -> {
-            if (menu.isInicioJogo()) {
-                menu.desativarKeyListener();
-                remove(menu);
-                add(fase);
-                fase.requestFocusInWindow();
-                revalidate(); 
-                repaint();
-            } 
             if (fase.isProximaFase()){
                 Fase2 fase2 = new Fase2();
                 fase.desativarKeyListener();

@@ -29,6 +29,7 @@ import Jogo.Componentes.Objetos.BarraVida;
 public class Fase extends JPanel implements ActionListener {
 
 	private Image fundo;
+	private Image fundoMenu;
 	private Image alerta;
 	private Image explosao;
 
@@ -42,6 +43,7 @@ public class Fase extends JPanel implements ActionListener {
 	private List<Robo> robos;
 	private boolean emJogo;
 	private boolean vitoria;
+	private boolean gameOver;
 	private boolean proximaFase = false;
 	private int contador = 0;
 	TecladoAdapter teclado = new TecladoAdapter();
@@ -53,6 +55,9 @@ public class Fase extends JPanel implements ActionListener {
 
 		ImageIcon referencia = new ImageIcon("assets//fase01.png");
 		fundo = referencia.getImage();
+
+		referencia = new ImageIcon("assets//fundo_menu.png");
+		fundoMenu = referencia.getImage();
 
 		referencia = new ImageIcon("assets//warninggif.gif");
 		alerta = referencia.getImage();
@@ -67,38 +72,45 @@ public class Fase extends JPanel implements ActionListener {
 
 		jogador1.load();
 		jogador2.load();
+	
+		inicializaInimigos();
 
 		addKeyListener(teclado);
 
 		timer = new Timer(5, this);
 		timer.start();
 
-		inicializaInimigos();
 
-		emJogo = true;
+		emJogo = false;
 		vitoria = false;
-
-		this.requestFocusInWindow();
+		gameOver = false;
 	}
 
 	public void inicializaInimigos() {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 40; i++) {
-			int x = (int) (Math.random() * 8000) + 1980;
-			int y = (int) (Math.random() * 650) + 10;
-			robos.add(new Robo(x, y));
-			robos.get(i).setVida(1);
-		}	
-
 		robo1 = new Robo(1600, 2000);
 		robo2 = new Robo(1600, 2000);
 		robo3 = new Robo(1600, 2000);
 
-		robo1.load();
-		robo2.load();
-		robo3.load();
+		Timer timer2 = new Timer(10, e ->{
+			if (emJogo){
+				for (int i = 0; i < 40; i++) {
+					int x = (int) (Math.random() * 8000) + 1980;
+					int y = (int) (Math.random() * 650) + 10;
+					robos.add(new Robo(x, y));
+					robos.get(i).setVida(1);
+			}	
+		
+				robo1.load();
+				robo2.load();
+				robo3.load();
+
+				((Timer) e.getSource()).stop(); 
+			}
+		});
+		timer2.start();
 	}
 
 	private static Font loadFont(String path, float size) {
@@ -117,7 +129,10 @@ public class Fase extends JPanel implements ActionListener {
 		barra = new BarraVida();
 		Graphics2D graficos = (Graphics2D) g;
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
-		if (emJogo == true) {
+
+		if (emJogo == false){
+			graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
+		} else if (emJogo){
 			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 	
 			if(jogador1.isVisivel()){
@@ -235,11 +250,13 @@ public class Fase extends JPanel implements ActionListener {
 			} else if (jogador2.getVida() == 1){
 				graficos.drawImage(barra.getBarraVida1(), 10, 700, this);
 			}
-			
-		} else {
+		} 
+		
+		if (gameOver == true){
 			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
-		} 
+		}
+			
 		if (vitoria == true){
 			g.setFont(fonte);
 			g.setColor(Color.WHITE);
@@ -384,8 +401,14 @@ public class Fase extends JPanel implements ActionListener {
 
 		public void keyPressed(KeyEvent e) {
 			int codigo = e.getKeyCode();
+
 			jogador1.keyPressed(e);
 			jogador2.keyPressed(e);
+			if (emJogo == false){
+				if (codigo == KeyEvent.VK_ENTER){
+					emJogo = true;
+				}
+			}
 			if (vitoria){
 				if (codigo == KeyEvent.VK_ENTER){
 					setProximaFase(true);
@@ -414,5 +437,8 @@ public class Fase extends JPanel implements ActionListener {
 	}
 	public boolean isProximaFase(){
 		return this.proximaFase;
+	}
+	public void setEmJogo(boolean emJogo){
+		this.emJogo = emJogo;
 	}
 }

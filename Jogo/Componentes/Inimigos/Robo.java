@@ -62,6 +62,7 @@ public class Robo {
 	public void updateRoboAtirador(int localizacaoX, int localizacaoY){
 		boolean atualizado = false;
 		this.y -= velocidade;
+		
 		if (this.y < localizacaoY){
 			this.y = localizacaoY;
 			atualizado = true;
