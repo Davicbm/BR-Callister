@@ -68,8 +68,6 @@ public class Fase extends JPanel implements ActionListener {
 		robo2 = new Robo(1600, 2000);
 		robo3 = new Robo(1600, 2000);
 
-		jogador1.setDano(false);
-
 		jogador1.load();
 		jogador2.load();
 	
@@ -79,7 +77,6 @@ public class Fase extends JPanel implements ActionListener {
 
 		timer = new Timer(5, this);
 		timer.start();
-
 
 		emJogo = false;
 		emJogo2 = false;
@@ -142,8 +139,8 @@ public class Fase extends JPanel implements ActionListener {
 				jogador1.drawTiroNave(graficos);
 			}
 			
-			if(emJogo2){
-				jogador2.setVisivel(true);
+			if(emJogo2 == false){
+				jogador2.setVisivel(false);
 			}
 
 			if(jogador2.isVisivel()){
@@ -221,6 +218,7 @@ public class Fase extends JPanel implements ActionListener {
 				graficos.drawImage(barra.getBarraVida1(), 10, 10, this);
 			} else if (jogador1.getVida() <= 0){
 				graficos.drawImage(barra.getBarraVida0(), 10, 10, this);
+				jogador1.setVisivel(false);
 			} 
 
 			if(emJogo2){
@@ -245,6 +243,7 @@ public class Fase extends JPanel implements ActionListener {
 					graficos.drawImage(barra.getBarraVida1(), 10, 700, this);
 				} else if (jogador2.getVida() <= 0){
 					graficos.drawImage(barra.getBarraVida0(), 10, 700, this);
+					jogador2.setVisivel(false);
 				}
 			}
 		} 
@@ -379,12 +378,6 @@ public class Fase extends JPanel implements ActionListener {
 		robo3.colisaoNaveTiro(jogador1);
 		robo3.colisaoNaveTiro(jogador2);
 		
-		if (jogador1.getVida() == 0 ){
-			jogador1.setVisivel(false);
-		}
-		if (jogador2.getVida() == 0 ){
-			jogador2.setVisivel(false);
-		} 
 		if (robo1.getVida() == 0){
 			robo1.setVisivel(false);
 		} 
@@ -400,7 +393,6 @@ public class Fase extends JPanel implements ActionListener {
 				tempRobo.setVisivel(false);
 			} 
 		}
-
 		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false){
 			vitoria = true;
 		}
