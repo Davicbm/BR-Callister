@@ -29,9 +29,9 @@ public class Container extends JFrame {
                 remove(menu);
                 add(fase);
                 fase.requestFocusInWindow();
-                revalidate(); // Atualiza o JFrame para refletir as mudanças
-                repaint(); // Redesenha o JFrame
-                ((Timer) e.getSource()).stop(); // Para o timer, já que o jogo começou
+                revalidate(); 
+                repaint();
+                ((Timer) e.getSource()).stop(); 
             }
         });
         timer.start();
