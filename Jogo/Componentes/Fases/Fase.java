@@ -68,6 +68,10 @@ public class Fase extends JPanel implements ActionListener {
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
 
+		robo1 = new Robo(1600, 2000);
+		robo2 = new Robo(1600, 2000);
+		robo3 = new Robo(1600, 2000);
+
 		jogador1.setDano(false);
 
 		jogador1.load();
@@ -89,10 +93,6 @@ public class Fase extends JPanel implements ActionListener {
 	public void inicializaInimigos() {
 
 		robos = new ArrayList<Robo>();
-
-		robo1 = new Robo(1600, 2000);
-		robo2 = new Robo(1600, 2000);
-		robo3 = new Robo(1600, 2000);
 
 		Timer timer2 = new Timer(10, e ->{
 			if (emJogo){
@@ -331,19 +331,34 @@ public class Fase extends JPanel implements ActionListener {
 
 		//Colisões de tiro da Nave com Robo:
 		List<TiroNave> tiros1 = jogador1.getTiros();
+		
 		for (int j = 0; j < tiros1.size(); j++) {
-			robo1.colisaoRoboTiro(jogador1, j);
-			robo2.colisaoRoboTiro(jogador1, j);
-			robo3.colisaoRoboTiro(jogador1, j);
+			if(robo1.getX() == 1100 && robo1.getY() == 150){
+				robo1.colisaoRoboTiro(jogador1, j);
+			}
+			if(robo2.getX() == 1000 && robo2.getY() == 375){
+				robo2.colisaoRoboTiro(jogador1, j);
+			}
+			if(robo3.getX() == 1100 && robo3.getY() == 600){
+				robo3.colisaoRoboTiro(jogador1, j);
+			}
 		}
 		List<TiroNave> tiros2 = jogador2.getTiros();
+		
 		for (int j = 0; j < tiros2.size(); j++) {
-			robo1.colisaoRoboTiro(jogador2, j);
-			robo2.colisaoRoboTiro(jogador2, j);
-			robo3.colisaoRoboTiro(jogador2, j);
+			if(robo1.getX() == 1100 && robo1.getY() == 150){
+				robo1.colisaoRoboTiro(jogador2, j);
+			}
+			if(robo2.getX() == 1000 && robo2.getY() == 375){
+				robo2.colisaoRoboTiro(jogador2, j);
+			}
+			if(robo3.getX() == 1100 && robo3.getY() == 600){
+				robo3.colisaoRoboTiro(jogador2, j);
+			}
 		}
 
 		List<TiroNave> tiros3 = jogador1.getTiros();
+		
 		for (int j = 0; j < tiros3.size(); j++) {
 			for (int i = 0; i < robos.size(); i++) {
 				Robo tempRobo = robos.get(i);
