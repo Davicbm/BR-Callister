@@ -32,7 +32,7 @@ public class MenuPrincipal extends JPanel implements ActionListener, KeyListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        setInicioJogo(true);
+        
     }
 
     public void setInicioJogo(boolean inicioJogo){

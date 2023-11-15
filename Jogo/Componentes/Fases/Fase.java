@@ -1,4 +1,4 @@
-package Jogo.Componentes;
+package Jogo.Componentes.Fases;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -42,8 +42,10 @@ public class Fase extends JPanel implements ActionListener {
 	private List<Robo> robos;
 	private boolean emJogo;
 	private boolean vitoria;
+	private boolean proximaFase = false;
 	private int contador = 0;
-	
+	TecladoAdapter teclado = new TecladoAdapter();
+
 	public Fase() {
 
 		setFocusable(true);
@@ -66,7 +68,7 @@ public class Fase extends JPanel implements ActionListener {
 		jogador1.load();
 		jogador2.load();
 
-		addKeyListener(new TecladoAdapter());
+		addKeyListener(teclado);
 
 		timer = new Timer(5, this);
 		timer.start();
@@ -381,8 +383,14 @@ public class Fase extends JPanel implements ActionListener {
 		@Override
 
 		public void keyPressed(KeyEvent e) {
+			int codigo = e.getKeyCode();
 			jogador1.keyPressed(e);
 			jogador2.keyPressed(e);
+			if (vitoria){
+				if (codigo == KeyEvent.VK_ENTER){
+					setProximaFase(true);
+				}
+			}
 		}
 
 		@Override
@@ -395,5 +403,16 @@ public class Fase extends JPanel implements ActionListener {
 		public void keyTyped(KeyEvent e) {
 
 		}
+	}
+
+	public void desativarKeyListener() {
+		removeKeyListener(teclado);
+	}
+
+	public void setProximaFase(boolean proximaFase){
+		this.proximaFase = proximaFase;
+	}
+	public boolean isProximaFase(){
+		return this.proximaFase;
 	}
 }
