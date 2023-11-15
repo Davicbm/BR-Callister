@@ -315,18 +315,6 @@ public class Fase extends JPanel implements ActionListener {
 
 	public void checarColisoes() {
 		//Colisões de Nave com Robô:
-		if (robo1.isVisivel()){
-			robo1.colisaoNaveRobo(jogador1);
-			robo1.colisaoNaveRobo(jogador2);
-		}
-		if (robo2.isVisivel()){
-			robo2.colisaoNaveRobo(jogador1);
-			robo2.colisaoNaveRobo(jogador2);
-		}
-		if (robo3.isVisivel()){
-			robo3.colisaoNaveRobo(jogador1);
-			robo3.colisaoNaveRobo(jogador2);
-		}
 		for (int i = 0; i < robos.size(); i++) {
 			Robo tempRobo = robos.get(i);
 			tempRobo.colisaoNaveRobo(jogador1);
