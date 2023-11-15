@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 
 public class MenuPrincipal extends JPanel implements ActionListener, KeyListener {
     private Image fundo;
-    private boolean inicio = false;
     private boolean inicioJogo = false;
 
     public MenuPrincipal(){
