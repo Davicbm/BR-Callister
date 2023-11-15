@@ -9,8 +9,6 @@ import Jogo.Componentes.Fases.Fase2;
 
 public class Container extends JFrame {
     MenuPrincipal menu = new MenuPrincipal();
-    Fase fase = new Fase(); // Adiciona uma instância de Fase
-    Fase2 fase2 = new Fase2();
     public Container() {
         setTitle("Br-Callister");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,7 +22,8 @@ public class Container extends JFrame {
     }
 
     private void checkGameStatus() {
-        Timer timer = new Timer(5, e -> {
+        Fase fase = new Fase();
+        Timer timer = new Timer(100, e -> {
             if (menu.isInicioJogo()) {
                 menu.desativarKeyListener();
                 remove(menu);
@@ -34,6 +33,7 @@ public class Container extends JFrame {
                 repaint();
             } 
             if (fase.isProximaFase()){
+                Fase2 fase2 = new Fase2();
                 fase.desativarKeyListener();
                 remove(fase);
                 add(fase2);
