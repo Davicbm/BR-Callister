@@ -261,7 +261,7 @@ public class Fase2 extends JPanel implements ActionListener {
 			ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
 			graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 			graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
-			graficos.drawString("Pontuação Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1000, 40);
+			graficos.drawString("Pontuação Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1125, 40);
 		}	
 		g.dispose();
 	}

@@ -86,7 +86,7 @@ public class Alien {
 			TiroNave tempTiro = tiros3.get(j);
 			Rectangle formaTiro = tempTiro.getBounds();
 			Rectangle formaAlien = getBounds();
-			if (formaTiro.intersects(formaAlien) && isVisivel()) {
+			if (formaTiro.intersects(formaAlien) && isVisivel() && tempTiro.isVisivel()) {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
 				jogador.setPontuacaoJogador1(10); 
@@ -98,7 +98,7 @@ public class Alien {
 			TiroNave tempTiro = tiros3.get(j);
 			Rectangle formaTiro = tempTiro.getBounds();
 			Rectangle formaAlien = getBounds();
-			if (formaTiro.intersects(formaAlien) && isVisivel()) {
+			if (formaTiro.intersects(formaAlien) && isVisivel() && tempTiro.isVisivel()) {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
 				jogador.setPontuacaoJogador2(10);

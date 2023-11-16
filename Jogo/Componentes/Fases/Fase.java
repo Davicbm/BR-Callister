@@ -140,9 +140,6 @@ public class Fase extends JPanel implements ActionListener {
 			graficos.drawString("Two Players: Press 2", 610, 650);
 		} else if (emJogo){
 			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
-			g.setFont(fonte);
-			g.setColor(Color.WHITE);
-			graficos.drawString("Fase 1", 1400, 50);
 	
 			if(jogador1.isVisivel()){
 				graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
@@ -206,6 +203,10 @@ public class Fase extends JPanel implements ActionListener {
 				robo.load2();
 				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 			}
+
+			g.setFont(fonte);
+			g.setColor(Color.WHITE);
+			graficos.drawString("Fase 1", 1400, 50);
 
 			g.setFont(fonte2);
 			g.setColor(Color.WHITE);
@@ -279,6 +280,9 @@ public class Fase extends JPanel implements ActionListener {
 			g.setColor(Color.WHITE);
 			ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
 			graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+			g.setFont(fonte);
+			g.setColor(Color.WHITE);
+			graficos.drawString("Aperte enter para a próxima fase!", 500, 800);
 			if(emJogo2){
 				graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
 				graficos.drawString("Pontuação Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1125, 40);
