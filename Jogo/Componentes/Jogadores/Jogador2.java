@@ -66,7 +66,7 @@ public class Jogador2 {
 
 	public void keyPressed(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
-		if (codigo == KeyEvent.VK_ENTER && podeAtirar){
+		if (codigo == KeyEvent.VK_BACK_SPACE && podeAtirar){
 			tiroSimples();
 			podeAtirar = false;
 		}
@@ -163,7 +163,7 @@ public class Jogador2 {
 				}
 			}
 
-		if (codigo == KeyEvent.VK_ENTER) {
+		if (codigo == KeyEvent.VK_BACK_SPACE) {
             podeAtirar = true;
         }
 	}
