@@ -25,7 +25,7 @@ public class Alien {
     private long tempoUltimoTiro = System.currentTimeMillis();
     private long intervaloTiros = 2800;
 
-	private static int velocidade = 3;
+	private static int velocidade = 2;
 	
 	public Alien(int x, int y) {
 		this.x = x;

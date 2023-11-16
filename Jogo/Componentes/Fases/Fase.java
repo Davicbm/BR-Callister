@@ -140,6 +140,9 @@ public class Fase extends JPanel implements ActionListener {
 			graficos.drawString("Two Players: Press 2", 610, 650);
 		} else if (emJogo){
 			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
+			g.setFont(fonte);
+			g.setColor(Color.WHITE);
+			graficos.drawString("Fase 1", 1400, 50);
 	
 			if(jogador1.isVisivel()){
 				graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);

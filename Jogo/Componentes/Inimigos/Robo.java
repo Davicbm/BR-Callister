@@ -91,7 +91,7 @@ public class Robo {
 		for (int j = 0; j < tiros2.size(); j++) {
 			TiroRobo m = tiros2.get(j);
 			m.load();
-			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, null);
+			graficos.drawImage(m.getImagem(), m.getX() - 120, m.getY() - 35, null);
 		}
 	}
 
