@@ -1,5 +1,6 @@
 package Jogo.Componentes.Jogadores;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -7,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-
-import Jogo.Componentes.Tiro;
 
 public class Jogador1 {
 
@@ -20,18 +19,22 @@ public class Jogador1 {
 	private int altura;
 	private int largura;
 	private boolean isVisivel;
+	private boolean dano;
+	private int vida;
 
-	private List<Tiro> tiros;
+	private List<TiroNave> tiros;
 	private boolean podeAtirar = true;
-    private long tempoUltimoTiro = System.currentTimeMillis();
-    private long intervaloTiros = 200;
+	private long tempoUltimoTiro = System.currentTimeMillis();
+	private long intervaloTiros = 300;
+	private int pontuacaoJogador1 = 0;
 
 	public Jogador1() {
-		this.x = 100;
+		this.x = 300;
 		this.y = 100;
-		isVisivel = true;
+		this.vida = 10;
+		this.isVisivel = true;
 
-		tiros = new ArrayList<Tiro>();
+		tiros = new ArrayList<TiroNave>();
 	}
 
 	public void load() {
@@ -42,16 +45,29 @@ public class Jogador1 {
 	}
 
 	public void update() {
-		x += dx;
-		y += dy;
+		if (x + dx >= 0 && x + dx + largura / 2 <= 750) {
+			x += dx;
+		}
+		if (y + dy >= 0 && y + dy + altura <= 850) {
+			y += dy;
+		}
 	}
 
 	public void tiroSimples() {
 		long tempoAtual = System.currentTimeMillis();
-        if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
-            this.tiros.add(new Tiro(x + largura, y + (altura / 2)));
-            tempoUltimoTiro = tempoAtual;
-        }
+		if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
+			this.tiros.add(new TiroNave(x + largura, y + (altura / 2)));
+			tempoUltimoTiro = tempoAtual;
+		}
+	}
+
+	public void drawTiroNave(Graphics2D graficos) {
+		List<TiroNave> tiros = getTiros();
+		for (int i = 0; i < tiros.size(); i++) {
+			TiroNave m = tiros.get(i);
+			m.load();
+			graficos.drawImage(m.getImagem(), m.getX(), m.getY() + 10, null);
+		}
 	}
 
 	public Rectangle getBounds() {
@@ -60,115 +76,125 @@ public class Jogador1 {
 
 	public void keyPressed(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
-		if (codigo == KeyEvent.VK_SPACE && podeAtirar){
+		if (codigo == KeyEvent.VK_SPACE && podeAtirar) {
 			tiroSimples();
 			podeAtirar = false;
 		}
-		switch (codigo) {
-			case KeyEvent.VK_W:
-				dy=-4;
-				if (codigo == KeyEvent.VK_A){
-					dx=-4;
-				} else if (codigo == KeyEvent.VK_D){
-					dx=4;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=4;
-				}
-				break;
-				
-			case KeyEvent.VK_A:
-				dx=-4;
-				if (codigo == KeyEvent.VK_W){
-					dy=-4;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=4;
-				} else if(codigo == KeyEvent.VK_D) {
-					dx=4;
-				}
-				break;
-	
-			case KeyEvent.VK_D:
-				dx=4;
-				if (codigo == KeyEvent.VK_W){
-					dy=-4;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=4;
-				} else if(codigo == KeyEvent.VK_A) {
-					dx=-4;
-				}
-				break;
-	
-			case KeyEvent.VK_S:
-				dy=4;
-				if (codigo == KeyEvent.VK_A){
-					dx=-4;
-				} else if (codigo == KeyEvent.VK_D){
-					dx=4;
-				} else if(codigo == KeyEvent.VK_W) {
-					dy=-4;
-				}
-				break;
+		if (codigo == KeyEvent.VK_W) {
+			dy = -4;
+			if (codigo == KeyEvent.VK_A) {
+				dx = -4;
+			} else if (codigo == KeyEvent.VK_D) {
+				dx = 4;
+			} else if (codigo == KeyEvent.VK_S) {
+				dy = 4;
+			}
+		}
+		if (codigo == KeyEvent.VK_A) {
+			dx = -4;
+			if (codigo == KeyEvent.VK_W) {
+				dy = -4;
+			} else if (codigo == KeyEvent.VK_S) {
+				dy = 4;
+			} else if (codigo == KeyEvent.VK_D) {
+				dx = 4;
+			}
 		}
 
+		if (codigo == KeyEvent.VK_D) {
+			dx = 4;
+			if (codigo == KeyEvent.VK_W) {
+				dy = -4;
+			} else if (codigo == KeyEvent.VK_S) {
+				dy = 4;
+			} else if (codigo == KeyEvent.VK_A) {
+				dx = -4;
+			}
+		}
+
+		if (codigo == KeyEvent.VK_S) {
+			dy = 4;
+			if (codigo == KeyEvent.VK_A) {
+				dx = -4;
+			} else if (codigo == KeyEvent.VK_D) {
+				dx = 4;
+			} else if (codigo == KeyEvent.VK_W) {
+				dy = -4;
+			}
+		}
 		if (codigo == KeyEvent.VK_SPACE) {
-            podeAtirar = true;
-        }
-	} 
-			
+			podeAtirar = true;
+		}
+	}
+
 	public void keyRelease(KeyEvent tecla) {
 		int codigo = tecla.getKeyCode();
 
-		switch (codigo) {
-			case KeyEvent.VK_W:
-				dy=0;
-				if (codigo == KeyEvent.VK_A){
-					dx=0;
-				} else if (codigo == KeyEvent.VK_D){
-					dx=0;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=4;
-				}
-				break;
-			
-			case KeyEvent.VK_A:
-				dx=0;
-				if (codigo == KeyEvent.VK_W){
-					dy=0;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=0;
-				} else if(codigo == KeyEvent.VK_D) {
-					dx=4;
-				}
-				break;
+		if (codigo == KeyEvent.VK_W) {
+			dy = 0;
+			if (codigo == KeyEvent.VK_A) {
+				dx = 0;
+			} else if (codigo == KeyEvent.VK_D) {
+				dx = 0;
+			} else if (codigo == KeyEvent.VK_S) {
+				dy = 0;
+			}
+		}
+		if (codigo == KeyEvent.VK_A) {
+			dx = 0;
+			if (codigo == KeyEvent.VK_W) {
+				dy = 0;
+			} else if (codigo == KeyEvent.VK_S) {
+				dy = 0;
+			} else if (codigo == KeyEvent.VK_D) {
+				dx = 0;
+			}
+		}
 
-			case KeyEvent.VK_D:
-				dx=0;
-				if (codigo == KeyEvent.VK_W){
-					dy=0;
-				} else if (codigo == KeyEvent.VK_S){
-					dy=0;
-				} else if(codigo == KeyEvent.VK_A) {
-					dx=-4;
-				}
-				break;
+		if (codigo == KeyEvent.VK_D) {
+			dx = 0;
+			if (codigo == KeyEvent.VK_W) {
+				dy = 0;
+			} else if (codigo == KeyEvent.VK_S) {
+				dy = 0;
+			} else if (codigo == KeyEvent.VK_A) {
+				dx = 0;
+			}
+		}
 
-			case KeyEvent.VK_S:
-				dy=0;
-				if (codigo == KeyEvent.VK_A){
-					dx=0;
-				} else if (codigo == KeyEvent.VK_D){
-					dx=0;
-				} else if(codigo == KeyEvent.VK_W) {
-					dy=-4;
-				}
-				break;
+		if (codigo == KeyEvent.VK_S) {
+			dy = 0;
+			if (codigo == KeyEvent.VK_A ) {
+				dx = 0;
+			} else if (codigo == KeyEvent.VK_D ) {
+				dx = 0;
+			} else if (codigo == KeyEvent.VK_W ) {
+				dy = 0;
+			}
 		}
 		if (codigo == KeyEvent.VK_SPACE) {
-            podeAtirar = true;
-        }
+			podeAtirar = true;
+		}
 	}
 
-	public List<Tiro> getTiros() {
+	public void atirar() {
+		List<TiroNave> tiros = getTiros();
+
+		for (int i = 0; i < tiros.size(); i++) {
+			TiroNave m = tiros.get(i);
+			if (m.isVisivel()) {
+				m.update();
+			} else {
+				tiros.remove(i);
+			}
+		}
+	}
+
+	public void perdeVida(int dano) {
+		this.vida = vida - dano;
+	}
+
+	public List<TiroNave> getTiros() {
 		return tiros;
 	}
 
@@ -190,5 +216,20 @@ public class Jogador1 {
 
 	public Image getImagem() {
 		return imagem;
+	}
+
+	public int getVida() {
+		return this.vida;
+	}
+
+	public void setPontuacaoJogador1(int pontuacaoJogador1) {
+		this.pontuacaoJogador1 += pontuacaoJogador1;
+	}
+	public int getPontuacaoJogador1() {
+		return this.pontuacaoJogador1;
+	}
+
+	public boolean isDano() {
+		return dano;
 	}
 }

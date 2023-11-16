@@ -1,11 +1,12 @@
-package Jogo.Componentes;
+package Jogo.Componentes.Inimigos;
 
 import java.awt.Image;
 import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Tiro {
+public class TiroAlien {
+
 	private Image imagem;
 	private int x;
 	private int y;
@@ -13,17 +14,17 @@ public class Tiro {
 	private int altura;
 	private boolean isVisivel;
 
-	private static final int LARGURA = 1980;
+	private static final int LARGURA = 0;
 	private static int VELOCIDADE = 6;
 
-	public Tiro(int x, int y) {
+	public TiroAlien(int x, int y) {
 		this.x = x;
 		this.y = y;
 		isVisivel = true;
 	}
 
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//novo_tiro.png");
+		ImageIcon referencia = new ImageIcon("assets//alien_tiro.png");
 		imagem = referencia.getImage();
 
 		this.largura = imagem.getWidth(null);
@@ -31,13 +32,13 @@ public class Tiro {
 	}
 
 	public void update() {
-		this.x += VELOCIDADE;
-
-		if (this.x > LARGURA) {
+		this.x -= VELOCIDADE;
+		
+		if (this.x < LARGURA) {
 			isVisivel = false;
 		}
 	}
-
+	
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, largura, altura);
 	}
@@ -69,5 +70,4 @@ public class Tiro {
 	public Image getImagem() {
 		return imagem;
 	}
-
 }
