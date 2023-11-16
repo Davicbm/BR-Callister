@@ -37,7 +37,7 @@ public class Robo {
 	}
 
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//robo1.gif");
+		ImageIcon referencia = new ImageIcon("assets//robo_atirador.gif");
 		imagem = referencia.getImage();
 		
 		this.largura = imagem.getWidth(null);
@@ -45,7 +45,7 @@ public class Robo {
 	}
 
 	public void load2(){
-		ImageIcon referencia = new ImageIcon("assets//robodecolisao.gif");
+		ImageIcon referencia = new ImageIcon("assets//robo_colisao.gif");
 		imagem = referencia.getImage();
 		
 		this.largura = imagem.getWidth(null);
@@ -60,20 +60,11 @@ public class Robo {
 		}
 	}
 	public void updateRoboAtirador(int localizacaoX, int localizacaoY){
-		boolean atualizado = false;
-		this.y -= velocidade;
-		
-		if (this.y < localizacaoY){
-			this.y = localizacaoY;
-			atualizado = true;
-		}
-		if (atualizado){
-			this.x -= velocidade;
+			this.x -= (velocidade - 2);
 		
 			if(this.x < localizacaoX) {
 				this.x = localizacaoX;
 			}
-		}
 	}
 	
 	public void tiroSimples() {
@@ -137,7 +128,6 @@ public class Robo {
 			if (formaTiroRobo.intersects(formaNave) && jogador.isVisivel()) {
 				jogador.perdeVida(2);
 				tempTiroRobo.setVisivel(false);
-				jogador.setDano(true);
 			}
 		}
 	}
@@ -160,7 +150,6 @@ public class Robo {
 		if (formaNave.intersects(formaRobo) && jogador.isVisivel()) {
 			jogador.perdeVida(1);
 			setVisivel(false);
-			jogador.setDano(true);
 		} 
 	}
 	public void colisaoNaveRobo(Jogador2 jogador){

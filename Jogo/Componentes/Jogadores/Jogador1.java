@@ -232,7 +232,4 @@ public class Jogador1 {
 	public boolean isDano() {
 		return dano;
 	}
-	public void setDano(boolean dano) {
-		this.dano = dano;
-	}	
 }

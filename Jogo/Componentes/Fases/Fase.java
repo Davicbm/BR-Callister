@@ -69,9 +69,9 @@ public class Fase extends JPanel implements ActionListener {
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
 
-		robo1 = new Robo(1600, 2000);
-		robo2 = new Robo(1600, 2000);
-		robo3 = new Robo(1600, 2000);
+		robo1 = new Robo(1800, 150);
+		robo2 = new Robo(1800, 375);
+		robo3 = new Robo(1800, 600);
 
 		jogador1.load();
 		jogador2.load();

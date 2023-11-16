@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import Jogo.Componentes.Inimigos.Alien;
 import Jogo.Componentes.Inimigos.Robo;
 
 import Jogo.Componentes.Jogadores.Jogador1;
@@ -30,18 +31,18 @@ public class Fase2 extends JPanel implements ActionListener {
 
 	private Image fundo;
 	private Image alerta;
-	private Image explosao;
 
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
 	private BarraVida barra;
 	private Timer timer;
-	private Robo robo4;
-	private Robo robo5;
-	private Robo robo6;
-	private List<Robo> robos2;
+	private Robo robo1;
+	private Robo robo2;
+	private List<Robo> robos;
 	private boolean emJogo;
 	private boolean vitoria;
+	private Alien alien1;
+	private Alien alien2;
 	private int contador = 0;
 	
 	public Fase2() {
@@ -55,13 +56,8 @@ public class Fase2 extends JPanel implements ActionListener {
 		referencia = new ImageIcon("assets//warninggif.gif");
 		alerta = referencia.getImage();
 
-		referencia = new ImageIcon("assets//explosao.gif");
-		explosao = referencia.getImage();
-
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
-
-		jogador1.setDano(false);
 
 		jogador1.load();
 		jogador2.load();
@@ -81,22 +77,27 @@ public class Fase2 extends JPanel implements ActionListener {
 
 	public void inicializaInimigos() {
 
-		robos2 = new ArrayList<Robo>();
+		robos = new ArrayList<Robo>();
 
 		for (int i = 0; i < 40; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
-			robos2.add(new Robo(x, y));
-			robos2.get(i).setVida(1);
+			robos.add(new Robo(x, y));
+			robos.get(i).setVida(1);
 		}	
 
-		robo4 = new Robo(1600, 2000);
-		robo5 = new Robo(1600, 2000);
-		robo6 = new Robo(1600, 2000);
+		robo1 = new Robo(1800, 100);
+		robo2 = new Robo(1800, 600);
 
-		robo4.load();
-		robo5.load();
-		robo6.load();
+		alien1 = new Alien(1800, 300);
+		alien2 = new Alien(1800, 400);
+
+		alien1.load();
+		alien2.load();
+
+		robo1.load();
+		robo2.load();
+
 	}
 
 	private static Font loadFont(String path, float size) {
@@ -129,65 +130,66 @@ public class Fase2 extends JPanel implements ActionListener {
 			}
 
 			contador = 0;
-			for (int i = 0; i < robos2.size(); i++){
-				if (robos2.get(i).isVisivel() == false){
+			for (int i = 0; i < robos.size(); i++){
+				if (robos.get(i).isVisivel() == false){
 					contador += 1;
 				}
 			}
 			
-			if (contador == robos2.size()){
-				if (robo4.isVisivel()){
-					graficos.drawImage(robo4.getImagem(), robo4.getX(), robo4.getY(), this);
-					if(robo4.getX() != 1100){
+			if (contador == robos.size()){
+				if (robo1.isVisivel()){
+					graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
+					if(robo1.getX() != 1000){
 						graficos.drawImage(alerta, 1450, 150, this);
 					}
-				} else if(robo4.isVisivel() == false){
-					graficos.drawImage(explosao, robo4.getX(), robo4.getY(), this);
 				}
-				if (robo5.isVisivel()){
-					graficos.drawImage(robo5.getImagem(), robo5.getX(), robo5.getY(), this);
-					if(robo5.getX() != 1000){
-						graficos.drawImage(alerta, 1450, 375, this);
-					}
-				} else if(robo5.isVisivel() == false){
-					graficos.drawImage(explosao, robo5.getX(), robo5.getY(), this);
-				}
-				if (robo6.isVisivel()){
-					graficos.drawImage(robo6.getImagem(), robo6.getX(), robo6.getY(), this);
-					if(robo6.getX() != 1100){
+				if (robo2.isVisivel()){
+					graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
+					if(robo2.getX() != 1000){
 						graficos.drawImage(alerta, 1450, 600, this);
 					}
-				} else if(robo6.isVisivel() == false){
-					graficos.drawImage(explosao, robo6.getX(), robo6.getY(), this);
 				}
-				if (robo4.getX() == 1100){
-					if (robo4.isVisivel()){
-					robo4.drawTiroRobo(graficos);
+				
+				if (robo1.getX() == 1000){
+					if (robo1.isVisivel()){
+					robo1.drawTiroRobo(graficos);
 					} 
 				}
-				if (robo5.getX() == 1000){
-					if (robo5.isVisivel()){
-						robo5.drawTiroRobo(graficos);
+				if (robo2.getX() == 1000){
+					if (robo2.isVisivel()){
+						robo2.drawTiroRobo(graficos);
 					}
 				}
-				if (robo6.getX() == 1100){
-					if (robo6.isVisivel()){
-						robo6.drawTiroRobo(graficos);
-					} 
-				}	
 			}	
-			
-			for (int j = 0; j < robos2.size(); j++) {
-				Robo robo = robos2.get(j);
+			if (contador == robos.size()){
+				if (alien1.isVisivel()){
+					graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
+					if(alien1.getX() != 1200){
+						//muda a posição para os alien
+						graficos.drawImage(alerta, 1450, 300, this);
+					}
+				} 
+				if (alien2.isVisivel()){
+					graficos.drawImage(alien2.getImagem(), alien2.getX(), alien2.getY(), this);
+					if(alien2.getX() != 1200){
+						graficos.drawImage(alerta, 1450, 400, this);
+					}
+				}
+				if (alien1.getX() == 1200){
+					if (alien1.isVisivel()){
+					alien1.drawTiroAlien(graficos);
+					} 
+				}
+				if (alien2.getX() == 1200){
+					if (alien2.isVisivel()){
+						alien2.drawTiroAlien(graficos);
+					}
+				}
+			}	
+			for (int j = 0; j < robos.size(); j++) {
+				Robo robo = robos.get(j);
 				robo.load2();
 				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
-			}
-
-			for (int j = 0; j < robos2.size(); j++) {
-				Robo robo = robos2.get(j);
-				if (robo.isVisivel() == false){
-					graficos.drawImage(explosao, robo.getX(), robo.getY(), this);
-				}
 			}
 
 			graficos.drawImage(barra.getBarraVida10(), 10, 10, this);
@@ -258,28 +260,34 @@ public class Fase2 extends JPanel implements ActionListener {
 		jogador2.atirar();
 		
 		contador = 0;
-		for (int i = 0; i < robos2.size(); i++){
-			if (robos2.get(i).isVisivel() == false){
+		for (int i = 0; i < robos.size(); i++){
+			if (robos.get(i).isVisivel() == false){
 				contador += 1;
 			}
 		}
-		if (contador == robos2.size()){
-			robo4.updateRoboAtirador(1100, 150);
-			robo5.updateRoboAtirador(1000, 375);
-			robo6.updateRoboAtirador(1100, 600);
+		
+		if (contador == robos.size()){
+			robo1.updateRoboAtirador(1000, 100);
+			robo2.updateRoboAtirador(1000, 600);
+		}
+		if (contador == robos.size()){
+			alien1.updateAlien(1200, 300);
+			alien2.updateAlien(1200, 400);
 		}
 
-		robo4.atirar();
-		robo5.atirar();
-		robo6.atirar();
+		robo1.atirar();
+		robo2.atirar();
 
-		for (int j = 0; j < robos2.size(); j++) {
-			Robo robo = robos2.get(j);
+		alien1.atirar();
+		alien2.atirar();
+
+		for (int j = 0; j < robos.size(); j++) {
+			Robo robo = robos.get(j);
 
 			if (robo.isVisivel()) {
 				robo.updateRoboDeColisao();
 			} else {
-				robos2.remove(j);
+				robos.remove(j);
 			}
 		}
 		checarColisoes();
@@ -287,67 +295,70 @@ public class Fase2 extends JPanel implements ActionListener {
 	}
 
 	public void checarColisoes() {
+		
 		//Colisões de Nave com Robô:
-		if (robo4.isVisivel()){
-			robo4.colisaoNaveRobo(jogador1);
-			robo4.colisaoNaveRobo(jogador2);
+		if (robo1.isVisivel()){
+			robo1.colisaoNaveRobo(jogador1);
+			robo1.colisaoNaveRobo(jogador2);
 		}
-		if (robo5.isVisivel()){
-			robo5.colisaoNaveRobo(jogador1);
-			robo5.colisaoNaveRobo(jogador2);
+		if (robo2.isVisivel()){
+			robo2.colisaoNaveRobo(jogador1);
+			robo2.colisaoNaveRobo(jogador2);
 		}
-		if (robo6.isVisivel()){
-			robo6.colisaoNaveRobo(jogador1);
-			robo6.colisaoNaveRobo(jogador2);
-		}
-		for (int i = 0; i < robos2.size(); i++) {
-			Robo tempRobo = robos2.get(i);
+		for (int i = 0; i < robos.size(); i++) {
+			Robo tempRobo = robos.get(i);
 			tempRobo.colisaoNaveRobo(jogador1);
 		}
 
-		for (int i = 0; i < robos2.size(); i++) {
-			Robo tempRobo = robos2.get(i);
+		for (int i = 0; i < robos.size(); i++) {
+			Robo tempRobo = robos.get(i);
 			tempRobo.colisaoNaveRobo(jogador2);
 		}
 
 		//Colisões de tiro da Nave com Robo:
 		List<TiroNave> tiros1 = jogador1.getTiros();
 		for (int j = 0; j < tiros1.size(); j++) {
-			robo4.colisaoRoboTiro(jogador1, j);
-			robo5.colisaoRoboTiro(jogador1, j);
-			robo6.colisaoRoboTiro(jogador1, j);
+			robo1.colisaoRoboTiro(jogador1, j);
+			robo2.colisaoRoboTiro(jogador1, j);
 		}
 		List<TiroNave> tiros2 = jogador2.getTiros();
 		for (int j = 0; j < tiros2.size(); j++) {
-			robo4.colisaoRoboTiro(jogador2, j);
-			robo5.colisaoRoboTiro(jogador2, j);
-			robo6.colisaoRoboTiro(jogador2, j);
+			robo1.colisaoRoboTiro(jogador2, j);
+			robo2.colisaoRoboTiro(jogador2, j);
 		}
 
 		List<TiroNave> tiros3 = jogador1.getTiros();
 		for (int j = 0; j < tiros3.size(); j++) {
-			for (int i = 0; i < robos2.size(); i++) {
-				Robo tempRobo = robos2.get(i);
+			for (int i = 0; i < robos.size(); i++) {
+				Robo tempRobo = robos.get(i);
 				tempRobo.colisaoRoboTiro(jogador1, j);
 			}
 		}
 		List<TiroNave> tiros4 = jogador2.getTiros();
 		for (int j = 0; j < tiros4.size(); j++) {
-			for (int i = 0; i < robos2.size(); i++) {
-				Robo tempRobo = robos2.get(i);
+			for (int i = 0; i < robos.size(); i++) {
+				Robo tempRobo = robos.get(i);
 				tempRobo.colisaoRoboTiro(jogador2, j);
 			}
 		}
 
+		List<TiroNave> tiros5 = jogador1.getTiros();
+		for (int j = 0; j < tiros5.size(); j++) {
+			alien1.colisaoAlienTiro(jogador1, j);
+			alien2.colisaoAlienTiro(jogador1, j);
+		}
+		List<TiroNave> tiros6 = jogador2.getTiros();
+		for (int j = 0; j < tiros6.size(); j++) {
+			alien1.colisaoAlienTiro(jogador2, j);
+			alien2.colisaoAlienTiro(jogador2, j);
+		}
+
 		//Colisões de tiro do Robo com a Nave:
-		robo4.colisaoNaveTiro(jogador1);
-		robo4.colisaoNaveTiro(jogador2);
+		alien1.colisaoNaveTiro(jogador1);
+		alien1.colisaoNaveTiro(jogador2);
 
-		robo5.colisaoNaveTiro(jogador1);
-		robo5.colisaoNaveTiro(jogador2);
-
-		robo6.colisaoNaveTiro(jogador1);
-		robo6.colisaoNaveTiro(jogador2);
+		alien2.colisaoNaveTiro(jogador1);
+		alien2.colisaoNaveTiro(jogador2);
 		
 		if (jogador1.getVida() == 0 ){
 			jogador1.setVisivel(false);
@@ -355,22 +366,47 @@ public class Fase2 extends JPanel implements ActionListener {
 		if (jogador2.getVida() == 0 ){
 			jogador2.setVisivel(false);
 		} 
-		if (robo4.getVida() == 0){
-			robo4.setVisivel(false);
+		if (alien1.getVida() == 0){
+			alien1.setVisivel(false);
 		} 
-		if (robo5.getVida() == 0){
-			robo5.setVisivel(false);
+		if (alien2.getVida() == 0){
+			alien2.setVisivel(false);
 		} 
-		if (robo6.getVida() == 0){
-			robo6.setVisivel(false);
+		
+		alien1.colisaoNaveTiro(jogador1);
+		alien1.colisaoNaveTiro(jogador2);
+
+		alien2.colisaoNaveTiro(jogador1);
+		alien2.colisaoNaveTiro(jogador2);
+		
+		if (jogador1.getVida() == 0 ){
+			jogador1.setVisivel(false);
+		}
+		if (jogador2.getVida() == 0 ){
+			jogador2.setVisivel(false);
 		} 
-		for (int i = 0; i < robos2.size(); i++){
-			Robo tempRobo = robos2.get(i);
+		if (robo1.getVida() == 0){
+			robo1.setVisivel(false);
+		} 
+		if (robo2.getVida() == 0){
+			robo2.setVisivel(false);
+		} 
+		for (int i = 0; i < robos.size(); i++){
+			Robo tempRobo = robos.get(i);
 			if (tempRobo.getVida() == 0 ){
 				tempRobo.setVisivel(false);
 			} 
 		}
-		if (robo4.isVisivel() == false && robo5.isVisivel() == false && robo6.isVisivel() == false){
+		if (alien1.getVida() == 0){
+			alien1.setVisivel(false);
+		} 
+		if (alien2.getVida() == 0){
+			alien2.setVisivel(false);
+		} 
+		
+	
+		
+		if (robo1.isVisivel() == false && robo2.isVisivel() == false && alien1.isVisivel() == false && alien2.isVisivel()==false){
 			vitoria = true;
 		} else if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0){
 			emJogo = false;
