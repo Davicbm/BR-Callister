@@ -28,7 +28,7 @@ import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
 import Jogo.Componentes.Objetos.BarraVida;
 
-public class Fase2 extends JPanel implements ActionListener {
+public class Fase3 extends JPanel implements ActionListener {
 
 	private Image fundo;
 	private Image alerta;
@@ -52,7 +52,7 @@ public class Fase2 extends JPanel implements ActionListener {
 	TecladoAdapter teclado = new TecladoAdapter();
 	private Container container;
 
-	public Fase2(Container container) {
+	public Fase3(Container container) {
 		super();
 		this.container = container;
 		setFocusable(true);

@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import Jogo.Container;
 import Jogo.Componentes.Inimigos.Robo;
 
 import Jogo.Componentes.Jogadores.Jogador1;
@@ -52,8 +53,11 @@ public class Fase extends JPanel implements ActionListener {
 	private int contador = 0;
 	TecladoAdapter teclado = new TecladoAdapter();
 
-	public Fase() {
+	private Container container;
 
+	public Fase(Container container) {
+		super();
+		this.container = container;
 		setFocusable(true);
 		setDoubleBuffered(true);
 
@@ -429,7 +433,7 @@ public class Fase extends JPanel implements ActionListener {
 			}
 			if (vitoria){
 				if (codigo == KeyEvent.VK_ENTER){
-					setProximaFase(true);
+					container.avancarFase();
 				}
 			}
 		}
