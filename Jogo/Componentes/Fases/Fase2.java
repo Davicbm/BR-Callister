@@ -39,11 +39,16 @@ public class Fase2 extends JPanel implements ActionListener {
 	private Robo robo1;
 	private Robo robo2;
 	private List<Robo> robos;
-	private boolean emJogo;
+
+	private boolean proximaFase;
 	private boolean vitoria;
+	private boolean doisJogadores;
+	private boolean gameOver;
 	private Alien alien1;
 	private Alien alien2;
 	private int contador = 0;
+
+	TecladoAdapter teclado = new TecladoAdapter();
 	
 	public Fase2() {
 
@@ -69,8 +74,10 @@ public class Fase2 extends JPanel implements ActionListener {
 
 		inicializaInimigos();
 
-		emJogo = true;
+		proximaFase = false;
+		doisJogadores = false;
 		vitoria = false;
+		gameOver = false;
 
 		this.requestFocusInWindow();
 	}
@@ -78,7 +85,7 @@ public class Fase2 extends JPanel implements ActionListener {
 	public void inicializaInimigos() {
 
 		robos = new ArrayList<Robo>();
-
+		
 		for (int i = 0; i < 40; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
@@ -97,7 +104,6 @@ public class Fase2 extends JPanel implements ActionListener {
 
 		robo1.load();
 		robo2.load();
-
 	}
 
 	private static Font loadFont(String path, float size) {
@@ -117,114 +123,113 @@ public class Fase2 extends JPanel implements ActionListener {
 		Graphics2D graficos = (Graphics2D) g;
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
-		if (emJogo == true) {
-			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
+		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 
-			g.setFont(fonte);
-			g.setColor(Color.WHITE);
-			graficos.drawString("Fase 2", 1400, 50);
+		g.setFont(fonte);
+		g.setColor(Color.WHITE);
+		graficos.drawString("Fase 2", 1400, 50);
 	
-			if(jogador1.isVisivel()){
-				graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
-				jogador1.drawTiroNave(graficos);
-			}
-			
+		if(jogador1.isVisivel()){
+			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
+			jogador1.drawTiroNave(graficos);
+		}
+		if (doisJogadores){
 			if(jogador2.isVisivel()){
 				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
 				jogador2.drawTiroNave(graficos);
 			}
-
-			contador = 0;
-			for (int i = 0; i < robos.size(); i++){
-				if (robos.get(i).isVisivel() == false){
-					contador += 1;
-				}
+		}
+		contador = 0;
+		for (int i = 0; i < robos.size(); i++){
+			if (robos.get(i).isVisivel() == false){
+				contador += 1;
 			}
+		}
 			
-			if (contador == robos.size()){
-				if (robo1.isVisivel()){
-					graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
-					if(robo1.getX() != 1000){
-						graficos.drawImage(alerta, 1450, 150, this);
-					}
+		if (contador == robos.size()){
+			if (robo1.isVisivel()){
+				graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
+				if(robo1.getX() != 1000){
+					graficos.drawImage(alerta, 1450, 150, this);
 				}
-				if (robo2.isVisivel()){
-					graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
-					if(robo2.getX() != 1000){
-						graficos.drawImage(alerta, 1450, 600, this);
-					}
+			}
+			if (robo2.isVisivel()){
+				graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
+				if(robo2.getX() != 1000){
+					graficos.drawImage(alerta, 1450, 600, this);
 				}
-				
-				if (robo1.getX() == 1000){
-					if (robo1.isVisivel()){
-					robo1.drawTiroRobo(graficos);
-					} 
-				}
-				if (robo2.getX() == 1000){
-					if (robo2.isVisivel()){
-						robo2.drawTiroRobo(graficos);
-					}
-				}
-			}	
-			if (contador == robos.size()){
-				if (alien1.isVisivel()){
-					graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
-					if(alien1.getX() != 1200){
-						//muda a posição para os alien
-						graficos.drawImage(alerta, 1450, 300, this);
-					}
-				} 
-				if (alien2.isVisivel()){
-					graficos.drawImage(alien2.getImagem(), alien2.getX(), alien2.getY(), this);
-					if(alien2.getX() != 1200){
-						graficos.drawImage(alerta, 1450, 400, this);
-					}
-				}
-				if (alien1.getX() == 1200){
-					if (alien1.isVisivel()){
-					alien1.drawTiroAlien(graficos);
-					} 
-				}
-				if (alien2.getX() == 1200){
-					if (alien2.isVisivel()){
-						alien2.drawTiroAlien(graficos);
-					}
-				}
-			}	
-			for (int j = 0; j < robos.size(); j++) {
-				Robo robo = robos.get(j);
-				robo.load2();
-				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 			}
 
-			g.setFont(fonte2);
-			g.setColor(Color.WHITE);
-			graficos.drawString("Vida Jogador 1 ", 15, 30);
-
-			graficos.drawImage(barra.getBarraVida10(), 15, 40, this);
-			if (jogador1.getVida() == 9){
-				graficos.drawImage(barra.getBarraVida9(), 15, 40, this);
-			} else if (jogador1.getVida() == 8){
-				graficos.drawImage(barra.getBarraVida8(), 15, 40, this);
-			} else if (jogador1.getVida() == 7){
-				graficos.drawImage(barra.getBarraVida7(), 15, 40, this);
-			} else if (jogador1.getVida() == 6){
-				graficos.drawImage(barra.getBarraVida6(), 15, 40, this);
-			} else if (jogador1.getVida() == 5){
-				graficos.drawImage(barra.getBarraVida5(), 15, 40, this);
-			} else if (jogador1.getVida() == 4){
-				graficos.drawImage(barra.getBarraVida4(), 15, 40, this);
-			} else if (jogador1.getVida() == 3){
-				graficos.drawImage(barra.getBarraVida3(), 15, 40, this);
-			} else if (jogador1.getVida() == 2){
-				graficos.drawImage(barra.getBarraVida2(), 15, 40, this);
-			} else if (jogador1.getVida() == 1){
-				graficos.drawImage(barra.getBarraVida1(), 15, 40, this);
-			} else if (jogador1.getVida() <= 0){
-				graficos.drawImage(barra.getBarraVida0(), 15, 40, this);
-				jogador1.setVisivel(false);
+			if (alien1.isVisivel()){
+				graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
+				if(alien1.getX() != 1200){
+					//muda a posição para os alien
+					graficos.drawImage(alerta, 1450, 300, this);
+				}
 			} 
+			if (alien2.isVisivel()){
+				graficos.drawImage(alien2.getImagem(), alien2.getX(), alien2.getY(), this);
+				if(alien2.getX() != 1200){
+					graficos.drawImage(alerta, 1450, 400, this);
+				}
+			}
+				
+			if (robo1.getX() == 1000){
+				if (robo1.isVisivel()){
+				robo1.drawTiroRobo(graficos);
+				} 
+			}
+			if (robo2.getX() == 1000){
+				if (robo2.isVisivel()){
+					robo2.drawTiroRobo(graficos);
+				}
+			}
 
+			if (alien1.getX() == 1200){
+				if (alien1.isVisivel()){
+				alien1.drawTiroAlien(graficos);
+				} 
+			}
+			if (alien2.getX() == 1200){
+				if (alien2.isVisivel()){
+					alien2.drawTiroAlien(graficos);
+				}
+			}
+		}
+		for (int j = 0; j < robos.size(); j++) {
+			Robo robo = robos.get(j);
+			robo.load2();
+			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
+		}
+
+		g.setFont(fonte2);
+		g.setColor(Color.WHITE);
+		graficos.drawString("Vida Jogador 1 ", 15, 30);
+
+		graficos.drawImage(barra.getBarraVida10(), 15, 40, this);
+		if (jogador1.getVida() == 9){
+			graficos.drawImage(barra.getBarraVida9(), 15, 40, this);
+		} else if (jogador1.getVida() == 8){
+			graficos.drawImage(barra.getBarraVida8(), 15, 40, this);
+		} else if (jogador1.getVida() == 7){
+			graficos.drawImage(barra.getBarraVida7(), 15, 40, this);
+		} else if (jogador1.getVida() == 6){
+			graficos.drawImage(barra.getBarraVida6(), 15, 40, this);
+		} else if (jogador1.getVida() == 5){
+			graficos.drawImage(barra.getBarraVida5(), 15, 40, this);
+		} else if (jogador1.getVida() == 4){
+			graficos.drawImage(barra.getBarraVida4(), 15, 40, this);
+		} else if (jogador1.getVida() == 3){
+			graficos.drawImage(barra.getBarraVida3(), 15, 40, this);
+		} else if (jogador1.getVida() == 2){
+			graficos.drawImage(barra.getBarraVida2(), 15, 40, this);
+		} else if (jogador1.getVida() == 1){
+			graficos.drawImage(barra.getBarraVida1(), 15, 40, this);
+		} else if (jogador1.getVida() <= 0){
+			graficos.drawImage(barra.getBarraVida0(), 15, 40, this);
+			jogador1.setVisivel(false);
+		} 
+		if (doisJogadores){
 			g.setFont(fonte2);
 			g.setColor(Color.WHITE);
 			graficos.drawString("Vida Jogador 2 ", 15, 100);
@@ -251,7 +256,8 @@ public class Fase2 extends JPanel implements ActionListener {
 				graficos.drawImage(barra.getBarraVida0(), 15, 110, this);
 				jogador2.setVisivel(false);
 			}
-		} else {
+		}
+		if (gameOver == true){
 			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 		} 
@@ -269,10 +275,12 @@ public class Fase2 extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		jogador1.update();
-		jogador2.update();
-
 		jogador1.atirar();
-		jogador2.atirar();
+
+		if (doisJogadores){
+			jogador2.update();
+			jogador2.atirar();
+		}
 		
 		contador = 0;
 		for (int i = 0; i < robos.size(); i++){
@@ -290,11 +298,19 @@ public class Fase2 extends JPanel implements ActionListener {
 			alien2.updateAlien(1200, 400);
 		}
 
-		robo1.atirar();
-		robo2.atirar();
+		if (robo1.getX() == 1000){
+			robo1.atirar();
+		}
+		if (robo2.getX() == 1000){
+			robo2.atirar();
+		}
 
-		alien1.atirar();
-		alien2.atirar();
+		if(alien1.getX() == 1200){
+			alien1.atirar();
+		}
+		if(alien2.getX() == 1200){
+			alien2.atirar();
+		}
 
 		for (int j = 0; j < robos.size(); j++) {
 			Robo robo = robos.get(j);
@@ -312,34 +328,33 @@ public class Fase2 extends JPanel implements ActionListener {
 	public void checarColisoes() {
 		
 		//Colisões de Nave com Robô:
-		if (robo1.isVisivel()){
-			robo1.colisaoNaveRobo(jogador1);
-			robo1.colisaoNaveRobo(jogador2);
-		}
-		if (robo2.isVisivel()){
-			robo2.colisaoNaveRobo(jogador1);
-			robo2.colisaoNaveRobo(jogador2);
-		}
 		for (int i = 0; i < robos.size(); i++) {
 			Robo tempRobo = robos.get(i);
 			tempRobo.colisaoNaveRobo(jogador1);
 		}
 
-		for (int i = 0; i < robos.size(); i++) {
-			Robo tempRobo = robos.get(i);
-			tempRobo.colisaoNaveRobo(jogador2);
+		if (doisJogadores){
+			for (int i = 0; i < robos.size(); i++) {
+				Robo tempRobo = robos.get(i);
+				tempRobo.colisaoNaveRobo(jogador2);
+			}
 		}
 
 		//Colisões de tiro da Nave com Robo:
-		List<TiroNave> tiros1 = jogador1.getTiros();
-		for (int j = 0; j < tiros1.size(); j++) {
-			robo1.colisaoRoboTiro(jogador1, j);
-			robo2.colisaoRoboTiro(jogador1, j);
-		}
-		List<TiroNave> tiros2 = jogador2.getTiros();
-		for (int j = 0; j < tiros2.size(); j++) {
-			robo1.colisaoRoboTiro(jogador2, j);
-			robo2.colisaoRoboTiro(jogador2, j);
+		if(robo1.getX() == 1000){
+			List<TiroNave> tiros1 = jogador1.getTiros();
+			for (int j = 0; j < tiros1.size(); j++) {
+				robo1.colisaoRoboTiro(jogador1, j);
+				robo2.colisaoRoboTiro(jogador1, j);
+			}
+
+			if (doisJogadores){
+				List<TiroNave> tiros2 = jogador2.getTiros();
+				for (int j = 0; j < tiros2.size(); j++) {
+					robo1.colisaoRoboTiro(jogador2, j);
+					robo2.colisaoRoboTiro(jogador2, j);
+				}
+			}
 		}
 
 		List<TiroNave> tiros3 = jogador1.getTiros();
@@ -349,31 +364,41 @@ public class Fase2 extends JPanel implements ActionListener {
 				tempRobo.colisaoRoboTiro(jogador1, j);
 			}
 		}
-		List<TiroNave> tiros4 = jogador2.getTiros();
-		for (int j = 0; j < tiros4.size(); j++) {
-			for (int i = 0; i < robos.size(); i++) {
-				Robo tempRobo = robos.get(i);
-				tempRobo.colisaoRoboTiro(jogador2, j);
-			}
+		if(doisJogadores){
+			List<TiroNave> tiros4 = jogador2.getTiros();
+			for (int j = 0; j < tiros4.size(); j++) {
+				for (int i = 0; i < robos.size(); i++) {
+					Robo tempRobo = robos.get(i);
+					tempRobo.colisaoRoboTiro(jogador2, j);
+				}
+			}	
 		}
 
-		List<TiroNave> tiros5 = jogador1.getTiros();
-		for (int j = 0; j < tiros5.size(); j++) {
-			alien1.colisaoAlienTiro(jogador1, j);
-			alien2.colisaoAlienTiro(jogador1, j);
+		if (alien1.getX() == 1200){
+			List<TiroNave> tiros5 = jogador1.getTiros();
+			for (int j = 0; j < tiros5.size(); j++) {
+				alien1.colisaoAlienTiro(jogador1, j);
+				alien2.colisaoAlienTiro(jogador1, j);
+			}
+
+			if (doisJogadores){
+				List<TiroNave> tiros6 = jogador2.getTiros();
+				for (int j = 0; j < tiros6.size(); j++) {
+					alien1.colisaoAlienTiro(jogador2, j);
+					alien2.colisaoAlienTiro(jogador2, j);
+				}
+			}
 		}
-		List<TiroNave> tiros6 = jogador2.getTiros();
-		for (int j = 0; j < tiros6.size(); j++) {
-			alien1.colisaoAlienTiro(jogador2, j);
-			alien2.colisaoAlienTiro(jogador2, j);
-		}
+		
+		
 
 		//Colisões de tiro do Robo com a Nave:
 		alien1.colisaoNaveTiro(jogador1);
-		alien1.colisaoNaveTiro(jogador2);
-
 		alien2.colisaoNaveTiro(jogador1);
-		alien2.colisaoNaveTiro(jogador2);
+		if (doisJogadores){
+			alien1.colisaoNaveTiro(jogador2);
+			alien2.colisaoNaveTiro(jogador2);
+		}
 		
 		if (jogador1.getVida() == 0 ){
 			jogador1.setVisivel(false);
@@ -387,12 +412,6 @@ public class Fase2 extends JPanel implements ActionListener {
 		if (alien2.getVida() == 0){
 			alien2.setVisivel(false);
 		} 
-		
-		alien1.colisaoNaveTiro(jogador1);
-		alien1.colisaoNaveTiro(jogador2);
-
-		alien2.colisaoNaveTiro(jogador1);
-		alien2.colisaoNaveTiro(jogador2);
 		
 		if (jogador1.getVida() == 0 ){
 			jogador1.setVisivel(false);
@@ -419,12 +438,16 @@ public class Fase2 extends JPanel implements ActionListener {
 			alien2.setVisivel(false);
 		} 
 		
-	
-		
 		if (robo1.isVisivel() == false && robo2.isVisivel() == false && alien1.isVisivel() == false && alien2.isVisivel()==false){
 			vitoria = true;
-		} else if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0){
-			emJogo = false;
+		} 
+		if (jogador1.getVida() <= 0){
+			gameOver = true;
+		}
+		if (doisJogadores){
+			if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0){
+			gameOver = true;
+			}
 		}
 	}
 
@@ -432,14 +455,26 @@ public class Fase2 extends JPanel implements ActionListener {
 		@Override
 
 		public void keyPressed(KeyEvent e) {
+			int codigo = e.getKeyCode();
+
 			jogador1.keyPressed(e);
-			jogador2.keyPressed(e);
+			if (doisJogadores){
+				jogador2.keyPressed(e);
+			}
+			
+			if (vitoria){
+				if (codigo == KeyEvent.VK_ENTER){
+					setProximaFase(true);
+				}
+			}
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			jogador1.keyRelease(e);
-			jogador2.keyRelease(e);
+			if(doisJogadores){
+				jogador2.keyRelease(e);
+			}
 		}
 
 		@Override
@@ -447,4 +482,31 @@ public class Fase2 extends JPanel implements ActionListener {
 
 		}
 	}
+
+	public boolean isDoisJogadores() {
+		return doisJogadores;
+	}
+	public void setDoisJogadores(boolean doisJogadores) {
+		this.doisJogadores = doisJogadores;
+	}
+
+	public void setVitoria(boolean vitoria) {
+		this.vitoria = vitoria;
+	}
+
+	public boolean isVitoria() {
+		return this.vitoria;
+	}
+	public void desativarKeyListener() {
+		removeKeyListener(teclado);
+	}
+
+	public boolean isProximaFase() {
+		return this.proximaFase;
+	}
+
+	public void setProximaFase(boolean proximaFase) {
+		this.proximaFase = proximaFase;
+	}
+	
 }

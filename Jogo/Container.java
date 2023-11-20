@@ -8,6 +8,7 @@ import Jogo.Componentes.Fases.Fase2;
 
 public class Container extends JFrame {
     Fase fase = new Fase();
+
     public Container() {
         setTitle("Br-Callister");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,9 +31,12 @@ public class Container extends JFrame {
                 fase2.requestFocusInWindow();
                 revalidate(); 
                 repaint();
-                ((Timer) e.getSource()).stop(); 
-            } 
-        });
+                if (fase.isDoisJogadores()){
+                    fase2.setDoisJogadores(true);
+                }
+                ((Timer) e.getSource()).stop();
+            }
+        });                 
         timer.start();
     }
     public static void main(String[] args) {

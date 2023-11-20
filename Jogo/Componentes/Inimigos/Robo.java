@@ -126,7 +126,7 @@ public class Robo {
 			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
 			Rectangle formaNave = jogador.getBounds();
 			if (formaTiroRobo.intersects(formaNave) && jogador.isVisivel()) {
-				jogador.perdeVida(2);
+				jogador.perdeVida(1);
 				tempTiroRobo.setVisivel(false);
 			}
 		}
@@ -138,7 +138,7 @@ public class Robo {
 			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
 			Rectangle formaNave = jogador.getBounds();
 			if (formaTiroRobo.intersects(formaNave) && jogador.isVisivel() && jogador.isVisivel()) {
-				jogador.perdeVida(2);
+				jogador.perdeVida(1);
 				tempTiroRobo.setVisivel(false);
 			}
 		}
