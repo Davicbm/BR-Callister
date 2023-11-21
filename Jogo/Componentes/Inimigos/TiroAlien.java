@@ -14,7 +14,6 @@ public class TiroAlien {
 	private int altura;
 	private boolean isVisivel;
 
-	private static final int LARGURA = 0;
 	private static int VELOCIDADE = 6;
 
 	public TiroAlien(int x, int y) {
@@ -34,13 +33,13 @@ public class TiroAlien {
 	public void update() {
 		this.x -= VELOCIDADE;
 		
-		if (this.x < LARGURA) {
+		if (this.x < 0) {
 			isVisivel = false;
 		}
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, largura, altura);
+		return new Rectangle(x - 80, y - 20, largura, altura);
 	}
 
 	public boolean isVisivel() {

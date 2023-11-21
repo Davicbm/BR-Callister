@@ -59,7 +59,7 @@ public class Fase3 extends JPanel implements ActionListener {
 		setFocusable(true);
 		setDoubleBuffered(true);
 
-		ImageIcon referencia = new ImageIcon("assets//fase02.png");
+		ImageIcon referencia = new ImageIcon("assets//fundo03.png");
 		fundo = referencia.getImage();
 
 		referencia = new ImageIcon("assets//warninggif.gif");
@@ -131,7 +131,7 @@ public class Fase3 extends JPanel implements ActionListener {
 
 		g.setFont(fonte);
 		g.setColor(Color.WHITE);
-		graficos.drawString("Fase 2", 1400, 50);
+		graficos.drawString("Fase 3", 1400, 50);
 	
 		if(jogador1.isVisivel()){
 			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
@@ -264,6 +264,9 @@ public class Fase3 extends JPanel implements ActionListener {
 		if (gameOver == true){
 			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+			g.setFont(fonte);
+			g.setColor(Color.WHITE);
+			graficos.drawString("Aperte enter para reiniciar o jogo!", 500, 800);
 		} 
 		if (vitoria == true){
 			g.setFont(fonte);
@@ -469,6 +472,11 @@ public class Fase3 extends JPanel implements ActionListener {
 			if (vitoria){
 				if (codigo == KeyEvent.VK_ENTER){
 					container.avancarFase();
+				}
+			}
+			if (gameOver){
+				if (codigo == KeyEvent.VK_ENTER){
+					container.reiniciarJogo();
 				}
 			}
 		}

@@ -90,7 +90,7 @@ public class Fase2 extends JPanel implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 		
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 			robos.add(new Robo(x, y));
@@ -264,6 +264,9 @@ public class Fase2 extends JPanel implements ActionListener {
 		if (gameOver == true){
 			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+			g.setFont(fonte);
+			g.setColor(Color.WHITE);
+			graficos.drawString("Aperte enter para reiniciar o jogo!", 500, 800);
 		} 
 		if (vitoria == true){
 			g.setFont(fonte);
@@ -272,6 +275,7 @@ public class Fase2 extends JPanel implements ActionListener {
 			graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 			graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
 			graficos.drawString("Pontuação Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1125, 40);
+			graficos.drawString("Aperte enter para a próxima fase!", 500, 800);
 		}	
 		g.dispose();
 	}
@@ -469,6 +473,11 @@ public class Fase2 extends JPanel implements ActionListener {
 			if (vitoria){
 				if (codigo == KeyEvent.VK_ENTER){
 					container.avancarFase();
+				}
+			}
+			if (gameOver){
+				if (codigo == KeyEvent.VK_ENTER){
+					container.reiniciarJogo();
 				}
 			}
 		}

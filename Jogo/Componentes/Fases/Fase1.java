@@ -27,7 +27,7 @@ import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
 import Jogo.Componentes.Objetos.BarraVida;
 
-public class Fase extends JPanel implements ActionListener {
+public class Fase1 extends JPanel implements ActionListener {
 
 	private Image fundo;
 	private Image fundoMenu;
@@ -55,7 +55,7 @@ public class Fase extends JPanel implements ActionListener {
 
 	private Container container;
 
-	public Fase(Container container) {
+	public Fase1(Container container) {
 		super();
 		this.container = container;
 		setFocusable(true);
@@ -88,7 +88,7 @@ public class Fase extends JPanel implements ActionListener {
 		timer.start();
 
 		emJogo = false;
-		doisJogadores = false;
+		//doisJogadores = false;
 		vitoria = false;
 		gameOver = false;
 	}
@@ -97,14 +97,14 @@ public class Fase extends JPanel implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		Timer timer2 = new Timer(10, e ->{
+		Timer timer2 = new Timer(5, e ->{
 			if (emJogo){
-				for (int i = 0; i < 10; i++) {
+				for (int i = 0; i < 0; i++) {
 					int x = (int) (Math.random() * 8000) + 1980;
 					int y = (int) (Math.random() * 650) + 10;
 					robos.add(new Robo(x, y));
 					robos.get(i).setVida(1);
-			}	
+				}	
 		
 				robo1.load();
 				robo2.load();
@@ -150,13 +150,13 @@ public class Fase extends JPanel implements ActionListener {
 				jogador1.drawTiroNave(graficos);
 			}
 			
-			if(doisJogadores == false){
+			if(doisJogadores == true){
+				if(jogador2.isVisivel()){
+					graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
+					jogador2.drawTiroNave(graficos);
+				}
+			} else {
 				jogador2.setVisivel(false);
-			}
-
-			if(jogador2.isVisivel()){
-				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
-				jogador2.drawTiroNave(graficos);
 			}
 
 			contador = 0;
@@ -250,14 +250,13 @@ public class Fase extends JPanel implements ActionListener {
 			}
 		} 
 
-		if (gameOver && doisJogadores){
+		if (gameOver){
 			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+			g.setFont(fonte);
+			g.setColor(Color.WHITE);
+			graficos.drawString("Aperte enter para reiniciar o jogo!", 500, 800);
 		} 
-		if (doisJogadores == false && jogador1.getVida() <= 0){
-				ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
-				graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
-			}
 		
 		if (vitoria){
 			g.setFont(fonte);
@@ -370,6 +369,7 @@ public class Fase extends JPanel implements ActionListener {
 			}
 		}
 		List<TiroNave> tiros4 = jogador2.getTiros();
+		
 		for (int j = 0; j < tiros4.size(); j++) {
 			for (int i = 0; i < robos.size(); i++) {
 				Robo tempRobo = robos.get(i);
@@ -426,6 +426,7 @@ public class Fase extends JPanel implements ActionListener {
 			if (emJogo == false){
 				if (codigo == KeyEvent.VK_1){
 					emJogo = true;
+					doisJogadores = false;
 				} else if (codigo == KeyEvent.VK_2){
 					doisJogadores = true;
 					emJogo = true;
@@ -434,6 +435,11 @@ public class Fase extends JPanel implements ActionListener {
 			if (vitoria){
 				if (codigo == KeyEvent.VK_ENTER){
 					container.avancarFase();
+				}
+			}
+			if (gameOver){
+				if (codigo == KeyEvent.VK_ENTER){
+					container.reiniciarJogo();
 				}
 			}
 		}

@@ -14,7 +14,6 @@ public class TiroRobo {
 	private int altura;
 	private boolean isVisivel;
 
-	private static final int LARGURA = 0;
 	private static int VELOCIDADE = 6;
 
 	public TiroRobo(int x, int y) {
@@ -34,13 +33,13 @@ public class TiroRobo {
 	public void update() {
 		this.x -= VELOCIDADE;
 		
-		if (this.x < LARGURA) {
+		if (this.x < 0) {
 			isVisivel = false;
 		}
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, largura, altura);
+		return new Rectangle(x - 130, y - 40, largura, altura);
 	}
 
 	public boolean isVisivel() {

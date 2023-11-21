@@ -137,7 +137,7 @@ public class Robo {
 			TiroRobo tempTiroRobo = tiros3.get(j);
 			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
 			Rectangle formaNave = jogador.getBounds();
-			if (formaTiroRobo.intersects(formaNave) && jogador.isVisivel() && jogador.isVisivel()) {
+			if (formaTiroRobo.intersects(formaNave) && jogador.isVisivel() ) {
 				jogador.perdeVida(1);
 				tempTiroRobo.setVisivel(false);
 			}
