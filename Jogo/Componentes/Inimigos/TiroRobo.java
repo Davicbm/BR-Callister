@@ -39,7 +39,7 @@ public class TiroRobo {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(x - 130, y - 40, largura, altura);
+		return new Rectangle(x - 130, y - 38, largura, altura);
 	}
 
 	public boolean isVisivel() {
