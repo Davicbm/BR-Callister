@@ -2,7 +2,6 @@ package Jogo.Componentes.Jogadores;
 
 import java.awt.Image;
 import java.awt.Rectangle;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 
