@@ -28,15 +28,11 @@ public class Jogador2 extends Jogador {
             podeAtirar = false;
         }
 
-        if (codigo == KeyEvent.VK_UP) {
-            dy = -4;
-        } else if (codigo == KeyEvent.VK_DOWN) {
-            dy = 4;
-        } else if (codigo == KeyEvent.VK_LEFT) {
-            dx = -4;
-        } else if (codigo == KeyEvent.VK_RIGHT) {
-            dx = 4;
-        }
+        if (codigo == KeyEvent.VK_UP || codigo == KeyEvent.VK_DOWN) {
+			dy = (codigo == KeyEvent.VK_UP) ? -4 : 4;
+		} else if (codigo == KeyEvent.VK_LEFT || codigo == KeyEvent.VK_RIGHT) {
+			dx = (codigo == KeyEvent.VK_LEFT) ? -4 : 4;
+		}
 
         if (codigo == KeyEvent.VK_ENTER) {
             podeAtirar = true;
