@@ -123,7 +123,7 @@ public class Fase3 extends JPanel implements ActionListener {
     }
 
 	public void paint(Graphics g) {
-		barra = new BarraVida();
+		//barra = new BarraVida();
 		Graphics2D graficos = (Graphics2D) g;
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
@@ -210,57 +210,15 @@ public class Fase3 extends JPanel implements ActionListener {
 		g.setColor(Color.WHITE);
 		graficos.drawString("Vida Jogador 1 ", 15, 30);
 
-		graficos.drawImage(barra.getBarraVida10(), 15, 40, this);
-		if (jogador1.getVida() == 9){
-			graficos.drawImage(barra.getBarraVida9(), 15, 40, this);
-		} else if (jogador1.getVida() == 8){
-			graficos.drawImage(barra.getBarraVida8(), 15, 40, this);
-		} else if (jogador1.getVida() == 7){
-			graficos.drawImage(barra.getBarraVida7(), 15, 40, this);
-		} else if (jogador1.getVida() == 6){
-			graficos.drawImage(barra.getBarraVida6(), 15, 40, this);
-		} else if (jogador1.getVida() == 5){
-			graficos.drawImage(barra.getBarraVida5(), 15, 40, this);
-		} else if (jogador1.getVida() == 4){
-			graficos.drawImage(barra.getBarraVida4(), 15, 40, this);
-		} else if (jogador1.getVida() == 3){
-			graficos.drawImage(barra.getBarraVida3(), 15, 40, this);
-		} else if (jogador1.getVida() == 2){
-			graficos.drawImage(barra.getBarraVida2(), 15, 40, this);
-		} else if (jogador1.getVida() == 1){
-			graficos.drawImage(barra.getBarraVida1(), 15, 40, this);
-		} else if (jogador1.getVida() <= 0){
-			graficos.drawImage(barra.getBarraVida0(), 15, 40, this);
-			jogador1.setVisivel(false);
-		} 
+		barra.paintBarraVida(graficos, jogador1);
+			
 		if (doisJogadores){
 			g.setFont(fonte2);
 			g.setColor(Color.WHITE);
 			graficos.drawString("Vida Jogador 2 ", 15, 100);
-			graficos.drawImage(barra.getBarraVida10(), 15, 110, this);
-			if (jogador2.getVida() == 9){
-				graficos.drawImage(barra.getBarraVida9(), 15, 110, this);
-			} else if (jogador2.getVida() == 8){
-				graficos.drawImage(barra.getBarraVida8(), 15, 110, this);
-			} else if (jogador2.getVida() == 7){
-				graficos.drawImage(barra.getBarraVida7(), 15, 110, this);
-			} else if (jogador2.getVida() == 6){
-				graficos.drawImage(barra.getBarraVida6(), 15, 110, this);
-			} else if (jogador2.getVida() == 5){
-				graficos.drawImage(barra.getBarraVida5(), 15, 110, this);
-			} else if (jogador2.getVida() == 4){
-				graficos.drawImage(barra.getBarraVida4(), 15, 110, this);
-			} else if (jogador2.getVida() == 3){
-				graficos.drawImage(barra.getBarraVida3(), 15, 110, this);
-			} else if (jogador2.getVida() == 2){
-				graficos.drawImage(barra.getBarraVida2(), 15, 110, this);
-			} else if (jogador2.getVida() == 1){
-				graficos.drawImage(barra.getBarraVida1(), 15, 110, this);
-			} else if (jogador2.getVida() <= 0){
-				graficos.drawImage(barra.getBarraVida0(), 15, 110, this);
-				jogador2.setVisivel(false);
-			}
+			barra.paintBarraVida(graficos, jogador2);
 		}
+		
 		if (gameOver == true){
 			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
