@@ -88,7 +88,6 @@ public class Fase1 extends JPanel implements ActionListener {
 		timer.start();
 
 		emJogo = false;
-		//doisJogadores = false;
 		vitoria = false;
 		gameOver = false;
 	}

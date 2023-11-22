@@ -48,7 +48,7 @@ public class Jogador1 extends Jogador {
 	}
 
 	public void setPontuacaoJogador1(int pontuacao) {
-		this.pontuacaoJogador1 = pontuacao;
+		this.pontuacaoJogador1 += pontuacao;
 	}
 
 	public int getPontuacaoJogador1() {
