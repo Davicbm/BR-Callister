@@ -24,10 +24,10 @@ public abstract class Jogador {
     protected long tempoUltimoTiro = System.currentTimeMillis();
     protected long intervaloTiros = 300;
 
-    public Jogador(int x, int y, int vida) {
+    public Jogador(int x, int y) {
         this.x = x;
         this.y = y;
-        this.vida = vida;
+        this.vida = 10;
         this.isVisivel = true;
 
         tiros = new ArrayList<>();

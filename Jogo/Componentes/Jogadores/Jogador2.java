@@ -8,7 +8,7 @@ public class Jogador2 extends Jogador {
     private int pontuacaoJogador2 = 0;
 
     public Jogador2() {
-        super(300, 650, 5);
+        super(300, 650);
     }
 
     @Override
