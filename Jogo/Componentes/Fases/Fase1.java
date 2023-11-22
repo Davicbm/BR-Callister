@@ -29,6 +29,8 @@ import Jogo.Componentes.Objetos.BarraVida;
 
 public class Fase1 extends JPanel implements ActionListener {
 
+	public static boolean doisJogadores;
+
 	private Image fundo;
 	private Image fundoMenu;
 	private Image alerta;
@@ -45,7 +47,6 @@ public class Fase1 extends JPanel implements ActionListener {
 	private List<Robo> robos;
 
 	private boolean emJogo;
-	private boolean doisJogadores;
 	private boolean vitoria;
 	private boolean gameOver;
 	private boolean proximaFase = false;

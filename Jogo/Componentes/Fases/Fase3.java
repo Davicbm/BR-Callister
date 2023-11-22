@@ -78,8 +78,13 @@ public class Fase3 extends JPanel implements ActionListener {
 
 		inicializaInimigos();
 
+		if (Fase1.doisJogadores){
+			doisJogadores = true;
+		} else {
+			doisJogadores = false;
+		}
+
 		proximaFase = false;
-		doisJogadores = false;
 		vitoria = false;
 		gameOver = false;
 
@@ -123,7 +128,7 @@ public class Fase3 extends JPanel implements ActionListener {
     }
 
 	public void paint(Graphics g) {
-		//barra = new BarraVida();
+		barra = new BarraVida();
 		Graphics2D graficos = (Graphics2D) g;
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
@@ -209,7 +214,6 @@ public class Fase3 extends JPanel implements ActionListener {
 		g.setFont(fonte2);
 		g.setColor(Color.WHITE);
 		graficos.drawString("Vida Jogador 1 ", 15, 30);
-
 		barra.paintBarraVida(graficos, jogador1);
 			
 		if (doisJogadores){
@@ -218,7 +222,7 @@ public class Fase3 extends JPanel implements ActionListener {
 			graficos.drawString("Vida Jogador 2 ", 15, 100);
 			barra.paintBarraVida(graficos, jogador2);
 		}
-		
+
 		if (gameOver == true){
 			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);

@@ -78,8 +78,13 @@ public class Fase2 extends JPanel implements ActionListener {
 
 		inicializaInimigos();
 
+		if (Fase1.doisJogadores){
+			doisJogadores = true;
+		} else {
+			doisJogadores = false;
+		}
+
 		proximaFase = false;
-		doisJogadores = false;
 		vitoria = false;
 		gameOver = false;
 
@@ -137,11 +142,13 @@ public class Fase2 extends JPanel implements ActionListener {
 			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
 			jogador1.drawTiroNave(graficos);
 		}
-		if (doisJogadores){
+		if(doisJogadores == true){
 			if(jogador2.isVisivel()){
 				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
 				jogador2.drawTiroNave(graficos);
 			}
+		} else {
+			jogador2.setVisivel(false);
 		}
 		contador = 0;
 		for (int i = 0; i < robos.size(); i++){
@@ -225,7 +232,7 @@ public class Fase2 extends JPanel implements ActionListener {
 			g.setColor(Color.WHITE);
 			graficos.drawString("Aperte enter para reiniciar o jogo!", 500, 800);
 		} 
-		
+
 		if (vitoria == true){
 			g.setFont(fonte);
 			g.setColor(Color.WHITE);
