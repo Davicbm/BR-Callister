@@ -1,7 +1,8 @@
 package Jogo.Componentes.Jogadores;
 
-import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
+
+import javax.swing.ImageIcon;
 
 public class Jogador2 extends Jogador {
 
@@ -19,41 +20,57 @@ public class Jogador2 extends Jogador {
         largura = imagem.getWidth(null);
     }
 
-    @Override
     public void keyPressed(KeyEvent tecla) {
-        int codigo = tecla.getKeyCode();
-
-        if (codigo == KeyEvent.VK_BACK_SPACE && podeAtirar) {
-            tiroSimples();
-            podeAtirar = false;
-        }
-
-        if (codigo == KeyEvent.VK_UP || codigo == KeyEvent.VK_DOWN) {
-			dy = (codigo == KeyEvent.VK_UP) ? -4 : 4;
-		} else if (codigo == KeyEvent.VK_LEFT || codigo == KeyEvent.VK_RIGHT) {
-			dx = (codigo == KeyEvent.VK_LEFT) ? -4 : 4;
+		int codigo = tecla.getKeyCode();
+	
+		if (codigo == KeyEvent.VK_BACK_SPACE && podeAtirar) {
+			tiroSimples();
+			podeAtirar = false;
 		}
-
-        if (codigo == KeyEvent.VK_ENTER) {
-            podeAtirar = true;
-        }
-    }
-
-    @Override
-    public void keyRelease(KeyEvent tecla) {
-        int codigo = tecla.getKeyCode();
-
-        if (codigo == KeyEvent.VK_UP || codigo == KeyEvent.VK_DOWN ||
-                codigo == KeyEvent.VK_LEFT || codigo == KeyEvent.VK_RIGHT) {
-            dy = 0;
-            dx = 0;
-        }
-
-        if (codigo == KeyEvent.VK_BACK_SPACE) {
-            podeAtirar = true;
-        }
-    }
-
+	
+		if (codigo == KeyEvent.VK_UP || codigo == KeyEvent.VK_DOWN || 
+			codigo == KeyEvent.VK_LEFT || codigo == KeyEvent.VK_RIGHT) {
+			definirDirecao(codigo);
+		}
+	
+		if (codigo == KeyEvent.VK_ENTER) {
+			podeAtirar = true;
+		}
+	}
+	
+	public void keyRelease(KeyEvent tecla) {
+		int codigo = tecla.getKeyCode();
+	
+		if (codigo == KeyEvent.VK_UP || codigo == KeyEvent.VK_DOWN || 
+			codigo == KeyEvent.VK_LEFT || codigo == KeyEvent.VK_RIGHT) {
+			resetarDirecao(codigo);
+		}
+	
+		if (codigo == KeyEvent.VK_BACK_SPACE) {
+			podeAtirar = true;
+		}
+	}
+	
+	private void definirDirecao(int codigo) {
+		if (codigo == KeyEvent.VK_UP) {
+			dy = -4;
+		} else if (codigo == KeyEvent.VK_DOWN) {
+			dy = 4;
+		} else if (codigo == KeyEvent.VK_LEFT) {
+			dx = -4;
+		} else if (codigo == KeyEvent.VK_RIGHT) {
+			dx = 4;
+		}
+	}
+	
+	private void resetarDirecao(int codigo) {
+		if (codigo == KeyEvent.VK_UP || codigo == KeyEvent.VK_DOWN) {
+			dy = 0;
+		} else if (codigo == KeyEvent.VK_LEFT || codigo == KeyEvent.VK_RIGHT) {
+			dx = 0;
+		}
+	}
+	
     public void setPontuacaoJogador2(int pontuacao) {
         this.pontuacaoJogador2 = pontuacao;
     }
