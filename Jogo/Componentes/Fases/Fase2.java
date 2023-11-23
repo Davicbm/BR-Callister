@@ -27,6 +27,7 @@ import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
 import Jogo.Componentes.Objetos.BarraVida;
+import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase2 extends JPanel implements ActionListener {
 
@@ -36,6 +37,9 @@ public class Fase2 extends JPanel implements ActionListener {
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
 	private BarraVida barra;
+	private List<PowerUp> powerUps;
+	private PowerUp powerUp;
+
 	private Timer timer;
 	private Robo robo1;
 	private Robo robo2;
@@ -77,6 +81,7 @@ public class Fase2 extends JPanel implements ActionListener {
 		timer.start();
 
 		inicializaInimigos();
+		inicializaPowerUps();
 
 		if (Fase1.doisJogadores){
 			doisJogadores = true;
@@ -113,6 +118,18 @@ public class Fase2 extends JPanel implements ActionListener {
 
 		robo1.load();
 		robo2.load();
+	}
+
+	public void inicializaPowerUps(){
+		powerUps = new ArrayList<PowerUp>();
+		
+		for (int i = 0; i < 10; i++) {
+				int x = (int) (Math.random() * 8000) + 1980;
+				int y = (int) (Math.random() * 650) + 10;
+				int codigo = (int) (Math.random() * 3) + 1;
+
+				powerUps.add(new PowerUp(x, y, codigo));
+			}
 	}
 
 	private static Font loadFont(String path, float size) {
@@ -208,6 +225,12 @@ public class Fase2 extends JPanel implements ActionListener {
 			robo.load2();
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 		}
+		for (int j = 0; j < powerUps.size(); j++) {
+			powerUp = powerUps.get(j);
+			powerUp.load();
+			
+			graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
+		}
 
 		g.setFont(fonte);
 		g.setColor(Color.WHITE);
@@ -301,11 +324,26 @@ public class Fase2 extends JPanel implements ActionListener {
 				robos.remove(j);
 			}
 		}
+		for (int j = 0; j < powerUps.size(); j++) {
+			powerUp = powerUps.get(j);
+
+			if (powerUp.isVisivel()) {
+				powerUp.update();
+			} else {
+				powerUps.remove(j);
+			}
+		}
 		checarColisoes();
 		repaint();
 	}
 
 	public void checarColisoes() {
+		//Colisões com Power Ups:
+		for (int i = 0; i < powerUps.size(); i++) {
+			PowerUp tempPowerUp = powerUps.get(i);
+			tempPowerUp.colisaoPowerUp(jogador1);
+			tempPowerUp.colisaoPowerUp(jogador2);
+		}
 		
 		//Colisões de Nave com Robô:
 		for (int i = 0; i < robos.size(); i++) {
@@ -370,9 +408,14 @@ public class Fase2 extends JPanel implements ActionListener {
 			}
 		}
 		
-		
-
 		//Colisões de tiro do Robo com a Nave:
+		robo1.colisaoNaveTiro(jogador1);
+		robo2.colisaoNaveTiro(jogador1);
+		if (doisJogadores){
+			robo1.colisaoNaveTiro(jogador2);
+			robo2.colisaoNaveTiro(jogador2);
+		}
+		
 		alien1.colisaoNaveTiro(jogador1);
 		alien2.colisaoNaveTiro(jogador1);
 		if (doisJogadores){
