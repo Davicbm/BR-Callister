@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -31,6 +32,10 @@ import Jogo.Componentes.Objetos.PowerUp;
 public class Fase1 extends JPanel implements ActionListener {
 
 	public static boolean doisJogadores;
+	private int opcaoSelecionada;
+	private boolean nomesCapturados = false;
+	private String nomeJogador1 = "Jogador 1";
+	private String nomeJogador2 = "Jogador 2";
 
 	private Image fundo;
 	private Image fundoMenu;
@@ -65,7 +70,6 @@ public class Fase1 extends JPanel implements ActionListener {
 		this.container = container;
 		setFocusable(true);
 		setDoubleBuffered(true);
-
 		ImageIcon referencia = new ImageIcon("assets//fase01.png");
 		fundo = referencia.getImage();
 
@@ -84,7 +88,7 @@ public class Fase1 extends JPanel implements ActionListener {
 
 		jogador1.load();
 		jogador2.load();
-	
+
 		inicializaInimigos();
 		inicializaPowerUps();
 
@@ -109,13 +113,13 @@ public class Fase1 extends JPanel implements ActionListener {
 					int y = (int) (Math.random() * 650) + 10;
 					robos.add(new Robo(x, y));
 					robos.get(i).setVida(1);
-				}	
-		
+				}
+
 				robo1.load();
 				robo2.load();
 				robo3.load();
 
-				((Timer) e.getSource()).stop(); 
+				((Timer) e.getSource()).stop();
 			}
 		});
 		timer2.start();
@@ -141,16 +145,16 @@ public class Fase1 extends JPanel implements ActionListener {
 	}
 
 	private static Font loadFont(String path, float size) {
-        try {
-            File fontFile = new File(path);
-            Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-            
-            return font.deriveFont(size);
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-            return new Font("Arial", Font.PLAIN, (int) size);
-        }
-    }
+		try {
+			File fontFile = new File(path);
+			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+
+			return font.deriveFont(size);
+		} catch (IOException | FontFormatException e) {
+			e.printStackTrace();
+			return new Font("Arial", Font.PLAIN, (int) size);
+		}
+	}
 
 	public void paint(Graphics g) {
 		Graphics2D graficos = (Graphics2D) g;
@@ -158,24 +162,26 @@ public class Fase1 extends JPanel implements ActionListener {
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
 
-		if (emJogo == false){
+		if (emJogo == false) {
 			g.setFont(fonte);
 			g.setColor(Color.WHITE);
 
 			graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
 
-			graficos.drawString("Single-Player: Press 1", 600, 600);
-			graficos.drawString("Two Players: Press 2", 610, 650);
-		} else if (emJogo){
+			graficos.drawString("Single-Player", 650, 600);
+			graficos.drawString("Two Players", 660, 650);
+			graficos.drawString("E X I T", 690, 700);
+			graficos.drawString(">", 630 + (opcaoSelecionada * 25) - 20, 600 + opcaoSelecionada * 50);
+		} else if (emJogo) {
 			graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
-	
-			if(jogador1.isVisivel()){
+
+			if (jogador1.isVisivel()) {
 				graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
 				jogador1.drawTiroNave(graficos);
 			}
-			
-			if(doisJogadores == true){
-				if(jogador2.isVisivel()){
+
+			if (doisJogadores == true) {
+				if (jogador2.isVisivel()) {
 					graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
 					jogador2.drawTiroNave(graficos);
 				}
@@ -184,48 +190,48 @@ public class Fase1 extends JPanel implements ActionListener {
 			}
 
 			contador = 0;
-			for (int i = 0; i < robos.size(); i++){
-				if (robos.get(i).isVisivel() == false){
+			for (int i = 0; i < robos.size(); i++) {
+				if (robos.get(i).isVisivel() == false) {
 					contador += 1;
 				}
 			}
-			
-			if (contador == robos.size()){
-				if (robo1.isVisivel()){
+
+			if (contador == robos.size()) {
+				if (robo1.isVisivel()) {
 					graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
-					if(robo1.getX() != 1100){
+					if (robo1.getX() != 1100) {
 						graficos.drawImage(alerta, 1450, 150, this);
 					}
 				}
-				if (robo2.isVisivel()){
+				if (robo2.isVisivel()) {
 					graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
-					if(robo2.getX() != 1000){
+					if (robo2.getX() != 1000) {
 						graficos.drawImage(alerta, 1450, 375, this);
 					}
 				}
-				if (robo3.isVisivel()){
+				if (robo3.isVisivel()) {
 					graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
-					if(robo3.getX() != 1100){
+					if (robo3.getX() != 1100) {
 						graficos.drawImage(alerta, 1450, 600, this);
 					}
 				}
-				if (robo1.getX() == 1100){
-					if (robo1.isVisivel()){
-					robo1.drawTiroRobo(graficos);
-					} 
+				if (robo1.getX() == 1100) {
+					if (robo1.isVisivel()) {
+						robo1.drawTiroRobo(graficos);
+					}
 				}
-				if (robo2.getX() == 1000){
-					if (robo2.isVisivel()){
+				if (robo2.getX() == 1000) {
+					if (robo2.isVisivel()) {
 						robo2.drawTiroRobo(graficos);
 					}
 				}
-				if (robo3.getX() == 1100){
-					if (robo3.isVisivel()){
+				if (robo3.getX() == 1100) {
+					if (robo3.isVisivel()) {
 						robo3.drawTiroRobo(graficos);
-					} 
-				}	
-			}	
-			
+					}
+				}
+			}
+
 			for (int j = 0; j < robos.size(); j++) {
 				Robo robo = robos.get(j);
 				robo.load2();
@@ -241,37 +247,41 @@ public class Fase1 extends JPanel implements ActionListener {
 
 			g.setFont(fonte);
 			g.setColor(Color.WHITE);
-			graficos.drawString("Fase 1", 700, 50);
 
 			g.setFont(fonte2);
 			g.setColor(Color.WHITE);
-			graficos.drawString("Vida Jogador 1 ", 15, 30);
-
+			graficos.drawString(nomeJogador1, 15, 30);
 			barra.paintBarraVida(graficos, jogador1);
-			
-			if (doisJogadores){
-				g.setFont(fonte2);
-				g.setColor(Color.WHITE);
-				graficos.drawString("Vida Jogador 2 ", 15, 775);
-				barra.paintBarraVida(graficos, jogador2);
-			}
+
 			if(doisJogadores){
-					graficos.drawString("-- Pontuações -- ", 1325, 35);
-					graficos.drawString("Jogador 1 = " + jogador1.getPontuacaoJogador1(), 1350, 60);
-					graficos.drawString("Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1350, 90);
-				} else if (doisJogadores == false){
-					graficos.drawString("Jogador 1 = " + jogador1.getPontuacaoJogador1(), 1350, 50);
+				graficos.drawString("-- Pontuações -- ", 1325, 35);
+				graficos.drawString(nomeJogador1 + " = " + jogador1.getPontuacaoJogador1(), 1350, 60);
+				graficos.drawString(nomeJogador2 + " = " + jogador2.getPontuacaoJogador2(), 1350, 90);
+			} else if (doisJogadores == false){
+				graficos.drawString("-- Pontuações -- ", 1325, 35);
+				graficos.drawString(nomeJogador1 + " = " + jogador1.getPontuacaoJogador1(), 1350, 50);
 			}
 
+			if (doisJogadores) {
+				if (nomeJogador1 != null && nomeJogador1 != null){
+					g.setFont(fonte2);
+					g.setColor(Color.WHITE);
+					graficos.drawString(nomeJogador2, 15, 790);
+					barra.paintBarraVida(graficos, jogador2);
+				}
+			}
+		}
+
+			
 			if (gameOver){
 				ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 				graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 				g.setFont(fonte);
 				g.setColor(Color.WHITE);
 				graficos.drawString("Aperte enter para reiniciar o jogo!", 500, 800);
-			} 
+			}
 
-			if (vitoria){
+			if (vitoria) {
 				g.setFont(fonte);
 				g.setColor(Color.WHITE);
 				ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
@@ -279,70 +289,80 @@ public class Fase1 extends JPanel implements ActionListener {
 				g.setFont(fonte);
 				g.setColor(Color.WHITE);
 				graficos.drawString("Aperte enter para a próxima fase!", 500, 800);
-				if(doisJogadores){
-					graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
-					graficos.drawString("Pontuação Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1125, 40);
-				} else if (doisJogadores == false){
-					graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
+				if (doisJogadores) {
+					graficos.drawString("Pontuação "+ nomeJogador1 +" = " + jogador1.getPontuacaoJogador1(), 20, 40);
+					graficos.drawString("Pontuação "+ nomeJogador2 +" = "+ jogador2.getPontuacaoJogador2(), 1125, 40);
+				} else if (doisJogadores == false) {
+					graficos.drawString("Pontuação "+ nomeJogador1 +" = " + jogador1.getPontuacaoJogador1(), 20, 40);
 				}
-			}	
+			}
 			g.dispose();
 		}
+	private void capturarNomes() {
+			if (doisJogadores) {
+				nomeJogador1 = JOptionPane.showInputDialog(this, "Digite o nome do Jogador 1:");
+				nomeJogador2 = JOptionPane.showInputDialog(this, "Digite o nome do Jogador 2:");
+			} else {
+				nomeJogador1 = JOptionPane.showInputDialog(this, "Digite o seu nome:");
+			}
+			nomesCapturados = true; 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		jogador1.update();
-		jogador2.update();
+		if (nomesCapturados) {
+			if (emJogo){
+				jogador1.update();
+				jogador2.update();
 
-		jogador1.atirar();
-		jogador2.atirar();
-		
-		contador = 0;
-		for (int i = 0; i < robos.size(); i++){
-			if (robos.get(i).isVisivel() == false){
-				contador += 1;
+				jogador1.atirar();
+				jogador2.atirar();
+
+				contador = 0;
+				for (int i = 0; i < robos.size(); i++) {
+					if (robos.get(i).isVisivel() == false) {
+						contador += 1;
+					}
+				}
+				if (contador == robos.size()) {
+					robo1.updateRoboAtirador(1100, 150);
+					robo2.updateRoboAtirador(1000, 375);
+					robo3.updateRoboAtirador(1100, 600);
+				}
+
+				if (robo1.getX() == 1100) {
+					robo1.atirar();
+				}
+				if (robo2.getX() == 1000) {
+					robo2.atirar();
+				}
+				if (robo3.getX() == 1100) {
+					robo3.atirar();
+				}
+
+				for (int j = 0; j < robos.size(); j++) {
+					Robo robo = robos.get(j);
+
+					if (robo.isVisivel()) {
+						robo.updateRoboDeColisao();
+					} else {
+						robos.remove(j);
+					}
+				}
+				for (int j = 0; j < powerUps.size(); j++) {
+					powerUp = powerUps.get(j);
+
+					if (powerUp.isVisivel()) {
+						powerUp.update();
+					} else {
+						powerUps.remove(j);
+					}
+				}
+				checarColisoes();
+				repaint();
 			}
 		}
-		if (contador == robos.size()){
-			robo1.updateRoboAtirador(1100, 150);
-			robo2.updateRoboAtirador(1000, 375);
-			robo3.updateRoboAtirador(1100, 600);
-		}
-
-		if (robo1.getX() == 1100){
-			robo1.atirar();
-		}
-		if (robo2.getX() == 1000){
-			robo2.atirar();
-		}
-		if (robo3.getX() == 1100){
-			robo3.atirar();
-		}
-		
-
-		for (int j = 0; j < robos.size(); j++) {
-			Robo robo = robos.get(j);
-
-			if (robo.isVisivel()) {
-				robo.updateRoboDeColisao();
-			} else {
-				robos.remove(j);
-			}
-		}
-		for (int j = 0; j < powerUps.size(); j++) {
-			powerUp = powerUps.get(j);
-
-			if (powerUp.isVisivel()) {
-				powerUp.update();
-			} else {
-				powerUps.remove(j);
-			}
-		}
-		checarColisoes();
-		repaint();
 	}
-
 	public void checarColisoes() {
 		//Colisões com Power Ups:
 		for (int i = 0; i < powerUps.size(); i++) {
@@ -361,36 +381,36 @@ public class Fase1 extends JPanel implements ActionListener {
 			tempRobo.colisaoNaveRobo(jogador2);
 		}
 
-		//Colisões de tiro da Nave com Robo:
+		// Colisões de tiro da Nave com Robo:
 		List<TiroNave> tiros1 = jogador1.getTiros();
-		
+
 		for (int j = 0; j < tiros1.size(); j++) {
-			if(robo1.getX() == 1100 && robo1.getY() == 150){
+			if (robo1.getX() == 1100 && robo1.getY() == 150) {
 				robo1.colisaoRoboTiro(jogador1, j);
 			}
-			if(robo2.getX() == 1000 && robo2.getY() == 375){
+			if (robo2.getX() == 1000 && robo2.getY() == 375) {
 				robo2.colisaoRoboTiro(jogador1, j);
 			}
-			if(robo3.getX() == 1100 && robo3.getY() == 600){
+			if (robo3.getX() == 1100 && robo3.getY() == 600) {
 				robo3.colisaoRoboTiro(jogador1, j);
 			}
 		}
 		List<TiroNave> tiros2 = jogador2.getTiros();
-		
+
 		for (int j = 0; j < tiros2.size(); j++) {
-			if(robo1.getX() == 1100 && robo1.getY() == 150){
+			if (robo1.getX() == 1100 && robo1.getY() == 150) {
 				robo1.colisaoRoboTiro(jogador2, j);
 			}
-			if(robo2.getX() == 1000 && robo2.getY() == 375){
+			if (robo2.getX() == 1000 && robo2.getY() == 375) {
 				robo2.colisaoRoboTiro(jogador2, j);
 			}
-			if(robo3.getX() == 1100 && robo3.getY() == 600){
+			if (robo3.getX() == 1100 && robo3.getY() == 600) {
 				robo3.colisaoRoboTiro(jogador2, j);
 			}
 		}
 
 		List<TiroNave> tiros3 = jogador1.getTiros();
-		
+
 		for (int j = 0; j < tiros3.size(); j++) {
 			for (int i = 0; i < robos.size(); i++) {
 				Robo tempRobo = robos.get(i);
@@ -398,7 +418,7 @@ public class Fase1 extends JPanel implements ActionListener {
 			}
 		}
 		List<TiroNave> tiros4 = jogador2.getTiros();
-		
+
 		for (int j = 0; j < tiros4.size(); j++) {
 			for (int i = 0; i < robos.size(); i++) {
 				Robo tempRobo = robos.get(i);
@@ -406,7 +426,7 @@ public class Fase1 extends JPanel implements ActionListener {
 			}
 		}
 
-		//Colisões de tiro do Robo com a Nave:
+		// Colisões de tiro do Robo com a Nave:
 		robo1.colisaoNaveTiro(jogador1);
 		robo1.colisaoNaveTiro(jogador2);
 
@@ -415,29 +435,29 @@ public class Fase1 extends JPanel implements ActionListener {
 
 		robo3.colisaoNaveTiro(jogador1);
 		robo3.colisaoNaveTiro(jogador2);
-		
-		if (robo1.getVida() == 0){
+
+		if (robo1.getVida() == 0) {
 			robo1.setVisivel(false);
-		} 
-		if (robo2.getVida() == 0){
-			robo2.setVisivel(false);
-		} 
-		if (robo3.getVida() == 0){
-			robo3.setVisivel(false);
-		} 
-		for (int i = 0; i < robos.size(); i++){
-			Robo tempRobo = robos.get(i);
-			if (tempRobo.getVida() == 0 ){
-				tempRobo.setVisivel(false);
-			} 
 		}
-		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false){
+		if (robo2.getVida() == 0) {
+			robo2.setVisivel(false);
+		}
+		if (robo3.getVida() == 0) {
+			robo3.setVisivel(false);
+		}
+		for (int i = 0; i < robos.size(); i++) {
+			Robo tempRobo = robos.get(i);
+			if (tempRobo.getVida() == 0) {
+				tempRobo.setVisivel(false);
+			}
+		}
+		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false) {
 			vitoria = true;
 		}
-		if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0){
+		if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0) {
 			gameOver = true;
 		}
-		if (jogador1.getVida() <= 0 && doisJogadores == false){
+		if (jogador1.getVida() <= 0 && doisJogadores == false) {
 			gameOver = true;
 		}
 	}
@@ -449,35 +469,63 @@ public class Fase1 extends JPanel implements ActionListener {
 			int codigo = e.getKeyCode();
 
 			jogador1.keyPressed(e);
-			if (doisJogadores){
+			if (doisJogadores) {
 				jogador2.keyPressed(e);
 			}
-			if (emJogo == false){
-				if (codigo == KeyEvent.VK_1){
-					emJogo = true;
-					doisJogadores = false;
-				} else if (codigo == KeyEvent.VK_2){
-					doisJogadores = true;
-					emJogo = true;
+
+			if (!emJogo) {
+				switch (codigo) {
+					case KeyEvent.VK_UP:
+						if (opcaoSelecionada > 0) {
+							opcaoSelecionada--;
+						}
+						break;
+					case KeyEvent.VK_DOWN:
+						if (opcaoSelecionada < 2) {
+							opcaoSelecionada++;
+						}
+						break;
+					case KeyEvent.VK_ENTER:
+						selecionarOpcao();
+						break;
 				}
 			}
-			if (vitoria){
-				if (codigo == KeyEvent.VK_ENTER){
+			if (vitoria) {
+				if (codigo == KeyEvent.VK_ENTER) {
 					container.avancarFase();
 				}
 			}
-			if (gameOver){
-				if (codigo == KeyEvent.VK_ENTER){
+			if (gameOver) {
+				if (codigo == KeyEvent.VK_ENTER) {
 					container.reiniciarJogo();
 				}
 			}
+			repaint();
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			jogador1.keyRelease(e);
-			if(doisJogadores){
+			if (doisJogadores) {
 				jogador2.keyRelease(e);
+			}
+		}
+
+		private void selecionarOpcao() {
+			switch (opcaoSelecionada) {
+				case 0:
+					emJogo = true;
+					doisJogadores = false;
+					capturarNomes();
+					break;
+				case 1:
+					emJogo = true;
+					doisJogadores = true;
+					capturarNomes();
+					break;
+				case 2:
+					System.exit(0);
+					break;
 			}
 		}
 
@@ -491,20 +539,27 @@ public class Fase1 extends JPanel implements ActionListener {
 		removeKeyListener(teclado);
 	}
 
-	public void setProximaFase(boolean proximaFase){
+	public void setProximaFase(boolean proximaFase) {
 		this.proximaFase = proximaFase;
 	}
-	public boolean isProximaFase(){
+
+	public boolean isProximaFase() {
 		return this.proximaFase;
 	}
-	public void setEmJogo(boolean emJogo){
+
+	public void setEmJogo(boolean emJogo) {
 		this.emJogo = emJogo;
 	}
 
 	public boolean isDoisJogadores() {
 		return doisJogadores;
 	}
+
 	public void setDoisJogadores(boolean doisJogadores) {
-		this.doisJogadores = doisJogadores;
+		Fase1.doisJogadores = doisJogadores;
+	}
+
+	public boolean opcaoSelecionada() {
+		return emJogo;
 	}
 }
