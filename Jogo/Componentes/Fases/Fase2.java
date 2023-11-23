@@ -133,10 +133,6 @@ public class Fase2 extends JPanel implements ActionListener {
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
-
-		g.setFont(fonte);
-		g.setColor(Color.WHITE);
-		graficos.drawString("Fase 2", 1400, 50);
 	
 		if(jogador1.isVisivel()){
 			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
@@ -213,18 +209,29 @@ public class Fase2 extends JPanel implements ActionListener {
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 		}
 
+		g.setFont(fonte);
+		g.setColor(Color.WHITE);
+		graficos.drawString("Fase 2", 700, 50);
+
 		g.setFont(fonte2);
 		g.setColor(Color.WHITE);
 		graficos.drawString("Vida Jogador 1 ", 15, 30);
 
 		barra.paintBarraVida(graficos, jogador1);
 			
-		if (doisJogadores){
-			g.setFont(fonte2);
-			g.setColor(Color.WHITE);
-			graficos.drawString("Vida Jogador 2 ", 15, 100);
-			barra.paintBarraVida(graficos, jogador2);
-		}
+			if (doisJogadores){
+				g.setFont(fonte2);
+				g.setColor(Color.WHITE);
+				graficos.drawString("Vida Jogador 2 ", 15, 775);
+				barra.paintBarraVida(graficos, jogador2);
+			}
+			if(doisJogadores){
+				graficos.drawString("-- Pontuações -- ", 1325, 35);
+				graficos.drawString("Jogador 1 = " + jogador1.getPontuacaoJogador1(), 1350, 60);
+				graficos.drawString("Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1350, 90);
+			} else if (doisJogadores == false){
+				graficos.drawString("Jogador 1 = " + jogador1.getPontuacaoJogador1(), 1350, 50);
+			}
 		if (gameOver == true){
 			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);

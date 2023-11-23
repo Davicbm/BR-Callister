@@ -117,27 +117,27 @@ public class BarraVida {
 		referencia = new ImageIcon("assets//barravida_0.png");
 		barraVida0 = referencia.getImage();
 
-		graficos.drawImage(barraVida10, 15, 110, null);
+		graficos.drawImage(barraVida10, 15, 800, null);
 		if (jogador.getVida() == 9){
-				graficos.drawImage(barraVida9, 15, 110, null);
+				graficos.drawImage(barraVida9, 15, 800, null);
 			} else if (jogador.getVida() == 8){
-				graficos.drawImage(barraVida8, 15, 110, null);
+				graficos.drawImage(barraVida8, 15, 800, null);
 			} else if (jogador.getVida() == 7){
-				graficos.drawImage(barraVida7, 15, 110, null);
+				graficos.drawImage(barraVida7, 15, 800, null);
 			} else if (jogador.getVida() == 6){
-				graficos.drawImage(barraVida6, 15, 110, null);
+				graficos.drawImage(barraVida6, 15, 800, null);
 			} else if (jogador.getVida() == 5){
-				graficos.drawImage(barraVida5, 15, 110, null);
+				graficos.drawImage(barraVida5, 15, 800, null);
 			} else if (jogador.getVida() == 4){
-				graficos.drawImage(barraVida4, 15, 110, null);
+				graficos.drawImage(barraVida4, 15, 800, null);
 			} else if (jogador.getVida() == 3){
-				graficos.drawImage(barraVida3, 15, 110, null);
+				graficos.drawImage(barraVida3, 15, 800, null);
 			} else if (jogador.getVida() == 2){
-				graficos.drawImage(barraVida2, 15, 110, null);
+				graficos.drawImage(barraVida2, 15, 800, null);
 			} else if (jogador.getVida() == 1){
-				graficos.drawImage(barraVida1, 15, 110, null);
+				graficos.drawImage(barraVida1, 15, 800, null);
 			} else if (jogador.getVida() <= 0){
-				graficos.drawImage(barraVida0, 15, 110, null);
+				graficos.drawImage(barraVida0, 15, 800, null);
 				jogador.setVisivel(false);
 			}
 	}

@@ -104,7 +104,7 @@ public class Fase1 extends JPanel implements ActionListener {
 
 		Timer timer2 = new Timer(5, e ->{
 			if (emJogo){
-				for (int i = 0; i < 60; i++) {
+				for (int i = 0; i < 0; i++) {
 					int x = (int) (Math.random() * 8000) + 1980;
 					int y = (int) (Math.random() * 650) + 10;
 					robos.add(new Robo(x, y));
@@ -241,7 +241,7 @@ public class Fase1 extends JPanel implements ActionListener {
 
 			g.setFont(fonte);
 			g.setColor(Color.WHITE);
-			graficos.drawString("Fase 1", 1400, 50);
+			graficos.drawString("Fase 1", 700, 50);
 
 			g.setFont(fonte2);
 			g.setColor(Color.WHITE);
@@ -252,8 +252,15 @@ public class Fase1 extends JPanel implements ActionListener {
 			if (doisJogadores){
 				g.setFont(fonte2);
 				g.setColor(Color.WHITE);
-				graficos.drawString("Vida Jogador 2 ", 15, 100);
+				graficos.drawString("Vida Jogador 2 ", 15, 775);
 				barra.paintBarraVida(graficos, jogador2);
+			}
+			if(doisJogadores){
+					graficos.drawString("-- Pontuações -- ", 1325, 35);
+					graficos.drawString("Jogador 1 = " + jogador1.getPontuacaoJogador1(), 1350, 60);
+					graficos.drawString("Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1350, 90);
+				} else if (doisJogadores == false){
+					graficos.drawString("Jogador 1 = " + jogador1.getPontuacaoJogador1(), 1350, 50);
 			}
 
 			if (gameOver){
@@ -341,6 +348,7 @@ public class Fase1 extends JPanel implements ActionListener {
 		for (int i = 0; i < powerUps.size(); i++) {
 			PowerUp tempPowerUp = powerUps.get(i);
 			tempPowerUp.colisaoPowerUp(jogador1);
+			tempPowerUp.colisaoPowerUp(jogador2);
 		}
 		//Colisões de Nave com Robô:
 		for (int i = 0; i < robos.size(); i++) {
