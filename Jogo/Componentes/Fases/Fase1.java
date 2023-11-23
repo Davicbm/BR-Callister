@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -32,6 +33,9 @@ public class Fase1 extends JPanel implements ActionListener {
 
 	public static boolean doisJogadores;
 	private int opcaoSelecionada;
+	private boolean nomesCapturados = false;
+	private String nomeJogador1 = "Jogador 1";
+	private String nomeJogador2 = "Jogador 2";
 
 	private Image fundo;
 	private Image fundoMenu;
@@ -66,7 +70,6 @@ public class Fase1 extends JPanel implements ActionListener {
 		this.container = container;
 		setFocusable(true);
 		setDoubleBuffered(true);
-
 		ImageIcon referencia = new ImageIcon("assets//fase01.png");
 		fundo = referencia.getImage();
 
@@ -245,20 +248,21 @@ public class Fase1 extends JPanel implements ActionListener {
 			g.setFont(fonte);
 			g.setColor(Color.WHITE);
 			graficos.drawString("Fase 1", 1400, 50);
-
+			if (nomeJogador1 != null) {
 			g.setFont(fonte2);
 			g.setColor(Color.WHITE);
-			graficos.drawString("Vida Jogador 1 ", 15, 30);
+			graficos.drawString(nomeJogador1, 15, 30);
 
 			barra.paintBarraVida(graficos, jogador1);
-
+			}
 			if (doisJogadores) {
+				if (nomeJogador1 != null && nomeJogador1 != null){
 				g.setFont(fonte2);
 				g.setColor(Color.WHITE);
-				graficos.drawString("Vida Jogador 2 ", 15, 100);
+				graficos.drawString(nomeJogador2, 15, 100);
 				barra.paintBarraVida(graficos, jogador2);
+				}
 			}
-
 			if (gameOver) {
 				ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 				graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
@@ -276,18 +280,29 @@ public class Fase1 extends JPanel implements ActionListener {
 				g.setColor(Color.WHITE);
 				graficos.drawString("Aperte enter para a próxima fase!", 500, 800);
 				if (doisJogadores) {
-					graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
-					graficos.drawString("Pontuação Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1125, 40);
+					graficos.drawString("Pontuação "+ nomeJogador1 +" = " + jogador1.getPontuacaoJogador1(), 20, 40);
+					graficos.drawString("Pontuação "+ nomeJogador2 +" = "+ jogador2.getPontuacaoJogador2(), 1125, 40);
 				} else if (doisJogadores == false) {
-					graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
+					graficos.drawString("Pontuação "+ nomeJogador1 +" = " + jogador1.getPontuacaoJogador1(), 20, 40);
 				}
 			}
 			g.dispose();
 		}
 	}
+	private void capturarNomes() {
+			if (doisJogadores) {
+				nomeJogador1 = JOptionPane.showInputDialog(this, "Digite o nome do Jogador 1:");
+				nomeJogador2 = JOptionPane.showInputDialog(this, "Digite o nome do Jogador 2:");
+			} else {
+				nomeJogador1 = JOptionPane.showInputDialog(this, "Digite o seu nome:");
+			}
+			nomesCapturados = true; 
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (nomesCapturados) {
+		if (emJogo){
 		jogador1.update();
 		jogador2.update();
 
@@ -337,7 +352,8 @@ public class Fase1 extends JPanel implements ActionListener {
 		checarColisoes();
 		repaint();
 	}
-
+		}
+	}
 	public void checarColisoes() {
 		//Colisões de Nave com Robô:
 		for (int i = 0; i < robos.size(); i++) {
@@ -469,6 +485,7 @@ public class Fase1 extends JPanel implements ActionListener {
 					container.reiniciarJogo();
 				}
 			}
+			repaint();
 		}
 
 		@Override
@@ -484,10 +501,12 @@ public class Fase1 extends JPanel implements ActionListener {
 				case 0:
 					emJogo = true;
 					doisJogadores = false;
+					capturarNomes();
 					break;
 				case 1:
 					emJogo = true;
 					doisJogadores = true;
+					capturarNomes();
 					break;
 				case 2:
 					System.exit(0);
