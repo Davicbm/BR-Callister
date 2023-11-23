@@ -26,6 +26,7 @@ import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
 import Jogo.Componentes.Objetos.BarraVida;
+import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase1 extends JPanel implements ActionListener {
 
@@ -40,6 +41,9 @@ public class Fase1 extends JPanel implements ActionListener {
 	private Jogador2 jogador2;
 
 	private BarraVida barra;
+	private PowerUp powerUp;
+	private List<PowerUp> powerUps;
+
 	private Timer timer;
 
 	private Robo robo1;
@@ -83,6 +87,7 @@ public class Fase1 extends JPanel implements ActionListener {
 		jogador2.load();
 
 		inicializaInimigos();
+		inicializaPowerUps();
 
 		addKeyListener(teclado);
 
@@ -98,8 +103,8 @@ public class Fase1 extends JPanel implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		Timer timer2 = new Timer(5, e -> {
-			if (emJogo) {
+		Timer timer2 = new Timer(5, e ->{
+			if (emJogo){
 				for (int i = 0; i < 0; i++) {
 					int x = (int) (Math.random() * 8000) + 1980;
 					int y = (int) (Math.random() * 650) + 10;
@@ -112,6 +117,25 @@ public class Fase1 extends JPanel implements ActionListener {
 				robo3.load();
 
 				((Timer) e.getSource()).stop();
+			}
+		});
+		timer2.start();
+	}
+
+	public void inicializaPowerUps(){
+		powerUps = new ArrayList<PowerUp>();
+		
+		Timer timer2 = new Timer(20, e ->{
+			if (emJogo){
+				for (int i = 0; i < 10; i++) {
+					int x = (int) (Math.random() * 8000) + 1980;
+					int y = (int) (Math.random() * 650) + 10;
+					int codigo = (int) (Math.random() * 3) + 1;
+
+					powerUps.add(new PowerUp(x, y, codigo));
+				}
+
+				((Timer) e.getSource()).stop(); 
 			}
 		});
 		timer2.start();
@@ -211,6 +235,13 @@ public class Fase1 extends JPanel implements ActionListener {
 				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 			}
 
+			for (int j = 0; j < powerUps.size(); j++) {
+				powerUp = powerUps.get(j);
+				powerUp.load();
+				
+				graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
+			}
+
 			g.setFont(fonte);
 			g.setColor(Color.WHITE);
 			graficos.drawString("Fase 1", 1400, 50);
@@ -294,12 +325,21 @@ public class Fase1 extends JPanel implements ActionListener {
 				robos.remove(j);
 			}
 		}
+		for (int j = 0; j < powerUps.size(); j++) {
+			powerUp = powerUps.get(j);
+
+			if (powerUp.isVisivel()) {
+				powerUp.update();
+			} else {
+				powerUps.remove(j);
+			}
+		}
 		checarColisoes();
 		repaint();
 	}
 
 	public void checarColisoes() {
-		// Colisões de Nave com Robô:
+		//Colisões de Nave com Robô:
 		for (int i = 0; i < robos.size(); i++) {
 			Robo tempRobo = robos.get(i);
 			tempRobo.colisaoNaveRobo(jogador1);
