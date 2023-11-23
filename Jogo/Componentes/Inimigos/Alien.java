@@ -89,7 +89,9 @@ public class Alien {
 			if (formaTiro.intersects(formaAlien) && isVisivel() && tempTiro.isVisivel()) {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
-				jogador.setPontuacaoJogador1(10); 
+				if (vida == 0){
+					jogador.setPontuacaoJogador1(20);
+				}
 			}
 
 	}
@@ -101,7 +103,9 @@ public class Alien {
 			if (formaTiro.intersects(formaAlien) && isVisivel() && tempTiro.isVisivel()) {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
-				jogador.setPontuacaoJogador2(10);
+				if (vida == 0){
+					jogador.setPontuacaoJogador2(20);
+				}
 			}
 	}
 
@@ -112,7 +116,7 @@ public class Alien {
 			Rectangle formaTiroAlien = tempTiroAlien.getBounds();
 			Rectangle formaNave = jogador.getBounds();
 			if (formaTiroAlien.intersects(formaNave) && jogador.isVisivel()) {
-				jogador.perdeVida(2);
+				jogador.perdeVida(3);
 				tempTiroAlien.setVisivel(false);
 			}
 		}

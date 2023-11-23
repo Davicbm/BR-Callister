@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 import Jogo.Componentes.Jogadores.Jogador1;
+import Jogo.Componentes.Jogadores.Jogador2;
 
 public class PowerUp {
     private Image imagem;
@@ -74,7 +75,25 @@ public class PowerUp {
 		        } 
                 break;
         }
-		
+    }
+     public void colisaoPowerUp(Jogador2 jogador){
+        Rectangle formaNave = jogador.getBounds();
+		Rectangle formaPowerUp = getBounds();
+        switch (codigo) {
+            case 1:
+                if (formaNave.intersects(formaPowerUp)) {
+			        jogador.regeneraVida();
+			        setVisivel(false);
+		        } 
+                break;
+        
+            case 2:
+                if (formaNave.intersects(formaPowerUp)) {
+			        jogador.ganhaEscudo();
+			        setVisivel(false);
+		        } 
+                break;
+        }
     }
 
     private void setVisivel(boolean isVisivel) {

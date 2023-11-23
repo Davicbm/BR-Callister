@@ -247,23 +247,33 @@ public class Fase1 extends JPanel implements ActionListener {
 
 			g.setFont(fonte);
 			g.setColor(Color.WHITE);
-			graficos.drawString("Fase 1", 1400, 50);
-			if (nomeJogador1 != null) {
+
 			g.setFont(fonte2);
 			g.setColor(Color.WHITE);
 			graficos.drawString(nomeJogador1, 15, 30);
-
 			barra.paintBarraVida(graficos, jogador1);
+
+			if(doisJogadores){
+				graficos.drawString("-- Pontuações -- ", 1325, 35);
+				graficos.drawString(nomeJogador1 + " = " + jogador1.getPontuacaoJogador1(), 1350, 60);
+				graficos.drawString(nomeJogador2 + " = " + jogador2.getPontuacaoJogador2(), 1350, 90);
+			} else if (doisJogadores == false){
+				graficos.drawString("-- Pontuações -- ", 1325, 35);
+				graficos.drawString(nomeJogador1 + " = " + jogador1.getPontuacaoJogador1(), 1350, 50);
 			}
+
 			if (doisJogadores) {
 				if (nomeJogador1 != null && nomeJogador1 != null){
-				g.setFont(fonte2);
-				g.setColor(Color.WHITE);
-				graficos.drawString(nomeJogador2, 15, 100);
-				barra.paintBarraVida(graficos, jogador2);
+					g.setFont(fonte2);
+					g.setColor(Color.WHITE);
+					graficos.drawString(nomeJogador2, 15, 790);
+					barra.paintBarraVida(graficos, jogador2);
 				}
 			}
-			if (gameOver) {
+		}
+
+			
+			if (gameOver){
 				ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
 				graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 				g.setFont(fonte);
@@ -288,7 +298,6 @@ public class Fase1 extends JPanel implements ActionListener {
 			}
 			g.dispose();
 		}
-	}
 	private void capturarNomes() {
 			if (doisJogadores) {
 				nomeJogador1 = JOptionPane.showInputDialog(this, "Digite o nome do Jogador 1:");
@@ -302,59 +311,65 @@ public class Fase1 extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (nomesCapturados) {
-		if (emJogo){
-		jogador1.update();
-		jogador2.update();
+			if (emJogo){
+				jogador1.update();
+				jogador2.update();
 
-		jogador1.atirar();
-		jogador2.atirar();
+				jogador1.atirar();
+				jogador2.atirar();
 
-		contador = 0;
-		for (int i = 0; i < robos.size(); i++) {
-			if (robos.get(i).isVisivel() == false) {
-				contador += 1;
+				contador = 0;
+				for (int i = 0; i < robos.size(); i++) {
+					if (robos.get(i).isVisivel() == false) {
+						contador += 1;
+					}
+				}
+				if (contador == robos.size()) {
+					robo1.updateRoboAtirador(1100, 150);
+					robo2.updateRoboAtirador(1000, 375);
+					robo3.updateRoboAtirador(1100, 600);
+				}
+
+				if (robo1.getX() == 1100) {
+					robo1.atirar();
+				}
+				if (robo2.getX() == 1000) {
+					robo2.atirar();
+				}
+				if (robo3.getX() == 1100) {
+					robo3.atirar();
+				}
+
+				for (int j = 0; j < robos.size(); j++) {
+					Robo robo = robos.get(j);
+
+					if (robo.isVisivel()) {
+						robo.updateRoboDeColisao();
+					} else {
+						robos.remove(j);
+					}
+				}
+				for (int j = 0; j < powerUps.size(); j++) {
+					powerUp = powerUps.get(j);
+
+					if (powerUp.isVisivel()) {
+						powerUp.update();
+					} else {
+						powerUps.remove(j);
+					}
+				}
+				checarColisoes();
+				repaint();
 			}
-		}
-		if (contador == robos.size()) {
-			robo1.updateRoboAtirador(1100, 150);
-			robo2.updateRoboAtirador(1000, 375);
-			robo3.updateRoboAtirador(1100, 600);
-		}
-
-		if (robo1.getX() == 1100) {
-			robo1.atirar();
-		}
-		if (robo2.getX() == 1000) {
-			robo2.atirar();
-		}
-		if (robo3.getX() == 1100) {
-			robo3.atirar();
-		}
-
-		for (int j = 0; j < robos.size(); j++) {
-			Robo robo = robos.get(j);
-
-			if (robo.isVisivel()) {
-				robo.updateRoboDeColisao();
-			} else {
-				robos.remove(j);
-			}
-		}
-		for (int j = 0; j < powerUps.size(); j++) {
-			powerUp = powerUps.get(j);
-
-			if (powerUp.isVisivel()) {
-				powerUp.update();
-			} else {
-				powerUps.remove(j);
-			}
-		}
-		checarColisoes();
-		repaint();
-	}
 		}
 	}
 	public void checarColisoes() {
+		//Colisões com Power Ups:
+		for (int i = 0; i < powerUps.size(); i++) {
+			PowerUp tempPowerUp = powerUps.get(i);
+			tempPowerUp.colisaoPowerUp(jogador1);
+			tempPowerUp.colisaoPowerUp(jogador2);
+		}
 		//Colisões de Nave com Robô:
 		for (int i = 0; i < robos.size(); i++) {
 			Robo tempRobo = robos.get(i);
