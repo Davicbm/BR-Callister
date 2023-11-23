@@ -148,7 +148,11 @@ public class Robo {
 		Rectangle formaNave = jogador.getBounds();
 		Rectangle formaRobo = getBounds();
 		if (formaNave.intersects(formaRobo) && jogador.isVisivel()) {
-			jogador.perdeVida(1);
+			if (jogador.getEscudo() > 0){
+				jogador.perdeEscudo(1);
+			} else {
+				jogador.perdeVida(1);
+			}
 			setVisivel(false);
 		} 
 	}
