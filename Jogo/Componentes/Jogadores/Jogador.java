@@ -18,6 +18,7 @@ public abstract class Jogador {
     protected int largura;
     protected boolean isVisivel;
     protected int vida;
+    protected int escudo;
 
     protected List<TiroNave> tiros;
     protected boolean podeAtirar = true;
@@ -28,6 +29,7 @@ public abstract class Jogador {
         this.x = x;
         this.y = y;
         this.vida = 10;
+        this.escudo = 0;
         this.isVisivel = true;
 
         tiros = new ArrayList<>();
@@ -97,6 +99,25 @@ public abstract class Jogador {
     public void perdeVida(int dano) {
         this.vida = vida - dano;
     }
+    public void perdeEscudo(int dano){
+        this.escudo = escudo - dano; 
+        int danoExcedente = this.escudo;
+        if (this.escudo < 0){
+            this.escudo = 0;
+            this.vida = vida + danoExcedente;
+        }
+    }
+    public void regeneraVida(){
+        if (vida <= 8){
+            this.vida = vida + 2;
+        } else if (vida == 9){
+            this.vida = vida + 1;
+        }
+    }
+
+    public void ganhaEscudo(){
+        this.escudo = escudo + (4 - escudo);
+    }
 
     public List<TiroNave> getTiros() {
         return tiros;
@@ -124,5 +145,8 @@ public abstract class Jogador {
 
     public int getVida() {
         return vida;
+    }
+    public int getEscudo(){
+        return escudo;
     }
 }
