@@ -78,8 +78,13 @@ public class Fase2 extends JPanel implements ActionListener {
 
 		inicializaInimigos();
 
+		if (Fase1.doisJogadores){
+			doisJogadores = true;
+		} else {
+			doisJogadores = false;
+		}
+
 		proximaFase = false;
-		doisJogadores = false;
 		vitoria = false;
 		gameOver = false;
 
@@ -137,11 +142,13 @@ public class Fase2 extends JPanel implements ActionListener {
 			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
 			jogador1.drawTiroNave(graficos);
 		}
-		if (doisJogadores){
+		if(doisJogadores == true){
 			if(jogador2.isVisivel()){
 				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
 				jogador2.drawTiroNave(graficos);
 			}
+		} else {
+			jogador2.setVisivel(false);
 		}
 		contador = 0;
 		for (int i = 0; i < robos.size(); i++){
@@ -210,56 +217,13 @@ public class Fase2 extends JPanel implements ActionListener {
 		g.setColor(Color.WHITE);
 		graficos.drawString("Vida Jogador 1 ", 15, 30);
 
-		graficos.drawImage(barra.getBarraVida10(), 15, 40, this);
-		if (jogador1.getVida() == 9){
-			graficos.drawImage(barra.getBarraVida9(), 15, 40, this);
-		} else if (jogador1.getVida() == 8){
-			graficos.drawImage(barra.getBarraVida8(), 15, 40, this);
-		} else if (jogador1.getVida() == 7){
-			graficos.drawImage(barra.getBarraVida7(), 15, 40, this);
-		} else if (jogador1.getVida() == 6){
-			graficos.drawImage(barra.getBarraVida6(), 15, 40, this);
-		} else if (jogador1.getVida() == 5){
-			graficos.drawImage(barra.getBarraVida5(), 15, 40, this);
-		} else if (jogador1.getVida() == 4){
-			graficos.drawImage(barra.getBarraVida4(), 15, 40, this);
-		} else if (jogador1.getVida() == 3){
-			graficos.drawImage(barra.getBarraVida3(), 15, 40, this);
-		} else if (jogador1.getVida() == 2){
-			graficos.drawImage(barra.getBarraVida2(), 15, 40, this);
-		} else if (jogador1.getVida() == 1){
-			graficos.drawImage(barra.getBarraVida1(), 15, 40, this);
-		} else if (jogador1.getVida() <= 0){
-			graficos.drawImage(barra.getBarraVida0(), 15, 40, this);
-			jogador1.setVisivel(false);
-		} 
+		barra.paintBarraVida(graficos, jogador1);
+			
 		if (doisJogadores){
 			g.setFont(fonte2);
 			g.setColor(Color.WHITE);
 			graficos.drawString("Vida Jogador 2 ", 15, 100);
-			graficos.drawImage(barra.getBarraVida10(), 15, 110, this);
-			if (jogador2.getVida() == 9){
-				graficos.drawImage(barra.getBarraVida9(), 15, 110, this);
-			} else if (jogador2.getVida() == 8){
-				graficos.drawImage(barra.getBarraVida8(), 15, 110, this);
-			} else if (jogador2.getVida() == 7){
-				graficos.drawImage(barra.getBarraVida7(), 15, 110, this);
-			} else if (jogador2.getVida() == 6){
-				graficos.drawImage(barra.getBarraVida6(), 15, 110, this);
-			} else if (jogador2.getVida() == 5){
-				graficos.drawImage(barra.getBarraVida5(), 15, 110, this);
-			} else if (jogador2.getVida() == 4){
-				graficos.drawImage(barra.getBarraVida4(), 15, 110, this);
-			} else if (jogador2.getVida() == 3){
-				graficos.drawImage(barra.getBarraVida3(), 15, 110, this);
-			} else if (jogador2.getVida() == 2){
-				graficos.drawImage(barra.getBarraVida2(), 15, 110, this);
-			} else if (jogador2.getVida() == 1){
-				graficos.drawImage(barra.getBarraVida1(), 15, 110, this);
-			} else if (jogador2.getVida() <= 0){
-				graficos.drawImage(barra.getBarraVida0(), 15, 110, this);
-				jogador2.setVisivel(false);
-			}
+			barra.paintBarraVida(graficos, jogador2);
 		}
 		if (gameOver == true){
 			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
@@ -268,6 +232,7 @@ public class Fase2 extends JPanel implements ActionListener {
 			g.setColor(Color.WHITE);
 			graficos.drawString("Aperte enter para reiniciar o jogo!", 500, 800);
 		} 
+
 		if (vitoria == true){
 			g.setFont(fonte);
 			g.setColor(Color.WHITE);
