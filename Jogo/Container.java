@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import Jogo.Componentes.Fases.Fase1;
 import Jogo.Componentes.Fases.Fase2;
 import Jogo.Componentes.Fases.Fase3;
+import Jogo.Componentes.Fases.Menu;
 
 public class Container extends JFrame {
     private JPanel currentPanel;
@@ -20,7 +21,7 @@ public class Container extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
 
-        faseAtual = 1;
+        faseAtual = 0;
         switchFase();
     }
 
@@ -30,6 +31,9 @@ public class Container extends JFrame {
         }
 
         switch (faseAtual) {
+            case 0:
+                currentPanel = new Menu(this);
+                break;
             case 1:
                 currentPanel = new Fase1(this);
                 break;
@@ -55,7 +59,7 @@ public class Container extends JFrame {
     }
 
     public void reiniciarJogo() {
-        faseAtual = 1;
+        faseAtual = 0;
         switchFase();
     }
     public static void main(String[] args) {

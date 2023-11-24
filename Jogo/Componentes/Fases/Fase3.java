@@ -78,7 +78,7 @@ public class Fase3 extends JPanel implements ActionListener {
 
 		inicializaInimigos();
 
-		if (Fase1.doisJogadores){
+		if (Menu.doisJogadores){
 			doisJogadores = true;
 		} else {
 			doisJogadores = false;
