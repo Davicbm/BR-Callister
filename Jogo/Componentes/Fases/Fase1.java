@@ -2,7 +2,6 @@ package Jogo.Componentes.Fases;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -10,14 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import Jogo.Container;
@@ -36,6 +31,7 @@ public class Fase1 extends Fase implements ActionListener {
 
 	private Image fundo;
 	private Image alerta;
+	private Image caveira;
 
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
@@ -73,6 +69,9 @@ public class Fase1 extends Fase implements ActionListener {
 
 		referencia = new ImageIcon("assets//warninggif.gif");
 		alerta = referencia.getImage();
+
+		referencia = new ImageIcon("assets//caveira.png");
+		caveira = referencia.getImage();
 
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
@@ -217,6 +216,9 @@ public class Fase1 extends Fase implements ActionListener {
 		if (doisJogadores) {
 			graficos.drawString("-- Pontuações -- ", 1325, 35);
 			graficos.drawString(nomeJogador1 + " = " + jogador1.getPontuacaoJogador1(), 1350, 60);
+			if (jogador1.isVisivel() == false){
+				graficos.drawImage(caveira, 15, 40, this);
+			}
 			graficos.drawString(nomeJogador2 + " = " + jogador2.getPontuacaoJogador2(), 1350, 90);
 		} else if (doisJogadores == false) {
 			graficos.drawString("-- Pontuações -- ", 1325, 35);
@@ -348,7 +350,7 @@ public class Fase1 extends Fase implements ActionListener {
 		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false) {
 			vitoria = true;
 		}
-		gameOver = fase.checarJogadores(jogador1, jogador2);
+		gameOver = fase.checarJogadores(jogador1, jogador2, doisJogadores);
 	}
 
 	private class TecladoAdapter implements KeyListener {

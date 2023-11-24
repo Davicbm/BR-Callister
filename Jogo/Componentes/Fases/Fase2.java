@@ -100,7 +100,7 @@ public class Fase2 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 40; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 			robos.add(new Robo(x, y));
@@ -137,6 +137,7 @@ public class Fase2 extends Fase implements ActionListener {
 		Graphics2D graficos = (Graphics2D) g;
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
+
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 
 		if (jogador1.isVisivel()) {
@@ -225,7 +226,7 @@ public class Fase2 extends Fase implements ActionListener {
 		g.setColor(Color.WHITE);
 		graficos.drawString("Fase 2", 700, 50);
 
-		g.setFont(fonte);
+		g.setFont(fonte2);
 		g.setColor(Color.WHITE);
 
 		if (doisJogadores) {
@@ -340,6 +341,9 @@ public class Fase2 extends Fase implements ActionListener {
 		fase.colisoesTiroRobo(robo1, jogador1, jogador2, 1000);
 		fase.colisoesTiroRobo(robo2, jogador1, jogador2, 1000);
 
+		fase.colisoesTiroRobo2(jogador1, robos);
+		fase.colisoesTiroRobo2(jogador2, robos);
+
 		// Colisões de tiro da Nave com Alien:
 		fase.colisoesTiroAlien(alien1, alien2, jogador1, 1200);
 		fase.colisoesTiroAlien(alien1, alien2, jogador2, 1200);
@@ -372,7 +376,7 @@ public class Fase2 extends Fase implements ActionListener {
 			vitoria = true;
 		}
 		
-		gameOver = fase.checarJogadores(jogador1, jogador2);
+		gameOver = fase.checarJogadores(jogador1, jogador2, doisJogadores);
 	}
 
 	private class TecladoAdapter implements KeyListener {

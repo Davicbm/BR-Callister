@@ -60,7 +60,7 @@ public class Fase extends JPanel {
 		}
     }
 		
-	public boolean checarJogadores(Jogador1 jogador1, Jogador2 jogador2){
+	public boolean checarJogadores(Jogador1 jogador1, Jogador2 jogador2, boolean doisJogadores){
 		if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0) {
 			gameOver = true;
 		}
