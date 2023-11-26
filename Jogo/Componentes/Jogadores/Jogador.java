@@ -23,7 +23,7 @@ public abstract class Jogador {
     protected List<TiroNave> tiros;
     protected boolean podeAtirar = true;
     protected long tempoUltimoTiro = System.currentTimeMillis();
-    protected long intervaloTiros = 300;
+    protected long intervaloTiros = 200;
 
     public Jogador(int x, int y) {
         this.x = x;
@@ -116,7 +116,7 @@ public abstract class Jogador {
     }
 
     public void ganhaEscudo(){
-        this.escudo = escudo + (4 - escudo);
+        this.escudo = escudo + (2 - escudo);
     }
 
     public List<TiroNave> getTiros() {
