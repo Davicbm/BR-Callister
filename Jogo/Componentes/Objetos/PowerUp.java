@@ -111,9 +111,7 @@ public class PowerUp {
     public int getY() {
         return y;
     }
-
     public boolean isVisivel() {
         return isVisivel;
     }
-    
 } 

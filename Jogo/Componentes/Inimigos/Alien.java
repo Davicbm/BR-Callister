@@ -116,7 +116,11 @@ public class Alien {
 			Rectangle formaTiroAlien = tempTiroAlien.getBounds();
 			Rectangle formaNave = jogador.getBounds();
 			if (formaTiroAlien.intersects(formaNave) && jogador.isVisivel()) {
-				jogador.perdeVida(3);
+				if (jogador.getEscudo() > 0){
+					jogador.perdeEscudo(3);
+				} else {
+					jogador.perdeVida(3);
+				}
 				tempTiroAlien.setVisivel(false);
 			}
 		}
@@ -128,7 +132,11 @@ public class Alien {
 			Rectangle formaTiroAlien= tempTiroAlien.getBounds();
 			Rectangle formaNave = jogador.getBounds();
 			if (formaTiroAlien.intersects(formaNave) && jogador.isVisivel()) {
-				jogador.perdeVida(2);
+				if (jogador.getEscudo() > 0){
+					jogador.perdeEscudo(3);
+				} else {
+					jogador.perdeVida(3);
+				}
 				tempTiroAlien.setVisivel(false);
 			}
 		}

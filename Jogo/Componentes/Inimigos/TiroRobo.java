@@ -19,6 +19,7 @@ public class TiroRobo {
 	public TiroRobo(int x, int y) {
 		this.x = x;
 		this.y = y;
+		
 		isVisivel = true;
 	}
 
