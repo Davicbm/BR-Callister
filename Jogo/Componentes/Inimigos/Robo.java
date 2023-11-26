@@ -25,7 +25,7 @@ public class Robo {
     private long tempoUltimoTiro = System.currentTimeMillis();
     private long intervaloTiros = 2000;
 
-	private static int velocidade = 5;
+	private static int velocidade = 4;
 	
 	public Robo(int x, int y) {
 		this.x = x;
@@ -98,17 +98,17 @@ public class Robo {
 
 	public void colisaoRoboTiro (Jogador1 jogador, int j){
 		List<TiroNave> tiros3 = jogador.getTiros();
-			TiroNave tempTiro = tiros3.get(j);
-			Rectangle formaTiro = tempTiro.getBounds();
-			Rectangle formaRobo = getBounds();
-			if (formaTiro.intersects(formaRobo) && isVisivel()) {
-				perdeVida(1);
-				tempTiro.setVisivel(false);
-				if (vida == 0){
-					jogador.setPontuacaoJogador1(10);
-				}
-			}
+		TiroNave tempTiro = tiros3.get(j);
+		Rectangle formaTiro = tempTiro.getBounds();
+		Rectangle formaRobo = getBounds();
 
+		if (formaTiro.intersects(formaRobo) && isVisivel()) {
+			perdeVida(1);
+			tempTiro.setVisivel(false);
+			if (vida == 0){
+				jogador.setPontuacaoJogador1(10);
+			}
+		}
 	}
 	public void colisaoRoboTiro (Jogador2 jogador, int j){
 		List<TiroNave> tiros3 = jogador.getTiros();

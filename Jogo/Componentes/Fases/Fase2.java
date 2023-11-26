@@ -99,7 +99,7 @@ public class Fase2 extends Fase implements ActionListener {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 			robos.add(new Robo(x, y));
-			robos.get(i).setVida(1);
+			robos.get(i).setVida(2);
 		}
 
 		robo1 = new Robo(1800, 100);
