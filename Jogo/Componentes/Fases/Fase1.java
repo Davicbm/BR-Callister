@@ -277,9 +277,9 @@ public class Fase1 extends Fase implements ActionListener {
 			}
 		}
 		if (contador == robos.size()) {
-			robo1.updateRoboAtirador(1100, 150);
-			robo2.updateRoboAtirador(1000, 375);
-			robo3.updateRoboAtirador(1100, 600);
+			robo1.updateRoboAtirador(1100);
+			robo2.updateRoboAtirador(1000);
+			robo3.updateRoboAtirador(1100);
 		}
 
 		if (robo1.getX() == 1100) {

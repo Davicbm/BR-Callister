@@ -59,12 +59,12 @@ public class Robo {
 			isVisivel = false;
 		}
 	}
-	public void updateRoboAtirador(int localizacaoX, int localizacaoY){
-			this.x -= (velocidade - 2);
+	public void updateRoboAtirador(int localizacaoX){
+		this.x -= (velocidade - 2);
 		
-			if(this.x < localizacaoX) {
-				this.x = localizacaoX;
-			}
+		if(this.x < localizacaoX) {
+			this.x = localizacaoX;
+		}
 	}
 	
 	public void tiroSimples() {
@@ -74,6 +74,7 @@ public class Robo {
             tempoUltimoTiro = tempoAtual;
         }
 	}
+
 	public void atirar() {
 		tiroSimples();
 		tiros1 = getTiros();

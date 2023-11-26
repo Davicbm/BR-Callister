@@ -19,10 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import Jogo.Container;
-import Jogo.Componentes.Inimigos.Robo;
-import Jogo.Componentes.Jogadores.Jogador1;
-import Jogo.Componentes.Jogadores.Jogador2;
-import Jogo.Componentes.Objetos.BarraVida;
 
 public class Menu extends JPanel implements ActionListener {
 

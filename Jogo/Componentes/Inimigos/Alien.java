@@ -45,7 +45,7 @@ public class Alien {
 	}
 
 	
-	public void updateAlien(int localizacaoX, int localizacaoY){
+	public void updateAlien(int localizacaoX){
 			this.x -= velocidade;
 		
 			if(this.x < localizacaoX) {

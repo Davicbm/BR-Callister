@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import Jogo.Componentes.Inimigos.Alien;
+import Jogo.Componentes.Inimigos.Drakthar;
 import Jogo.Componentes.Inimigos.Robo;
 
 import Jogo.Componentes.Jogadores.Jogador1;
@@ -22,6 +23,7 @@ public class Fase extends JPanel {
 	
 	private boolean vitoria;
 	private boolean gameOver;
+
 
 	public Fase() {
 		this.vitoria = false;
@@ -50,7 +52,11 @@ public class Fase extends JPanel {
 			alien.setVisivel(false);
 		}
     }
-
+    public void checarDrakthar(Drakthar drakthar) {
+		if (drakthar.getVida() == 0) {
+			drakthar.setVisivel(false);
+		}
+    }
     public void checarRobos(List<Robo> robos){
         for (int i = 0; i < robos.size(); i++) {
 			Robo tempRobo = robos.get(i);
@@ -136,12 +142,20 @@ public class Fase extends JPanel {
 			}
 		}
 	}
-	public void colisoesTiroAlien(Alien alien1, Alien alien2, Jogador2 jogador, int x){
-		if (alien1.getX() == x && alien2.getX() == x) {
+	public void colisoesTiroDrakthar(Drakthar drakthar, Jogador1 jogador, int x){
+		if (drakthar.getX() == x) {
 			List<TiroNave> tiros = jogador.getTiros();
 			for (int j = 0; j < tiros.size(); j++) {
-				alien1.colisaoAlienTiro(jogador, j);
-				alien2.colisaoAlienTiro(jogador, j);
+				drakthar.colisaoDraktharTiro(jogador, j);
+				
+			}
+		}
+	}
+	public void colisoesTiroDrakthar(Drakthar drakthar, Jogador2 jogador, int x){
+		if (drakthar.getX() == x) {
+			List<TiroNave> tiros = jogador.getTiros();
+			for (int j = 0; j < tiros.size(); j++) {
+				drakthar.colisaoDraktharTiro(jogador, j);
 			}
 		}
 	}

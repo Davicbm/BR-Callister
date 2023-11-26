@@ -2,7 +2,6 @@ package Jogo.Componentes.Fases;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -10,13 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import Jogo.Container;
@@ -25,7 +21,6 @@ import Jogo.Componentes.Inimigos.Robo;
 
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
-import Jogo.Componentes.Jogadores.TiroNave;
 import Jogo.Componentes.Objetos.BarraVida;
 import Jogo.Componentes.Objetos.PowerUp;
 
@@ -100,7 +95,7 @@ public class Fase2 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 			robos.add(new Robo(x, y));
@@ -290,11 +285,11 @@ public class Fase2 extends Fase implements ActionListener {
 		}
 
 		if (contador == robos.size()) {
-			robo1.updateRoboAtirador(1000, 100);
-			robo2.updateRoboAtirador(1000, 600);
+			robo1.updateRoboAtirador(1000);
+			robo2.updateRoboAtirador(1000);
 
-			alien1.updateAlien(1200, 300);
-			alien2.updateAlien(1200, 400);
+			alien1.updateAlien(1200);
+			alien2.updateAlien(1200);
 		}
 
 		if (robo1.getX() == 1000 && robo2.getX() == 1000 ) {
@@ -346,8 +341,7 @@ public class Fase2 extends Fase implements ActionListener {
 
 		// Colisões de tiro da Nave com Alien:
 		fase.colisoesTiroAlien(alien1, alien2, jogador1, 1200);
-		fase.colisoesTiroAlien(alien1, alien2, jogador2, 1200);
-
+		
 		// Colisões de tiro do Robo com a Nave:
 		robo1.colisaoNaveTiro(jogador1);
 		robo2.colisaoNaveTiro(jogador1);
@@ -400,6 +394,7 @@ public class Fase2 extends Fase implements ActionListener {
 					container.reiniciarJogo();
 				}
 			}
+			repaint();
 		}
 
 		@Override
