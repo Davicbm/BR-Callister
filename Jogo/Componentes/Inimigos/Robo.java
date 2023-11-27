@@ -124,33 +124,28 @@ public class Robo {
 			}
 	}
 
-	public void colisaoNaveTiro(Jogador1 jogador){
-		List<TiroRobo> tiros3 = getTiros();
-		for (int j = 0; j < tiros3.size(); j++) {
-			TiroRobo tempTiroRobo = tiros3.get(j);
+	public void colisaoNaveTiro(Jogador1 jogador1, Jogador2 jogador2){
+		List<TiroRobo> tiros = getTiros();
+		for (int j = 0; j < tiros.size(); j++) {
+			TiroRobo tempTiroRobo = tiros.get(j);
 			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
-			Rectangle formaNave = jogador.getBounds();
-			if (formaTiroRobo.intersects(formaNave) && jogador.isVisivel()) {
-				if (jogador.getEscudo() > 0){
-					jogador.perdeEscudo(2);
+
+			Rectangle formaNave1 = jogador1.getBounds();
+			Rectangle formaNave2 = jogador2.getBounds();
+
+			if (formaTiroRobo.intersects(formaNave1) && jogador1.isVisivel()) {
+				if (jogador1.getEscudo() > 0){
+					jogador1.perdeEscudo(2);
 				} else {
-					jogador.perdeVida(2);
+					jogador1.perdeVida(2);
 				}
 				tempTiroRobo.setVisivel(false);
 			}
-		}
-	}
-	public void colisaoNaveTiro(Jogador2 jogador){
-		List<TiroRobo> tiros3 = getTiros();
-		for (int j = 0; j < tiros3.size(); j++) {
-			TiroRobo tempTiroRobo = tiros3.get(j);
-			Rectangle formaTiroRobo = tempTiroRobo.getBounds();
-			Rectangle formaNave = jogador.getBounds();
-			if (formaTiroRobo.intersects(formaNave) && jogador.isVisivel() ) {
-				if (jogador.getEscudo() > 0){
-					jogador.perdeEscudo(2);
+			if (formaTiroRobo.intersects(formaNave2) && jogador2.isVisivel()) {
+				if (jogador2.getEscudo() > 0){
+					jogador2.perdeEscudo(2);
 				} else {
-					jogador.perdeVida(2);
+					jogador2.perdeVida(2);
 				}
 				tempTiroRobo.setVisivel(false);
 			}

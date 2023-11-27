@@ -162,12 +162,16 @@ public class Fase extends JPanel {
 	}
 
 	//Colisões de tiros(naves) e aliens:
-	public void colisoesTiroAlien(Alien alien1, Alien alien2, Jogador1 jogador, int x){
-		if (alien1.getX() == x && alien2.getX() == x) {
-			List<TiroNave> tiros = jogador.getTiros();
-			for (int j = 0; j < tiros.size(); j++) {
-				alien1.colisaoAlienTiro(jogador, j);
-				alien2.colisaoAlienTiro(jogador, j);
+	public void colisoesTiroAlien(Alien alien, Jogador1 jogador1, Jogador2 jogador2, int x){
+		if (alien.getX() == x) {
+			List<TiroNave> tiros1 = jogador1.getTiros();
+			for (int j = 0; j < tiros1.size(); j++) {
+				alien.colisaoAlienTiro(jogador1, j);
+			}
+
+			List<TiroNave> tiros2 = jogador2.getTiros();
+			for (int j = 0; j < tiros2.size(); j++) {
+				alien.colisaoAlienTiro(jogador2, j);
 			}
 		}
 	}
