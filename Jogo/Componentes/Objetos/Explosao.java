@@ -1,4 +1,4 @@
-package Jogo.Componentes.Inimigos;
+package Jogo.Componentes.Objetos;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -10,6 +10,7 @@ public class Explosao {
     public Explosao(int x, int y) {
         this.x = x;
         this.y = y;
+        
         ImageIcon referencia = new ImageIcon("assets//explosion1.gif");
         imagem = referencia.getImage();
     }

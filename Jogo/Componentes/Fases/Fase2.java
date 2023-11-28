@@ -98,7 +98,7 @@ public class Fase2 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 			robos.add(new Robo(x, y));
@@ -360,6 +360,7 @@ public class Fase2 extends Fase implements ActionListener {
 
 		// Colisões de tiro da Nave com Alien:
 		fase.colisoesTiroAlien(alien1, jogador1, jogador2, 1200);
+		fase.colisoesTiroAlien(alien2, jogador1, jogador2, 1200);
 		
 		// Colisões de tiro do Robo com a Nave:
 		robo1.colisaoNaveTiro(jogador1, jogador2);
