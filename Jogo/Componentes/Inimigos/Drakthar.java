@@ -92,6 +92,7 @@ public class Drakthar {
 				if (vida == 0){
 					Jogador1.pontuacaoJogador1 += 100;
 				}
+
 			}
 
 	}
