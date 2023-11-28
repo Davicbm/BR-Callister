@@ -226,11 +226,11 @@ public class Fase2 extends Fase implements ActionListener {
 
 		if (doisJogadores) {
 			graficos.drawString("-- Pontuações -- ", 1325, 35);
-			graficos.drawString(nomeJogador1 + " = " + jogador1.getPontuacaoJogador1(), 1350, 60);
-			graficos.drawString(nomeJogador2 + " = " + jogador2.getPontuacaoJogador2(), 1350, 90);
+			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 1350, 60);
+			graficos.drawString(nomeJogador2 + " = " + Jogador2.pontuacaoJogador2, 1350, 90);
 		} else if (doisJogadores == false) {
 			graficos.drawString("-- Pontuações -- ", 1325, 35);
-			graficos.drawString(nomeJogador1 + " = " + jogador1.getPontuacaoJogador1(), 1350, 50);
+			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 1350, 50);
 		}
 
 		g.setFont(fonte2);
@@ -260,8 +260,8 @@ public class Fase2 extends Fase implements ActionListener {
 			g.setColor(Color.WHITE);
 			ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
 			graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
-			graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
-			graficos.drawString("Pontuação Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1125, 40);
+			graficos.drawString("Pontuação Jogador 1 = " + Jogador1.pontuacaoJogador1, 20, 40);
+			graficos.drawString("Pontuação Jogador 2 = " + Jogador2.pontuacaoJogador2, 1125, 40);
 			graficos.drawString("Aperte enter para a próxima fase!", 500, 800);
 		}
 		g.dispose();

@@ -90,7 +90,7 @@ public class Alien {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
 				if (vida == 0){
-					jogador.setPontuacaoJogador1(20);
+					Jogador1.pontuacaoJogador1 += 30;
 				}
 			}
 
@@ -104,7 +104,7 @@ public class Alien {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
 				if (vida == 0){
-					jogador.setPontuacaoJogador2(20);
+					Jogador2.pontuacaoJogador2 += 30;
 				}
 			}
 	}

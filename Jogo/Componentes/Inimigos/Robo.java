@@ -106,7 +106,7 @@ public class Robo {
 			perdeVida(1);
 			tempTiro.setVisivel(false);
 			if (vida == 0){
-				jogador.setPontuacaoJogador1(10);
+				Jogador1.pontuacaoJogador1 += 20;
 			}
 		}
 	}
@@ -119,7 +119,7 @@ public class Robo {
 				perdeVida(1);
 				tempTiro.setVisivel(false);
 				if (vida == 0){
-					jogador.setPontuacaoJogador2(10);
+					Jogador2.pontuacaoJogador2 += 20;
 				}
 			}
 	}

@@ -207,8 +207,8 @@ public class Fase3 extends Fase implements ActionListener {
 			g.setColor(Color.WHITE);
 			ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
 			graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
-			graficos.drawString("Pontuação Jogador 1 = " + jogador1.getPontuacaoJogador1(), 20, 40);
-			graficos.drawString("Pontuação Jogador 2 = " + jogador2.getPontuacaoJogador2(), 1125, 40);
+			graficos.drawString("Pontuação Jogador 1 = " + Jogador1.pontuacaoJogador1, 20, 40);
+			graficos.drawString("Pontuação Jogador 2 = " + Jogador2.pontuacaoJogador2, 1125, 40);
 		}	
 		g.dispose();
 	}

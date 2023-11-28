@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 
 public class Jogador1 extends Jogador {
 
-	private int pontuacaoJogador1 = 0;
+	public static int pontuacaoJogador1 = 0;
 
 	public Jogador1() {
 		super(300, 150);
@@ -45,13 +45,5 @@ public class Jogador1 extends Jogador {
 		if (codigo == KeyEvent.VK_SPACE) {
 			podeAtirar = true;
 		}
-	}
-
-	public void setPontuacaoJogador1(int pontuacao) {
-		this.pontuacaoJogador1 += pontuacao;
-	}
-
-	public int getPontuacaoJogador1() {
-		return this.pontuacaoJogador1;
 	}
 }
