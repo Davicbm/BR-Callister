@@ -114,10 +114,10 @@ public class Menu extends JPanel implements ActionListener {
 
 		graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
 
-		graficos.drawString("Single-Player", 650, 600);
-		graficos.drawString("Two Players", 660, 650);
-		graficos.drawString("E X I T", 690, 700);
-		graficos.drawString(">", 630 + (opcaoSelecionada * 25) - 20, 600 + opcaoSelecionada * 50);
+		graficos.drawString("Single-Player", 850, 750);
+		graficos.drawString("Two Players", 860, 800);
+		graficos.drawString("E X I T", 890, 850);
+		graficos.drawString(">", 830 + (opcaoSelecionada * 25) - 20, 750 + opcaoSelecionada * 50);
 		
 		if(nomesCapturados == true){
 			graficos.drawImage(fundoNomes, 0, 0, getWidth(), getHeight(), this);

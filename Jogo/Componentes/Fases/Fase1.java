@@ -40,6 +40,7 @@ public class Fase1 extends Fase implements ActionListener {
 
 	private BarraVida barra;
 	private List<BarraVidaInimigos> barras;
+	private List<BarraVidaInimigos> barras2;
 	private PowerUp powerUp;
 	private List<PowerUp> powerUps;
 
@@ -54,12 +55,17 @@ public class Fase1 extends Fase implements ActionListener {
 	private Robo robo7;
 	private Alien alien;
 	private List<Robo> robos;
+	private List<Robo> robos2;
 
 	private boolean emJogo;
 	private boolean vitoria;
 	private boolean gameOver;
-	private boolean proximaOnda;
+	private boolean proximaOndaAtiradores = false;
+	private boolean proximaOndaColisoes = false;
 	private boolean proximaFase = false;
+
+	private boolean pausado = false;
+    private int opcaoMenuPausa = 0;
 
 	private int contador = 0;
 	TecladoAdapter teclado = new TecladoAdapter();
@@ -104,7 +110,6 @@ public class Fase1 extends Fase implements ActionListener {
 	}
 
 	public void inicializaInimigos() {
-
 		robos = new ArrayList<Robo>();
 		barras = new ArrayList<BarraVidaInimigos>();
 
@@ -116,6 +121,19 @@ public class Fase1 extends Fase implements ActionListener {
 			barras.add(new BarraVidaInimigos(x, y));
 			robos.get(i).setVida(2);
 		}
+
+		robos2 = new ArrayList<Robo>();
+		barras2 = new ArrayList<BarraVidaInimigos>();
+
+		for (int i = 0; i < 20; i++) {
+				int x = (int) (Math.random() * 8000) + 1980;
+				int y = (int) (Math.random() * 650) + 10;
+
+				robos2.add(new Robo(x, y));
+				barras2.add(new BarraVidaInimigos(x, y));
+				robos2.get(i).setVida(2);
+
+			}
 
 		robo1 = new Robo(2000, 90);
 		robo2 = new Robo(2000, 350);
@@ -239,7 +257,7 @@ public class Fase1 extends Fase implements ActionListener {
 			}
 
 		}
-		if (proximaOnda) {
+		if (proximaOndaAtiradores) {
 			if (robo6.isVisivel()) {
 				graficos.drawImage(robo6.getImagem(), robo6.getX(), robo6.getY(), this);
 				if (robo6.getX() != 1300) {
@@ -275,6 +293,17 @@ public class Fase1 extends Fase implements ActionListener {
 				if (alien.isVisivel()) {
 					alien.drawTiroAlien(graficos);
 				}
+			}
+		}
+
+		if (proximaOndaColisoes) {
+			for (int j = 0; j < robos2.size(); j++) {
+				Robo robo = robos2.get(j);
+				BarraVidaInimigos barraInimigos = barras2.get(j);
+
+				robo.load2();
+				barraInimigos.load(graficos, robo);
+				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 			}
 		}
 
@@ -346,85 +375,116 @@ public class Fase1 extends Fase implements ActionListener {
 				graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
 			}
 		}
+		
+		if (pausado) { 
+			Font fonteMenu = loadFont("assets//PressStart2P.ttf", 24);
+			graficos.setFont(fonteMenu);
+			graficos.setColor(Color.WHITE);
+			graficos.drawString("Jogo Pausado", 800, 100);
+
+			graficos.setFont(fonte);
+			graficos.setColor(Color.WHITE);
+			graficos.drawString("Continuar", 850, 750);
+			graficos.drawString("Reiniciar", 860, 800);
+			graficos.drawString("Sair", 890, 850);
+			graficos.drawString(">", 830 + (opcaoMenuPausa * 25) - 20, 750 + opcaoMenuPausa * 50);
+		}
 
 		g.dispose();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		if (!pausado) {
+		
+			jogador1.update();
+			jogador2.update();
 
-		jogador1.update();
-		jogador2.update();
+			jogador1.atirar();
+			jogador2.atirar();
 
-		jogador1.atirar();
-		jogador2.atirar();
-
-		contador = 0;
-		for (int i = 0; i < robos.size(); i++) {
-			if (robos.get(i).isVisivel() == false) {
+			contador = 0;
+			for (int i = 0; i < robos.size(); i++) {
+				if (robos.get(i).isVisivel() == false) {
 				contador += 1;
 			}
-		}
-		if (contador == robos.size()) {
-			robo1.updateRoboAtirador(1100);
-			robo2.updateRoboAtirador(1000);
-			robo3.updateRoboAtirador(1100);
-			robo4.updateRoboAtirador(1200);
-			robo5.updateRoboAtirador(1200);
-		}
-		if (proximaOnda) {
-			robo6.updateRoboAtirador(1300);
-			robo7.updateRoboAtirador(1300);
-			alien.updateAlien(1100);
-		}
-		if (robo1.getX() == 1100) {
-			robo1.atirar();
-		}
-		if (robo2.getX() == 1000) {
-			robo2.atirar();
-		}
-		if (robo3.getX() == 1100) {
-			robo3.atirar();
-		}
-		if (robo4.getX() == 1200) {
-			robo4.atirar();
-		}
-		if (robo5.getX() == 1200) {
-			robo5.atirar();
-		}
-		if (robo6.getX() == 1300) {
-			robo6.atirar();
-		}
-		if (robo7.getX() == 1300) {
-			robo7.atirar();
-		}
-		if (alien.getX() == 1100) {
-			alien.atirar();
-		}
-
-		for (int j = 0; j < robos.size(); j++) {
-			Robo robo = robos.get(j);
-			BarraVidaInimigos barraInimigo = barras.get(j);
-
-			if (robo.isVisivel()) {
-				robo.updateRoboDeColisao();
-				barraInimigo.updateBarraInimigo();
-			} else {
-				robos.remove(j);
-				barras.remove(j);
 			}
-		}
-		for (int j = 0; j < powerUps.size(); j++) {
-			powerUp = powerUps.get(j);
-
-			if (powerUp.isVisivel()) {
-				powerUp.update();
-			} else {
-				powerUps.remove(j);
+			if (contador == robos.size()) {
+				robo1.updateRoboAtirador(1100);
+				robo2.updateRoboAtirador(1000);
+				robo3.updateRoboAtirador(1100);
+				robo4.updateRoboAtirador(1200);
+				robo5.updateRoboAtirador(1200);
 			}
+			if (proximaOndaAtiradores) {
+				robo6.updateRoboAtirador(1300);
+				robo7.updateRoboAtirador(1300);
+				alien.updateAlien(1100);
+			}
+			if (robo1.getX() == 1100) {
+				robo1.atirar();
+			}
+			if (robo2.getX() == 1000) {
+				robo2.atirar();
+			}
+			if (robo3.getX() == 1100) {
+				robo3.atirar();
+			}
+			if (robo4.getX() == 1200) {
+				robo4.atirar();
+			}
+			if (robo5.getX() == 1200) {
+				robo5.atirar();
+			}
+			if (robo6.getX() == 1300) {
+				robo6.atirar();
+			}
+			if (robo7.getX() == 1300) {
+				robo7.atirar();
+			}
+			if (alien.getX() == 1100) {
+				alien.atirar();
+			}
+
+			for (int j = 0; j < robos.size(); j++) {
+				Robo robo = robos.get(j);
+				BarraVidaInimigos barraInimigo = barras.get(j);
+
+				if (robo.isVisivel()) {
+					robo.updateRoboDeColisao();
+					barraInimigo.updateBarraInimigo();
+				} else {
+					robos.remove(j);
+					barras.remove(j);
+				}
+			}
+			if (proximaOndaColisoes) {
+				for (int j = 0; j < robos2.size(); j++) {
+					Robo robo = robos2.get(j);
+					BarraVidaInimigos barraInimigo = barras2.get(j);
+
+				if (robo.isVisivel()) {
+					robo.updateRoboDeColisao();
+					barraInimigo.updateBarraInimigo();
+				} else {
+					robos2.remove(j);
+					barras2.remove(j);
+				}
+				}
+			}
+			for (int j = 0; j < powerUps.size(); j++) {
+				powerUp = powerUps.get(j);
+
+				if (powerUp.isVisivel()) {
+					powerUp.update();
+				} else {
+					powerUps.remove(j);
+				}
+			}
+			checarColisoes();
+			repaint();
 		}
-		checarColisoes();
-		repaint();
 	}
 
 	public void checarColisoes() {
@@ -433,6 +493,7 @@ public class Fase1 extends Fase implements ActionListener {
 
 		// Colisões de Nave com Robô:
 		fase.colisoesNavesRobos(robos, jogador1, jogador2);
+		fase.colisoesNavesRobos(robos2, jogador1, jogador2);
 
 		// Colisões de tiro da Nave com Robo:
 		fase.colisoesTiroRobo(robo1, jogador1, jogador2, 1100);
@@ -449,6 +510,9 @@ public class Fase1 extends Fase implements ActionListener {
 		// Colisões de tiro da Nave com Robo de colisão:
 		fase.colisoesTiroRobo2(jogador1, robos);
 		fase.colisoesTiroRobo2(jogador2, robos);
+
+		fase.colisoesTiroRobo2(jogador1, robos2);
+		fase.colisoesTiroRobo2(jogador2, robos2);
 
 		// Colisões de tiro do Robo com a Nave:
 		robo1.colisaoNaveTiro(jogador1, jogador2);
@@ -475,14 +539,18 @@ public class Fase1 extends Fase implements ActionListener {
 
 		fase.checarRobos(robos);
 
+		if (robo6.isVisivel() == false && robo7.isVisivel() == false) {
+			proximaOndaColisoes = true;
+		}
+
 		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false
 				&& robo4.isVisivel() == false &&
 				robo5.isVisivel() == false) {
-			proximaOnda = true;
+			proximaOndaAtiradores = true;
 		}
 		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false
-			&& robo4.isVisivel() == false && robo5.isVisivel() == false && alien.isVisivel() == false 
-			&& robo6.isVisivel() == false && robo7.isVisivel() == false) {
+				&& robo4.isVisivel() == false && robo5.isVisivel() == false && alien.isVisivel() == false
+				&& robo6.isVisivel() == false && robo7.isVisivel() == false) {
 			vitoria = true;
 		}
 		gameOver = fase.checarJogadores(jogador1, jogador2, doisJogadores);
@@ -508,6 +576,27 @@ public class Fase1 extends Fase implements ActionListener {
 					container.reiniciarJogo();
 				}
 			}
+			if (codigo == KeyEvent.VK_ESCAPE) {
+				alternarPausa(); 
+			}
+			if (pausado) {
+				switch (codigo) {
+					case KeyEvent.VK_UP:
+						if (opcaoMenuPausa > 0) {
+							opcaoMenuPausa--;
+						}
+						break;
+					case KeyEvent.VK_DOWN:
+						if (opcaoMenuPausa < 2) {
+							opcaoMenuPausa++;
+						}
+						break;
+					case KeyEvent.VK_ENTER:
+						executarAcaoMenuPausa();
+						break;
+				}
+				}
+
 			repaint();
 		}
 
@@ -551,5 +640,27 @@ public class Fase1 extends Fase implements ActionListener {
 
 	public boolean opcaoSelecionada() {
 		return emJogo;
+	}
+
+	public void alternarPausa() {
+        pausado = !pausado;
+        if (pausado) {
+            timer.stop();  
+        } else {
+            timer.start(); 
+        }
+    }
+
+	private void executarAcaoMenuPausa() {
+		switch (opcaoMenuPausa) {
+			case 0:
+				alternarPausa(); 
+				break;
+			case 1:
+				container.reiniciarJogo(); 
+			case 2:
+				System.exit(0); 
+				break;
+		}
 	}
 }
