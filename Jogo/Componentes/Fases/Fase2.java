@@ -51,6 +51,9 @@ public class Fase2 extends Fase implements ActionListener {
 	private Alien alien2;
 	private int contador = 0;
 
+	private boolean pausado = false;
+    private int opcaoMenuPausa = 0;
+
 	TecladoAdapter teclado = new TecladoAdapter();
 	Fase fase = new Fase();
 	private Container container;
@@ -264,11 +267,26 @@ public class Fase2 extends Fase implements ActionListener {
 			graficos.drawString("Pontuação Jogador 2 = " + Jogador2.pontuacaoJogador2, 1125, 40);
 			graficos.drawString("Aperte enter para a próxima fase!", 500, 800);
 		}
+		if (pausado) { 
+			Font fonteMenu = loadFont("assets//PressStart2P.ttf", 24);
+			graficos.setFont(fonteMenu);
+			graficos.setColor(Color.WHITE);
+			graficos.drawString("Jogo Pausado", 800, 100);
+
+			graficos.setFont(fonte);
+			graficos.setColor(Color.WHITE);
+			graficos.drawString("Continuar", 850, 750);
+			graficos.drawString("Reiniciar", 860, 800);
+			graficos.drawString("Sair", 890, 850);
+			graficos.drawString(">", 830 + (opcaoMenuPausa * 25) - 20, 750 + opcaoMenuPausa * 50);
+		}
+	
 		g.dispose();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (!pausado) { 
 		jogador1.update();
 		jogador1.atirar();
 
@@ -323,6 +341,7 @@ public class Fase2 extends Fase implements ActionListener {
 		}
 		checarColisoes();
 		repaint();
+		}
 	}
 
 	public void checarColisoes() {
@@ -391,6 +410,26 @@ public class Fase2 extends Fase implements ActionListener {
 					container.reiniciarJogo();
 				}
 			}
+			if (codigo == KeyEvent.VK_ESCAPE) {
+				alternarPausa(); 
+			}
+			if (pausado) {
+				switch (codigo) {
+					case KeyEvent.VK_UP:
+						if (opcaoMenuPausa > 0) {
+							opcaoMenuPausa--;
+						}
+						break;
+					case KeyEvent.VK_DOWN:
+						if (opcaoMenuPausa < 2) {
+							opcaoMenuPausa++;
+						}
+						break;
+					case KeyEvent.VK_ENTER:
+						executarAcaoMenuPausa();
+						break;
+				}
+			}
 			repaint();
 		}
 
@@ -405,6 +444,27 @@ public class Fase2 extends Fase implements ActionListener {
 		@Override
 		public void keyTyped(KeyEvent e) {
 
+		}
+	}
+	public void alternarPausa() {
+        pausado = !pausado;
+        if (pausado) {
+            timer.stop();  
+        } else {
+            timer.start(); 
+        }
+    }
+	private void executarAcaoMenuPausa() {
+		switch (opcaoMenuPausa) {
+			case 0:
+				alternarPausa(); 
+				break;
+			case 1:
+				container.reiniciarJogo(); 
+				break;
+			case 2:
+				System.exit(0); 
+				break;
 		}
 	}
 
