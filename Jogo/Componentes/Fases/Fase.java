@@ -36,7 +36,7 @@ public class Fase extends JPanel {
 		this.vitoria = false;
 		this.gameOver = false;
 	try {
-            File audioFile = new File("assets//inherit.wav");
+            File audioFile = new File("assets//musica-batalha.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
             clip = AudioSystem.getClip();
