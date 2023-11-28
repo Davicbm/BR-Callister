@@ -25,7 +25,6 @@ public class BarraVida {
 		
 		ImageIcon referencia = new ImageIcon("assets//barravida_full.png");
 		barraVida10 = referencia.getImage();
-		
 
 		referencia = new ImageIcon("assets//barravida_9.png");
 		barraVida9 = referencia.getImage();
