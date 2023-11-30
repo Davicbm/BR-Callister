@@ -9,9 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
@@ -27,6 +34,7 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase1 extends Fase implements ActionListener {
 
+	private Clip clip;
 	private boolean doisJogadores;
 	private String nomeJogador1 = Menu.nomeJogador1;
 	private String nomeJogador2 = Menu.nomeJogador2;
@@ -106,6 +114,29 @@ public class Fase1 extends Fase implements ActionListener {
 			doisJogadores = true;
 		} else {
 			doisJogadores = false;
+		}
+		try {
+			File audioFile = new File("assets//musica-batalha.wav");
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+			clip = AudioSystem.getClip();
+			clip.open(audioStream);
+		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+			e.printStackTrace();
+		}
+		playSound();
+	}
+
+	public void playSound() {
+		if (clip != null) {
+			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+	}
+
+	public void stopSound() {
+		if (clip != null) {
+			clip.stop();
 		}
 	}
 
