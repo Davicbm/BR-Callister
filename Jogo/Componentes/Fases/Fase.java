@@ -6,6 +6,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
 import Jogo.Componentes.Inimigos.Alien;
@@ -19,14 +24,42 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase extends JPanel {
 
+	private Clip clip;
+	private boolean tocarMusica;
 	public static boolean doisJogadores;
 
 	private boolean vitoria;
 	private boolean gameOver;
 
-	public Fase() {
+	public Fase(Boolean tocarMusica) {
 		this.vitoria = false;
 		this.gameOver = false;
+		this.tocarMusica = tocarMusica;
+		try {
+			File audioFile = new File("assets//musica-batalha.wav");
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+			clip = AudioSystem.getClip();
+			clip.open(audioStream);
+		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+			e.printStackTrace();
+		}
+		if (tocarMusica){
+			playSound();
+		}
+	}
+
+	public void playSound() {
+		if (clip != null) {
+			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+	}
+
+	public void stopSound() {
+		if (clip != null) {
+			clip.stop();
+		}
 	}
 
 	public Font loadFont(String path, float size) {
@@ -96,8 +129,8 @@ public class Fase extends JPanel {
 		}
 	}
 
-	// Colisões de tiros(naves) e robos:
-	public void colisoesTiroRobo(Robo robo, Jogador1 jogador1, Jogador2 jogador2, int x) {
+	// Colisões de tiros(naves) e robôs:
+	public void colisoesTiroEmRobo1(Robo robo, Jogador1 jogador1, Jogador2 jogador2, int x) {
 		List<TiroNave> tiros1 = jogador1.getTiros();
 		List<TiroNave> tiros2 = jogador2.getTiros();
 
@@ -114,7 +147,7 @@ public class Fase extends JPanel {
 	}
 
 	// Colisões de tiros(naves) e robôs de colisão:
-	public void colisoesTiroRobo2(Jogador1 jogador, List<Robo> robos) {
+	public void colisoesTiroEmRobo2(Jogador1 jogador, List<Robo> robos) {
 		List<TiroNave> tiros = jogador.getTiros();
 
 		for (int j = 0; j < tiros.size(); j++) {
@@ -137,7 +170,7 @@ public class Fase extends JPanel {
 	}
 
 	// Colisões de tiros(naves) e aliens:
-	public void colisoesTiroAlien(Alien alien, Jogador1 jogador1, Jogador2 jogador2, int x) {
+	public void colisoesTiroEmAlien(Alien alien, Jogador1 jogador1, Jogador2 jogador2, int x) {
 		if (alien.getX() == x) {
 			List<TiroNave> tiros1 = jogador1.getTiros();
 			for (int j = 0; j < tiros1.size(); j++) {
@@ -151,7 +184,7 @@ public class Fase extends JPanel {
 		}
 	}
 
-	public void colisoesTiroDrakthar(Drakthar drakthar, Jogador1 jogador, int x) {
+	public void colisoesTiroEmDrakthar(Drakthar drakthar, Jogador1 jogador, int x) {
 		if (drakthar.getX() == x) {
 			List<TiroNave> tiros = jogador.getTiros();
 			for (int j = 0; j < tiros.size(); j++) {

@@ -55,10 +55,11 @@ public class Fase2 extends Fase implements ActionListener {
     private int opcaoMenuPausa = 0;
 
 	TecladoAdapter teclado = new TecladoAdapter();
-	Fase fase = new Fase();
+	Fase fase = new Fase(false);
 	private Container container;
 
 	public Fase2(Container container) {
+		super(false);
 		this.container = container;
 
 		setFocusable(true);
@@ -352,15 +353,15 @@ public class Fase2 extends Fase implements ActionListener {
 		fase.colisoesNavesRobos(robos, jogador1, jogador2);
 
 		// Colisões de tiro da Nave com Robo:
-		fase.colisoesTiroRobo(robo1, jogador1, jogador2, 1000);
-		fase.colisoesTiroRobo(robo2, jogador1, jogador2, 1000);
+		fase.colisoesTiroEmRobo1(robo1, jogador1, jogador2, 1000);
+		fase.colisoesTiroEmRobo1(robo2, jogador1, jogador2, 1000);
 
-		fase.colisoesTiroRobo2(jogador1, robos);
+		fase.colisoesTiroEmRobo2(jogador1, robos);
 		fase.colisoesTiroRobo2(jogador2, robos);
 
 		// Colisões de tiro da Nave com Alien:
-		fase.colisoesTiroAlien(alien1, jogador1, jogador2, 1200);
-		fase.colisoesTiroAlien(alien2, jogador1, jogador2, 1200);
+		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1200);
+		fase.colisoesTiroEmAlien(alien2, jogador1, jogador2, 1200);
 		
 		// Colisões de tiro do Robo com a Nave:
 		robo1.colisaoNaveTiro(jogador1, jogador2);

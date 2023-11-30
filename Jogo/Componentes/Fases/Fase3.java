@@ -24,6 +24,7 @@ import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
 import Jogo.Componentes.Objetos.BarraVida;
+import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase3 extends Fase implements ActionListener {
 
@@ -33,6 +34,7 @@ public class Fase3 extends Fase implements ActionListener {
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
 	private BarraVida barra;
+	private List<PowerUp> powerUps;
 	private Timer timer;
 
 	private List<Robo> robos;
@@ -41,17 +43,19 @@ public class Fase3 extends Fase implements ActionListener {
 	private boolean vitoria;
 	private boolean doisJogadores;
 	private boolean gameOver;
+
 	private Alien alien1;
 	private Alien alien2;
-
 	private Drakthar drakthar;
 
 	private int contador = 0;
 
 	TecladoAdapter teclado = new TecladoAdapter();
+	Fase fase = new Fase(false);
 	private Container container;
 
 	public Fase3(Container container) {
+		super(false);
 		this.container = container;
 
 		setFocusable(true);
@@ -102,9 +106,9 @@ public class Fase3 extends Fase implements ActionListener {
 		}	
 
 		alien1 = new Alien(1800, 100);
-		alien2 = new Alien(1800, 500);
+		alien2 = new Alien(1800, 600);
 
-		drakthar = new Drakthar(1800, 300);
+		drakthar = new Drakthar(1800, 200);
 
 		alien1.load();
 		alien2.load();
@@ -112,6 +116,18 @@ public class Fase3 extends Fase implements ActionListener {
 		drakthar.load();
 	}
 
+	public void inicializaPowerUps() {
+		powerUps = new ArrayList<PowerUp>();
+
+		for (int i = 0; i < 20; i++) {
+			int x = (int) (Math.random() * 8000) + 1980;
+			int y = (int) (Math.random() * 650) + 10;
+			int codigo = (int) (Math.random() * 4) + 1;
+
+			powerUps.add(new PowerUp(x, y, codigo));
+		}
+	}
+	
 	public void paint(Graphics g) {
 		barra = new BarraVida();
 		Graphics2D graficos = (Graphics2D) g;
@@ -143,35 +159,35 @@ public class Fase3 extends Fase implements ActionListener {
 		if (contador == robos.size()){
 			if (alien1.isVisivel()){
 				graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
-				if(alien1.getX() != 1100){
+				if(alien1.getX() != 1000){
 					//muda a posição para os alien
 					graficos.drawImage(alerta, 1450, 100, this);
 				}
 			} 
 			if (alien2.isVisivel()){
 				graficos.drawImage(alien2.getImagem(), alien2.getX(), alien2.getY(), this);
-				if(alien2.getX() != 1100){
+				if(alien2.getX() != 1000){
 					graficos.drawImage(alerta, 1450, 500, this);
 				}
 			}
 			if (drakthar.isVisivel()){
 				graficos.drawImage(drakthar.getImagem(), drakthar.getX(), drakthar.getY(), this);
-				if(drakthar.getX() != 1200){
+				if(drakthar.getX() != 1100){
 					graficos.drawImage(alerta, 1450, 300, this);
 				}
 			}
 			
-			if (alien1.getX() == 1100){
+			if (alien1.getX() == 1000){
 				if (alien1.isVisivel()){
 				alien1.drawTiroAlien(graficos);
 				} 
 			}
-			if (alien2.getX() == 1100){
+			if (alien2.getX() == 1000){
 				if (alien2.isVisivel()){
 					alien2.drawTiroAlien(graficos);
 				}
 			}
-			if (drakthar.getX() == 1200){
+			if (drakthar.getX() == 1100){
 				if (drakthar.isVisivel()){
 					drakthar.drawTiroDrakthar(graficos);
 				}
@@ -231,18 +247,18 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 
 		if (contador == robos.size()){
-			alien1.updateAlien(1100);
-			alien2.updateAlien(1100);
+			alien1.updateAlien(1000);
+			alien2.updateAlien(1000);
 		
-			drakthar.updateDrakthar(1200);
+			drakthar.updateDrakthar(1100);
 		}
 
-		if(alien1.getX() == 1100){
+		if(alien1.getX() == 1000){
 			alien1.atirar();
 			alien2.atirar();
 		}
 		
-		if(drakthar.getX() == 1200){
+		if(drakthar.getX() == 1100){
 			drakthar.atirar();
 		}
 
@@ -262,54 +278,15 @@ public class Fase3 extends Fase implements ActionListener {
 	public void checarColisoes() {
 		
 		//Colisões de Nave com Robô:
-		for (int i = 0; i < robos.size(); i++) {
-			Robo tempRobo = robos.get(i);
-			tempRobo.colisaoNaveRobo(jogador1);
-		}
+		fase.colisoesPowerUps(powerUps, jogador1, jogador2);
 
-		if (doisJogadores){
-			for (int i = 0; i < robos.size(); i++) {
-				Robo tempRobo = robos.get(i);
-				tempRobo.colisaoNaveRobo(jogador2);
-			}
-		}
+		// Colisões de Nave com Robô:
+		fase.colisoesNavesRobos(robos, jogador1, jogador2);
 
-		List<TiroNave> tiros3 = jogador1.getTiros();
-		for (int j = 0; j < tiros3.size(); j++) {
-			for (int i = 0; i < robos.size(); i++) {
-				Robo tempRobo = robos.get(i);
-				tempRobo.colisaoRoboTiro(jogador1, j);
-			}
-		}
-		if(doisJogadores){
-			List<TiroNave> tiros4 = jogador2.getTiros();
-			for (int j = 0; j < tiros4.size(); j++) {
-				for (int i = 0; i < robos.size(); i++) {
-					Robo tempRobo = robos.get(i);
-					tempRobo.colisaoRoboTiro(jogador2, j);
-				}
-			}	
-		}
+		//Colisões de tiro de Nave em Aliens:
+		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1100);
 
-		if (alien1.getX() == 1100){
-			List<TiroNave> tiros5 = jogador1.getTiros();
-			for (int j = 0; j < tiros5.size(); j++) {
-				alien1.colisaoAlienTiro(jogador1, j);
-				alien2.colisaoAlienTiro(jogador1, j);
-			}
-
-			if (doisJogadores){
-				List<TiroNave> tiros6 = jogador2.getTiros();
-				for (int j = 0; j < tiros6.size(); j++) {
-					alien1.colisaoAlienTiro(jogador2, j);
-					alien2.colisaoAlienTiro(jogador2, j);
-				}
-			}
-		}
-		
-		
-
-		//Colisões de tiro do Robo com a Nave:
+		//Colisões de tiro do Alien com a Nave:
 		alien1.colisaoNaveTiro(jogador1);
 		alien2.colisaoNaveTiro(jogador1);
 		if (doisJogadores){
@@ -317,38 +294,13 @@ public class Fase3 extends Fase implements ActionListener {
 			alien2.colisaoNaveTiro(jogador2);
 		}
 		
-		if (jogador1.getVida() == 0 ){
-			jogador1.setVisivel(false);
-		}
-		if (jogador2.getVida() == 0 ){
-			jogador2.setVisivel(false);
-		} 
-		if (alien1.getVida() == 0){
-			alien1.setVisivel(false);
-		} 
-		if (alien2.getVida() == 0){
-			alien2.setVisivel(false);
-		} 
-		
-		if (jogador1.getVida() == 0 ){
-			jogador1.setVisivel(false);
-		}
-		if (jogador2.getVida() == 0 ){
-			jogador2.setVisivel(false);
-		} 
+		//Checagem das Entidades:
+		checarJogadores(jogador1, jogador2, doisJogadores);
 
-		for (int i = 0; i < robos.size(); i++){
-			Robo tempRobo = robos.get(i);
-			if (tempRobo.getVida() == 0 ){
-				tempRobo.setVisivel(false);
-			} 
-		}
-		if (alien1.getVida() == 0){
-			alien1.setVisivel(false);
-		} 
-		if (alien2.getVida() == 0){
-			alien2.setVisivel(false);
-		} 
+		checarAlien(alien1);
+		checarAlien(alien2);
+		
+		checarRobos(robos);
 
 		if (jogador1.getVida() <= 0){
 			gameOver = true;

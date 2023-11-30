@@ -54,7 +54,7 @@ public class Container extends JFrame {
     }
 
     public void avancarFase() {
-        faseAtual++;
+        faseAtual = 3;
         switchFase();
     }
 
