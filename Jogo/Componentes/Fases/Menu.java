@@ -57,7 +57,7 @@ public class Menu extends JPanel implements ActionListener {
         setFocusable(true);
 		setDoubleBuffered(true);
 
-		ImageIcon referencia = new ImageIcon("assets//fundo_menu.png");
+		ImageIcon referencia = new ImageIcon("assets//fundomenu.png");
 		fundoMenu = referencia.getImage();
 
 		referencia = new ImageIcon("assets//blackground.png");
@@ -109,15 +109,18 @@ public class Menu extends JPanel implements ActionListener {
 
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
         
-		g.setFont(fonte);
-		g.setColor(Color.WHITE);
 
-		graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
+			g.setFont(fonte);
+			g.setColor(Color.WHITE);
 
-		graficos.drawString("Single-Player", 850, 750);
-		graficos.drawString("Two Players", 860, 800);
-		graficos.drawString("E X I T", 890, 850);
-		graficos.drawString(">", 830 + (opcaoSelecionada * 25) - 20, 750 + opcaoSelecionada * 50);
+			graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
+
+			graficos.drawString("Single-Player", 650, 600);
+			graficos.drawString("Two Players", 660, 650);
+			graficos.drawString("E X I T", 690, 700);
+			graficos.drawString(">", 630 + (opcaoSelecionada * 25) - 20, 600 + opcaoSelecionada * 50);
+			
+		
 		
 		if(nomesCapturados == true){
 			graficos.drawImage(fundoNomes, 0, 0, getWidth(), getHeight(), this);
