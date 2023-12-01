@@ -39,53 +39,54 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-
 import Jogo.Container;
 
 public class Menu extends JPanel implements ActionListener {
 
-	private Clip clip;
+    private Clip clip;
     private Image fundoMenu;
-	private Image fundoNomes;
+    private Image fundoNomes;
 
     private Timer timer;
 
     private int opcaoSelecionada;
-	private boolean nomesCapturados = false;
+    private boolean nomesCapturados = false;
     public static boolean doisJogadores;
-	public static String nomeJogador1 = "Jogador 1";
-	public static String nomeJogador2 = "Jogador 2";
+    public static String nomeJogador1 = "Jogador 1";
+    public static String nomeJogador2 = "Jogador 2";
 
     TecladoAdapter teclado = new TecladoAdapter();
     private Container container;
-    public Menu (Container container){
+
+    public Menu(Container container) {
         this.container = container;
         setFocusable(true);
-		setDoubleBuffered(true);
+        setDoubleBuffered(true);
 
-		ImageIcon referencia = new ImageIcon("assets//fundomenu.png");
-		fundoMenu = referencia.getImage();
+        ImageIcon referencia = new ImageIcon("assets//fundomenu.png");
+        fundoMenu = referencia.getImage();
 
-		referencia = new ImageIcon("assets//blackground.png");
-		fundoNomes = referencia.getImage();
+        referencia = new ImageIcon("assets//blackground.png");
+        fundoNomes = referencia.getImage();
 
-		addKeyListener(teclado);
+        addKeyListener(teclado);
 
-		timer = new Timer(5, this);
-		timer.start();
-		try {
-            File audioFile = new File("assets//interstellar.wav");
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+        timer = new Timer(5, this);
+        timer.start();
+
+        try {
+            File audioFile2 = new File("assets//interstellar.wav");
+            AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(audioFile2);
 
             clip = AudioSystem.getClip();
-            clip.open(audioStream);
+            clip.open(audioStream2);
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
         }
-		playSound();
-	}
+        startSound();
+    }
 
-	public void playSound() {
+    public void startSound() {
         if (clip != null) {
             clip.start();
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -99,41 +100,38 @@ public class Menu extends JPanel implements ActionListener {
     }
 
     private static Font loadFont(String path, float size) {
-		try {
-			File fontFile = new File(path);
-			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        try {
+            File fontFile = new File(path);
+            Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 
-			return font.deriveFont(size);
-		} catch (IOException | FontFormatException e) {
-			e.printStackTrace();
-			return new Font("Arial", Font.PLAIN, (int) size);
-		}
-	}
-    
-    public void paint(Graphics g) {
-		Graphics2D graficos = (Graphics2D) g;
-
-		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
-        
-
-			g.setFont(fonte);
-			g.setColor(Color.WHITE);
-
-			graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
-
-			graficos.drawString("Single-Player", 650, 600);
-			graficos.drawString("Two Players", 660, 650);
-			graficos.drawString("E X I T", 690, 700);
-			graficos.drawString(">", 630 + (opcaoSelecionada * 25) - 20, 600 + opcaoSelecionada * 50);
-			
-		
-		
-		if(nomesCapturados == true){
-			graficos.drawImage(fundoNomes, 0, 0, getWidth(), getHeight(), this);
-		}
+            return font.deriveFont(size);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            return new Font("Arial", Font.PLAIN, (int) size);
+        }
     }
 
-	 public void capturarNomes() {
+    public void paint(Graphics g) {
+        Graphics2D graficos = (Graphics2D) g;
+
+        Font fonte = loadFont("assets//PressStart2P.ttf", 16);
+
+        g.setFont(fonte);
+        g.setColor(Color.WHITE);
+
+        graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
+
+        graficos.drawString("Single-Player", 650, 600);
+        graficos.drawString("Two Players", 660, 650);
+        graficos.drawString("E X I T", 690, 700);
+        graficos.drawString(">", 630 + (opcaoSelecionada * 25) - 20, 600 + opcaoSelecionada * 50);
+
+        if (nomesCapturados == true) {
+            graficos.drawImage(fundoNomes, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+
+    public void capturarNomes() {
         JDialog dialog = new JDialog();
         dialog.setSize(600, 300);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -216,6 +214,7 @@ public class Menu extends JPanel implements ActionListener {
             if (doisJogadores) {
                 nomeJogador2 = textField2.getText().isEmpty() ? "Player 2" : textField2.getText();
             }
+            stopSound();
             container.avancarFase();
             dialog.dispose();
         });
@@ -255,69 +254,72 @@ public class Menu extends JPanel implements ActionListener {
         });
 
         actionMap.put("enterPressed", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (okButton.isFocusOwner()) {
-					okButton.doClick();
-				} else if (cancelButton.isFocusOwner()) {
-					cancelButton.doClick();
-				}
-			}
-		});
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (okButton.isFocusOwner()) {
+                    okButton.doClick();
+                } else if (cancelButton.isFocusOwner()) {
+                    cancelButton.doClick();
+                }
+            }
+        });
 
         dialog.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-       
+
     }
+
     private class TecladoAdapter implements KeyListener {
-		
+
         @Override
-		public void keyPressed(KeyEvent e) {
-			int codigo = e.getKeyCode();
+        public void keyPressed(KeyEvent e) {
+            int codigo = e.getKeyCode();
 
-			switch (codigo) {
-				case KeyEvent.VK_UP:
-					if (opcaoSelecionada > 0) {
-						opcaoSelecionada--;
-					}
-					break;
-				case KeyEvent.VK_DOWN:
-					if (opcaoSelecionada < 2) {
-						opcaoSelecionada++;
-					}
-					break;
-				case KeyEvent.VK_ENTER:
-					selecionarOpcao();
-					break;
-				}
-                repaint();
-			}
-            @Override
-            public void keyTyped(KeyEvent e) {
-               
+            switch (codigo) {
+                case KeyEvent.VK_UP:
+                    if (opcaoSelecionada > 0) {
+                        opcaoSelecionada--;
+                    }
+                    break;
+                case KeyEvent.VK_DOWN:
+                    if (opcaoSelecionada < 2) {
+                        opcaoSelecionada++;
+                    }
+                    break;
+                case KeyEvent.VK_ENTER:
+                    selecionarOpcao();
+                    break;
             }
-            @Override
-            public void keyReleased(KeyEvent e) {
-              
-            }
-		}
+            repaint();
+        }
 
-		private void selecionarOpcao() {
-            switch (opcaoSelecionada) {
-				case 0:
-					doisJogadores = false;
-					capturarNomes();
-					break;
-				case 1:
-					doisJogadores = true;
-					capturarNomes();
-					break;
-				case 2:
-					System.exit(0);
-					break;
-			}
-		}
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
+    }
+
+    private void selecionarOpcao() {
+        switch (opcaoSelecionada) {
+            case 0:
+                doisJogadores = false;
+                capturarNomes();
+                break;
+            case 1:
+                doisJogadores = true;
+                capturarNomes();
+                break;
+            case 2:
+                System.exit(0);
+                break;
+        }
+    }
 }

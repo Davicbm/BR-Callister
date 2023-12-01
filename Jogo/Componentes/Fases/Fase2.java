@@ -9,9 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
@@ -27,6 +34,7 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase2 extends Fase implements ActionListener {
 
+	private Clip clip;
 	private Image fundo;
 	private Image alerta;
 
@@ -64,13 +72,12 @@ public class Fase2 extends Fase implements ActionListener {
 	private boolean pausado = false;
 	private int opcaoMenuPausa = 0;
 
-	TecladoAdapter teclado = new TecladoAdapter();
-	Fase fase = new Fase(false);
-
 	private Container container;
+	TecladoAdapter teclado = new TecladoAdapter();
+	Fase fase = new Fase(container);
 
 	public Fase2(Container container) {
-		super(false);
+		super(container);
 		this.container = container;
 
 		setFocusable(true);
@@ -104,6 +111,31 @@ public class Fase2 extends Fase implements ActionListener {
 		}
 
 		this.requestFocusInWindow();
+
+		try {
+			File audioFile = new File("assets//musica-batalha.wav");
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+			clip = AudioSystem.getClip();
+			clip.open(audioStream);
+
+		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+			e.printStackTrace();
+		}
+		startSound();
+	}
+
+	public void startSound() {
+		if (clip != null) {
+			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+	}
+
+	public void stopSound() {
+		if (clip != null) {
+			clip.stop();
+		}
 	}
 
 	public void inicializaInimigos() {
@@ -175,18 +207,8 @@ public class Fase2 extends Fase implements ActionListener {
 
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 
-		if (jogador1.isVisivel()) {
-			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
-			jogador1.drawTiroNave(graficos);
-		}
-		if (doisJogadores == true) {
-			if (jogador2.isVisivel()) {
-				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
-				jogador2.drawTiroNave(graficos);
-			}
-		} else {
-			jogador2.setVisivel(false);
-		}
+		fase.drawComponentesIniciais(graficos, jogador1, jogador2);
+
 		contador = 0;
 		for (int i = 0; i < robos.size(); i++) {
 			if (robos.get(i).isVisivel() == false) {
@@ -494,13 +516,18 @@ public class Fase2 extends Fase implements ActionListener {
 		// Colisões de tiro da Nave com Robo:
 		fase.colisoesTiroEmRobo1(robo1, jogador1, jogador2, 1000);
 		fase.colisoesTiroEmRobo1(robo2, jogador1, jogador2, 1000);
+		fase.colisoesTiroEmRobo1(robo3, jogador1, jogador2, 1000);
+		fase.colisoesTiroEmRobo1(robo4, jogador1, jogador2, 1000);
 
 		fase.colisoesTiroEmRobo2(jogador1, robos);
-		fase.colisoesTiroRobo2(jogador2, robos);
+		fase.colisoesTiroEmRobo2(jogador2, robos);
 
 		// Colisões de tiro da Nave com Alien:
 		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1200);
 		fase.colisoesTiroEmAlien(alien2, jogador1, jogador2, 1200);
+		fase.colisoesTiroEmAlien(alien3, jogador1, jogador2, 1200);
+		fase.colisoesTiroEmAlien(alien4, jogador1, jogador2, 1200);
+		fase.colisoesTiroEmAlien(alien5, jogador1, jogador2, 1200);
 
 		// Colisões de tiro do Robo com a Nave:
 		robo1.colisaoNaveTiro(jogador1, jogador2);
@@ -516,9 +543,14 @@ public class Fase2 extends Fase implements ActionListener {
 		// Checa a vida das entidades:
 		fase.checarRobo(robo1);
 		fase.checarRobo(robo2);
+		fase.checarRobo(robo3);
+		fase.checarRobo(robo4);
 
 		fase.checarAlien(alien1);
 		fase.checarAlien(alien2);
+		fase.checarAlien(alien3);
+		fase.checarAlien(alien4);
+		fase.checarAlien(alien5);
 
 		fase.checarRobos(robos);
 
@@ -551,6 +583,7 @@ public class Fase2 extends Fase implements ActionListener {
 				}
 			}
 			if (gameOver) {
+				stopSound();
 				if (codigo == KeyEvent.VK_ENTER) {
 					container.reiniciarJogo();
 				}

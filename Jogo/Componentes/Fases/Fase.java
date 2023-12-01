@@ -2,17 +2,14 @@ package Jogo.Componentes.Fases;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
+import Jogo.Container;
 import Jogo.Componentes.Inimigos.Alien;
 import Jogo.Componentes.Inimigos.Drakthar;
 import Jogo.Componentes.Inimigos.Robo;
@@ -24,41 +21,32 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase extends JPanel {
 
-	private Clip clip;
-	private boolean tocarMusica;
+	private int contador = 0;
+	
 	public static boolean doisJogadores;
 
 	private boolean vitoria;
 	private boolean gameOver;
 
-	public Fase(Boolean tocarMusica) {
+	public Fase(Container container) {
 		this.vitoria = false;
 		this.gameOver = false;
-		this.tocarMusica = tocarMusica;
-		try {
-			File audioFile = new File("assets//musica-batalha.wav");
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-
-			clip = AudioSystem.getClip();
-			clip.open(audioStream);
-		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
-			e.printStackTrace();
-		}
-		if (tocarMusica){
-			playSound();
-		}
 	}
 
-	public void playSound() {
-		if (clip != null) {
-			clip.start();
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
-		}
-	}
+	public void drawComponentesIniciais(Graphics2D graficos, Jogador1 jogador1, Jogador2 jogador2){
 
-	public void stopSound() {
-		if (clip != null) {
-			clip.stop();
+		if (jogador1.isVisivel()) {
+			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
+			jogador1.drawTiroNave(graficos);
+		}
+
+		if (doisJogadores == true) {
+			if (jogador2.isVisivel()) {
+				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
+				jogador2.drawTiroNave(graficos);
+			}
+		} else {
+			jogador2.setVisivel(false);
 		}
 	}
 
@@ -158,7 +146,7 @@ public class Fase extends JPanel {
 		}
 	}
 
-	public void colisoesTiroRobo2(Jogador2 jogador, List<Robo> robos) {
+	public void colisoesTiroEmRobo2(Jogador2 jogador, List<Robo> robos) {
 		List<TiroNave> tiros = jogador.getTiros();
 
 		for (int j = 0; j < tiros.size(); j++) {

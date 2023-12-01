@@ -15,12 +15,13 @@ public class TiroNave {
 	private int altura;
 	private boolean isVisivel;
 
-	private static int VELOCIDADE = 6;
+	private static int velocidade = 8;
 
 	public TiroNave(int x, int y) {
 		this.x = x;
 		this.y = y;
 		isVisivel = true;
+
 		somTiroSimples();
 	}
 
@@ -33,7 +34,7 @@ public class TiroNave {
 	}
 
 	public void update() {
-		this.x += VELOCIDADE;
+		this.x += velocidade;
 
 		if (this.x > 1500) {
 			isVisivel = false;
@@ -57,12 +58,12 @@ public class TiroNave {
 		this.isVisivel = isVisivel;
 	}
 
-	public static int getVELOCIDADE() {
-		return VELOCIDADE;
+	public static int getVelocidade() {
+		return velocidade;
 	}
 
-	public static void setVELOCIDADE(int vELOCIDADE) {
-		VELOCIDADE = vELOCIDADE;
+	public static void setVelocidade(int vel) {
+		velocidade = vel;
 	}
 
 	public int getX() {

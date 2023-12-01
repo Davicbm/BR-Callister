@@ -9,9 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
@@ -27,6 +34,7 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase1 extends Fase implements ActionListener {
 
+	private Clip clip;
 	private boolean doisJogadores;
 	private String nomeJogador1 = Menu.nomeJogador1;
 	private String nomeJogador2 = Menu.nomeJogador2;
@@ -70,10 +78,10 @@ public class Fase1 extends Fase implements ActionListener {
 	TecladoAdapter teclado = new TecladoAdapter();
 
 	private Container container;
-	Fase fase = new Fase(true);
+	Fase fase = new Fase(container);
 
 	public Fase1(Container container) {
-		super(true);
+		super(container);
 		this.container = container;
 
 		setFocusable(true);
@@ -107,13 +115,38 @@ public class Fase1 extends Fase implements ActionListener {
 		} else {
 			doisJogadores = false;
 		}
+
+		try {
+			File audioFile = new File("assets//musica-batalha.wav");
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+			clip = AudioSystem.getClip();
+			clip.open(audioStream);
+
+		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+			e.printStackTrace();
+		}
+		startSound();
+	}
+
+	public void startSound() {
+		if (clip != null) {
+			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+	}
+
+	public void stopSound() {
+		if (clip != null) {
+			clip.stop();
+		}
 	}
 
 	public void inicializaInimigos() {
 		robos = new ArrayList<Robo>();
 		barras = new ArrayList<BarraVidaInimigos>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 20; i++) {
 			int x = (int) (Math.random() * 6000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -176,19 +209,7 @@ public class Fase1 extends Fase implements ActionListener {
 
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 
-		if (jogador1.isVisivel()) {
-			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
-			jogador1.drawTiroNave(graficos);
-		}
-
-		if (doisJogadores == true) {
-			if (jogador2.isVisivel()) {
-				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
-				jogador2.drawTiroNave(graficos);
-			}
-		} else {
-			jogador2.setVisivel(false);
-		}
+		fase.drawComponentesIniciais(graficos, jogador1, jogador2);
 
 		contador = 0;
 		for (int i = 0; i < robos.size(); i++) {
@@ -323,6 +344,7 @@ public class Fase1 extends Fase implements ActionListener {
 
 		g.setFont(fonte);
 		g.setColor(Color.WHITE);
+		graficos.drawString("Fase 1", 700, 50);
 
 		g.setFont(fonte2);
 		g.setColor(Color.WHITE);
@@ -503,10 +525,10 @@ public class Fase1 extends Fase implements ActionListener {
 
 		// Colisões de tiro da Nave com Robo de colisão:
 		fase.colisoesTiroEmRobo2(jogador1, robos);
-		fase.colisoesTiroRobo2(jogador2, robos);
+		fase.colisoesTiroEmRobo2(jogador2, robos);
 
 		fase.colisoesTiroEmRobo2(jogador1, robos2);
-		fase.colisoesTiroRobo2(jogador2, robos2);
+		fase.colisoesTiroEmRobo2(jogador2, robos2);
 
 		// Colisões de tiro do Robo com a Nave:
 		robo1.colisaoNaveTiro(jogador1, jogador2);
@@ -566,6 +588,7 @@ public class Fase1 extends Fase implements ActionListener {
 				}
 			}
 			if (gameOver) {
+				stopSound();
 				if (codigo == KeyEvent.VK_ENTER) {
 					container.reiniciarJogo();
 				}
@@ -629,6 +652,7 @@ public class Fase1 extends Fase implements ActionListener {
 				break;
 		}
 	}
+
 	public void setProximaFase(boolean proximaFase) {
 		this.proximaFase = proximaFase;
 	}
