@@ -3,7 +3,6 @@ package Jogo;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Jogo.Componentes.Fases.Fase;
 import Jogo.Componentes.Fases.Fase1;
 import Jogo.Componentes.Fases.Fase2;
 import Jogo.Componentes.Fases.Fase3;
@@ -16,8 +15,6 @@ public class Container extends JFrame {
     private int faseReinicio;
 
     private boolean reiniciaJogo = false;
-
-    private Fase fase;
 
     public Container() {
         setTitle("Br-Callister");
@@ -73,8 +70,8 @@ public class Container extends JFrame {
         switchFase();
     }
 
-    public void reiniciarJogo() {
-        faseAtual = 0;
+    public void reiniciarFase() {
+        faseAtual = faseReinicio;
         switchFase();
     }
     public Boolean getReiniciaJogo(){
