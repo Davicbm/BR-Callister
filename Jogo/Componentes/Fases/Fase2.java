@@ -389,7 +389,7 @@ public class Fase2 extends Fase implements ActionListener {
 			graficos.drawString("Sair", 890, 850);
 			graficos.drawString(">", 830 + (opcaoMenuPausa * 25) - 20, 750 + opcaoMenuPausa * 50);
 		}
-
+		
 		g.dispose();
 	}
 
