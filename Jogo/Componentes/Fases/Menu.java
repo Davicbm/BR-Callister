@@ -133,6 +133,7 @@ public class Menu extends JPanel implements ActionListener {
 
     public void capturarNomes() {
         JDialog dialog = new JDialog();
+        
         dialog.setSize(600, 300);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setUndecorated(true);
@@ -140,9 +141,6 @@ public class Menu extends JPanel implements ActionListener {
 
         try {
             File backgroundImageFile = new File("assets//blackground.png");
-            if (!backgroundImageFile.exists()) {
-                throw new IOException("Arquivo de imagem não encontrado: " + backgroundImageFile.getAbsolutePath());
-            }
 
             BufferedImage backgroundImage = ImageIO.read(backgroundImageFile);
             ImageIcon backgroundIcon = new ImageIcon(backgroundImage);

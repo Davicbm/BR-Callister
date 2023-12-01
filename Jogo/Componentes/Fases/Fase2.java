@@ -1,7 +1,5 @@
 package Jogo.Componentes.Fases;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -224,7 +222,7 @@ public class Fase2 extends Fase implements ActionListener {
 	public void paint(Graphics g) {
 		barra = new BarraVida();
 		Graphics2D graficos = (Graphics2D) g;
-		
+
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 
 		fase.drawComponentesIniciais(graficos, jogador1, jogador2, nomeJogador1, nomeJogador2, barra, "2");

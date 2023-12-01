@@ -1,7 +1,5 @@
 package Jogo.Componentes.Fases;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -44,7 +42,6 @@ public class Fase1 extends Fase implements ActionListener {
 
 	private Image fundo;
 	private Image alerta;
-	private Image caveira;
 
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
@@ -95,9 +92,6 @@ public class Fase1 extends Fase implements ActionListener {
 
 		referencia = new ImageIcon("assets//warninggif.gif");
 		alerta = referencia.getImage();
-
-		referencia = new ImageIcon("assets//caveira.png");
-		caveira = referencia.getImage();
 
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();

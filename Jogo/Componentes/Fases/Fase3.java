@@ -1,7 +1,5 @@
 package Jogo.Componentes.Fases;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -29,7 +27,6 @@ import Jogo.Componentes.Inimigos.Robo;
 
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
-import Jogo.Componentes.Jogadores.TiroNave;
 import Jogo.Componentes.Objetos.BarraVida;
 import Jogo.Componentes.Objetos.PowerUp;
 
@@ -191,8 +188,6 @@ public class Fase3 extends Fase implements ActionListener {
 	public void paint(Graphics g) {
 		barra = new BarraVida();
 		Graphics2D graficos = (Graphics2D) g;
-		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
-		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
 
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 
