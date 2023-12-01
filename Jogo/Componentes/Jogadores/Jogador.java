@@ -28,7 +28,7 @@ public abstract class Jogador {
     public Jogador(int x, int y) {
         this.x = x;
         this.y = y;
-        this.vida = 1;
+        this.vida = 10;
         this.escudo = 0;
         this.isVisivel = true;
 
