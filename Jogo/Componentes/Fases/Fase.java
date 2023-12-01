@@ -1,5 +1,6 @@
 package Jogo.Componentes.Fases;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
@@ -7,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import Jogo.Container;
@@ -17,12 +19,11 @@ import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
+import Jogo.Componentes.Objetos.BarraVida;
 import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase extends JPanel {
 
-	private int contador = 0;
-	
 	public static boolean doisJogadores;
 
 	private boolean vitoria;
@@ -33,7 +34,12 @@ public class Fase extends JPanel {
 		this.gameOver = false;
 	}
 
-	public void drawComponentesIniciais(Graphics2D graficos, Jogador1 jogador1, Jogador2 jogador2){
+	// Desenha os componentes iniciais da fase(Jogadores):
+	public void drawComponentesIniciais(Graphics2D graficos, Jogador1 jogador1, Jogador2 jogador2, String nomeJogador1,
+			String nomeJogador2, BarraVida barra, String faseAtual) {
+
+		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
+		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
 
 		if (jogador1.isVisivel()) {
 			graficos.drawImage(jogador1.getImagem(), jogador1.getX(), jogador1.getY(), this);
@@ -48,8 +54,81 @@ public class Fase extends JPanel {
 		} else {
 			jogador2.setVisivel(false);
 		}
+
+		graficos.setFont(fonte);
+		graficos.setColor(Color.WHITE);
+		graficos.drawString("Fase " + faseAtual, 700, 50);
+
+		graficos.setFont(fonte2);
+		graficos.setColor(Color.WHITE);
+		graficos.drawString(nomeJogador1, 15, 30);
+		barra.paintBarraVida(graficos, jogador1);
+
+		if (doisJogadores) {
+			graficos.drawString("-- Pontuações -- ", 1325, 35);
+			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 1350, 60);
+
+			graficos.drawString(nomeJogador2 + " = " + Jogador2.pontuacaoJogador2, 1350, 90);
+		} else if (doisJogadores == false) {
+			graficos.drawString("-- Pontuações -- ", 1325, 35);
+			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 1350, 50);
+		}
+
+		if (doisJogadores) {
+			if (nomeJogador1 != null && nomeJogador1 != null) {
+				graficos.setFont(fonte2);
+				graficos.setColor(Color.WHITE);
+				graficos.drawString(nomeJogador2, 15, 790);
+				barra.paintBarraVida(graficos, jogador2);
+			}
+		}
 	}
 
+	public void drawTelaPausa(Graphics2D graficos, int opcaoMenuPausa){
+		Font fonteMenu = loadFont("assets//PressStart2P.ttf", 24);
+		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
+			graficos.setFont(fonteMenu);
+			graficos.setColor(Color.WHITE);
+			graficos.drawString("Jogo Pausado", 620, 300);
+
+			graficos.setFont(fonte);
+			graficos.setColor(Color.WHITE);
+			graficos.drawString("Continuar", 690, 350);
+			graficos.drawString("Reiniciar", 690, 400);
+			graficos.drawString("Sair", 720, 450);
+			graficos.drawString(">", 670 + (opcaoMenuPausa * 15) - 20, 350 + opcaoMenuPausa * 50);
+	}
+
+	public void drawTelaVitoria(Graphics2D graficos, String nomeJogador1, String nomeJogador2) {
+		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
+
+		graficos.setFont(fonte);
+		graficos.setColor(Color.WHITE);
+		ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
+		graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+		graficos.setFont(fonte);
+		graficos.setColor(Color.WHITE);
+		graficos.drawString("Aperte enter para a próxima fase!", 500, 800);
+
+		if (doisJogadores) {
+			graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
+			graficos.drawString("Pontuação " + nomeJogador2 + " = " + Jogador2.pontuacaoJogador2, 1125, 40);
+		} else if (doisJogadores == false) {
+			graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
+		}
+	}
+
+	public void drawTelaDerrota(Graphics2D graficos) {
+		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
+
+		ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
+		graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+		graficos.setFont(fonte);
+		graficos.setColor(Color.WHITE);
+		graficos.drawString("Aperte enter para reiniciar o jogo!", 500, 800);
+	}
+
+	// Inicializa a fonte a ser utilizada:
 	public Font loadFont(String path, float size) {
 		try {
 			File fontFile = new File(path);
@@ -62,24 +141,28 @@ public class Fase extends JPanel {
 		}
 	}
 
+	// Checa o estado do Robô:
 	public void checarRobo(Robo robo) {
 		if (robo.getVida() == 0) {
 			robo.setVisivel(false);
 		}
 	}
 
+	// Checa o estado do Alien:
 	public void checarAlien(Alien alien) {
 		if (alien.getVida() == 0) {
 			alien.setVisivel(false);
 		}
 	}
 
+	// Checa o estado do Chefão:
 	public void checarDrakthar(Drakthar drakthar) {
 		if (drakthar.getVida() == 0) {
 			drakthar.setVisivel(false);
 		}
 	}
 
+	// Checa o estado dos Robôs de Colisões:
 	public void checarRobos(List<Robo> robos) {
 		for (int i = 0; i < robos.size(); i++) {
 			Robo tempRobo = robos.get(i);
@@ -89,6 +172,7 @@ public class Fase extends JPanel {
 		}
 	}
 
+	// Checa o estado dos Jogadores:
 	public boolean checarJogadores(Jogador1 jogador1, Jogador2 jogador2, boolean doisJogadores) {
 		if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0) {
 			gameOver = true;
@@ -99,7 +183,8 @@ public class Fase extends JPanel {
 		return gameOver;
 	}
 
-	// Colisões de naves e power ups:
+	///// *SEÇÃO DE COLISÕES */////
+	// Colisões de naves com power ups:
 	public void colisoesPowerUps(List<PowerUp> powerUps, Jogador1 jogador1, Jogador2 jogador2) {
 		for (int i = 0; i < powerUps.size(); i++) {
 			PowerUp tempPowerUp = powerUps.get(i);
@@ -108,7 +193,7 @@ public class Fase extends JPanel {
 		}
 	}
 
-	// Colisões de naves e robos:
+	// Colisões de naves com robôs de colisão:
 	public void colisoesNavesRobos(List<Robo> robos, Jogador1 jogador1, Jogador2 jogador2) {
 		for (int i = 0; i < robos.size(); i++) {
 			Robo tempRobo = robos.get(i);
@@ -117,7 +202,7 @@ public class Fase extends JPanel {
 		}
 	}
 
-	// Colisões de tiros(naves) e robôs:
+	// Colisões de tiros(naves) com robôs:
 	public void colisoesTiroEmRobo1(Robo robo, Jogador1 jogador1, Jogador2 jogador2, int x) {
 		List<TiroNave> tiros1 = jogador1.getTiros();
 		List<TiroNave> tiros2 = jogador2.getTiros();
@@ -134,30 +219,28 @@ public class Fase extends JPanel {
 		}
 	}
 
-	// Colisões de tiros(naves) e robôs de colisão:
-	public void colisoesTiroEmRobo2(Jogador1 jogador, List<Robo> robos) {
-		List<TiroNave> tiros = jogador.getTiros();
+	// Colisões de tiros(naves) com robôs de colisão:
+	public void colisoesTiroEmRobo2(Jogador1 jogador1, Jogador2 jogador2, List<Robo> robos) {
+		List<TiroNave> tiros1 = jogador1.getTiros();
 
-		for (int j = 0; j < tiros.size(); j++) {
+		for (int j = 0; j < tiros1.size(); j++) {
 			for (int i = 0; i < robos.size(); i++) {
 				Robo tempRobo = robos.get(i);
-				tempRobo.colisaoRoboTiro(jogador, j);
+				tempRobo.colisaoRoboTiro(jogador1, j);
+			}
+		}
+
+		List<TiroNave> tiros2 = jogador2.getTiros();
+
+		for (int j = 0; j < tiros2.size(); j++) {
+			for (int i = 0; i < robos.size(); i++) {
+				Robo tempRobo = robos.get(i);
+				tempRobo.colisaoRoboTiro(jogador2, j);
 			}
 		}
 	}
 
-	public void colisoesTiroEmRobo2(Jogador2 jogador, List<Robo> robos) {
-		List<TiroNave> tiros = jogador.getTiros();
-
-		for (int j = 0; j < tiros.size(); j++) {
-			for (int i = 0; i < robos.size(); i++) {
-				Robo tempRobo = robos.get(i);
-				tempRobo.colisaoRoboTiro(jogador, j);
-			}
-		}
-	}
-
-	// Colisões de tiros(naves) e aliens:
+	// Colisões de tiros(naves) com aliens:
 	public void colisoesTiroEmAlien(Alien alien, Jogador1 jogador1, Jogador2 jogador2, int x) {
 		if (alien.getX() == x) {
 			List<TiroNave> tiros1 = jogador1.getTiros();
@@ -172,21 +255,19 @@ public class Fase extends JPanel {
 		}
 	}
 
-	public void colisoesTiroEmDrakthar(Drakthar drakthar, Jogador1 jogador, int x) {
+	// Colisões de tiros(naves) com o Chefão:
+	public void colisoesTiroEmDrakthar(Drakthar drakthar, Jogador1 jogador1, Jogador2 jogador2, int x) {
 		if (drakthar.getX() == x) {
-			List<TiroNave> tiros = jogador.getTiros();
-			for (int j = 0; j < tiros.size(); j++) {
-				drakthar.colisaoDraktharTiro(jogador, j);
-
+			List<TiroNave> tiros1 = jogador1.getTiros();
+			for (int j = 0; j < tiros1.size(); j++) {
+				drakthar.colisaoDraktharTiro(jogador1, j);
 			}
 		}
-	}
 
-	public void colisoesTiroDrakthar(Drakthar drakthar, Jogador2 jogador, int x) {
 		if (drakthar.getX() == x) {
-			List<TiroNave> tiros = jogador.getTiros();
-			for (int j = 0; j < tiros.size(); j++) {
-				drakthar.colisaoDraktharTiro(jogador, j);
+			List<TiroNave> tiros2 = jogador2.getTiros();
+			for (int j = 0; j < tiros2.size(); j++) {
+				drakthar.colisaoDraktharTiro(jogador2, j);
 			}
 		}
 	}
