@@ -112,7 +112,7 @@ public class Fase1 extends Fase implements ActionListener {
 		barras = new ArrayList<BarraVidaInimigos>();
 
 		for (int i = 0; i < 0; i++) {
-			int x = (int) (Math.random() * 8000) + 1980;
+			int x = (int) (Math.random() * 6000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
 			robos.add(new Robo(x, y));
@@ -124,14 +124,13 @@ public class Fase1 extends Fase implements ActionListener {
 		barras2 = new ArrayList<BarraVidaInimigos>();
 
 		for (int i = 0; i < 20; i++) {
-				int x = (int) (Math.random() * 8000) + 1980;
-				int y = (int) (Math.random() * 650) + 10;
+			int x = (int) (Math.random() * 8000) + 1980;
+			int y = (int) (Math.random() * 650) + 10;
 
-				robos2.add(new Robo(x, y));
-				barras2.add(new BarraVidaInimigos(x, y));
-				robos2.get(i).setVida(2);
-
-			}
+			robos2.add(new Robo(x, y));
+			barras2.add(new BarraVidaInimigos(x, y));
+			robos2.get(i).setVida(2);
+		}
 
 		robo1 = new Robo(2000, 90);
 		robo2 = new Robo(2000, 350);
@@ -197,6 +196,13 @@ public class Fase1 extends Fase implements ActionListener {
 		}
 
 		if (contador == robos.size()) {
+			for (int j = 0; j < powerUps.size(); j++) {
+				powerUp = powerUps.get(j);
+				powerUp.load();
+
+				graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
+			}
+
 			if (robo1.isVisivel()) {
 				graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
 				if (robo1.getX() != 1100) {
@@ -312,13 +318,6 @@ public class Fase1 extends Fase implements ActionListener {
 			robo.load2();
 			barraInimigos.load(graficos, robo);
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
-		}
-
-		for (int j = 0; j < powerUps.size(); j++) {
-			powerUp = powerUps.get(j);
-			powerUp.load();
-
-			graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
 		}
 
 		g.setFont(fonte);
