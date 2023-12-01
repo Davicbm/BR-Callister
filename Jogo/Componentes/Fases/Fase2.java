@@ -479,18 +479,22 @@ public class Fase2 extends Fase implements ActionListener {
 
 		// Colisões de Nave com Robô:
 		fase.colisoesNavesRobos(robos, jogador1, jogador2);
+		fase.colisoesNavesRobos(robos2, jogador1, jogador2);
 
 		// Colisões de tiro da Nave com Robo:
 		fase.colisoesTiroEmRobo1(robo1, jogador1, jogador2, 1000);
 		fase.colisoesTiroEmRobo1(robo2, jogador1, jogador2, 1000);
+
 		fase.colisoesTiroEmRobo1(robo3, jogador1, jogador2, 1000);
 		fase.colisoesTiroEmRobo1(robo4, jogador1, jogador2, 1000);
 
 		fase.colisoesTiroEmRobo2(jogador1, jogador2, robos);
+		fase.colisoesTiroEmRobo2(jogador1, jogador2, robos2);
 
 		// Colisões de tiro da Nave com Alien:
 		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1200);
 		fase.colisoesTiroEmAlien(alien2, jogador1, jogador2, 1200);
+
 		fase.colisoesTiroEmAlien(alien3, jogador1, jogador2, 1200);
 		fase.colisoesTiroEmAlien(alien4, jogador1, jogador2, 1200);
 		fase.colisoesTiroEmAlien(alien5, jogador1, jogador2, 1200);
@@ -499,12 +503,16 @@ public class Fase2 extends Fase implements ActionListener {
 		robo1.colisaoNaveTiro(jogador1, jogador2);
 		robo2.colisaoNaveTiro(jogador1, jogador2);
 
-		// Colisões de tiro do Alien com a Nave:
-		alien1.colisaoNaveTiro(jogador1);
-		alien2.colisaoNaveTiro(jogador1);
+		robo3.colisaoNaveTiro(jogador1, jogador2);
+		robo4.colisaoNaveTiro(jogador1, jogador2);
 
-		alien1.colisaoNaveTiro(jogador2);
-		alien2.colisaoNaveTiro(jogador2);
+		// Colisões de tiro do Alien com a Nave:
+		alien1.colisaoNaveTiro(jogador1, jogador2);
+		alien2.colisaoNaveTiro(jogador1, jogador2);
+
+		alien3.colisaoNaveTiro(jogador1, jogador2);
+		alien4.colisaoNaveTiro(jogador1, jogador2);
+		alien5.colisaoNaveTiro(jogador1, jogador2);
 
 		// Checa a vida das entidades:
 		fase.checarRobo(robo1);
@@ -519,6 +527,7 @@ public class Fase2 extends Fase implements ActionListener {
 		fase.checarAlien(alien5);
 
 		fase.checarRobos(robos);
+		fase.checarRobos(robos2);
 
 		if (!robo1.isVisivel() && !robo2.isVisivel() && !alien1.isVisivel() && !alien2.isVisivel()) {
 			proximaOnda = true;

@@ -493,8 +493,7 @@ public class Fase1 extends Fase implements ActionListener {
 		robo7.colisaoNaveTiro(jogador1, jogador2);
 
 		// Colisões de tiro do Alien com a Nave:
-		alien.colisaoNaveTiro(jogador1);
-		alien.colisaoNaveTiro(jogador2);
+		alien.colisaoNaveTiro(jogador1, jogador2);
 
 		// Checar vida dos robôs:
 		fase.checarRobo(robo1);
