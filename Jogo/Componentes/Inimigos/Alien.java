@@ -111,34 +111,32 @@ public class Alien {
 		}
 	}
 
-	public void colisaoNaveTiro(Jogador1 jogador) {
-		List<TiroAlien> tiros3 = getTiros();
-		for (int j = 0; j < tiros3.size(); j++) {
-			TiroAlien tempTiroAlien = tiros3.get(j);
+	public void colisaoNaveTiro(Jogador1 jogador1, Jogador2 jogador2) {
+		List<TiroAlien> tiros1 = getTiros();
+		for (int j = 0; j < tiros1.size(); j++) {
+			TiroAlien tempTiroAlien = tiros1.get(j);
 			Rectangle formaTiroAlien = tempTiroAlien.getBounds();
-			Rectangle formaNave = jogador.getBounds();
-			if (formaTiroAlien.intersects(formaNave) && jogador.isVisivel()) {
-				if (jogador.getEscudo() > 0) {
-					jogador.perdeEscudo(3);
+			Rectangle formaNave = jogador1.getBounds();
+			if (formaTiroAlien.intersects(formaNave) && jogador1.isVisivel()) {
+				if (jogador1.getEscudo() > 0) {
+					jogador1.perdeEscudo(3);
 				} else {
-					jogador.perdeVida(3);
+					jogador1.perdeVida(3);
 				}
 				tempTiroAlien.setVisivel(false);
 			}
 		}
-	}
 
-	public void colisaoNaveTiro(Jogador2 jogador) {
-		List<TiroAlien> tiros3 = getTiros();
-		for (int j = 0; j < tiros3.size(); j++) {
-			TiroAlien tempTiroAlien = tiros3.get(j);
+		List<TiroAlien> tiros2 = getTiros();
+		for (int j = 0; j < tiros2.size(); j++) {
+			TiroAlien tempTiroAlien = tiros2.get(j);
 			Rectangle formaTiroAlien = tempTiroAlien.getBounds();
-			Rectangle formaNave = jogador.getBounds();
-			if (formaTiroAlien.intersects(formaNave) && jogador.isVisivel()) {
-				if (jogador.getEscudo() > 0) {
-					jogador.perdeEscudo(3);
+			Rectangle formaNave = jogador2.getBounds();
+			if (formaTiroAlien.intersects(formaNave) && jogador2.isVisivel()) {
+				if (jogador2.getEscudo() > 0) {
+					jogador2.perdeEscudo(3);
 				} else {
-					jogador.perdeVida(3);
+					jogador2.perdeVida(3);
 				}
 				tempTiroAlien.setVisivel(false);
 			}
