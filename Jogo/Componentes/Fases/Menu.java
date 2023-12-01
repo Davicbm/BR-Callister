@@ -9,6 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -25,10 +26,15 @@ import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -127,121 +133,140 @@ public class Menu extends JPanel implements ActionListener {
 		}
     }
 
-	private void capturarNomes() {
-			
-		// Criar um JDialog sem bordas
-		JDialog dialog = new JDialog();
-		dialog.setSize(600, 300);
-		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.setUndecorated(true);  // Remover a barra superior
-		dialog.setLocationRelativeTo(null);
-	
-		try {
-			// Carregar a imagem de fundo
-			File backgroundImageFile = new File("assets//blackground.png");
-			if (!backgroundImageFile.exists()) {
-				throw new IOException("Arquivo de imagem não encontrado: " + backgroundImageFile.getAbsolutePath());
+	 public void capturarNomes() {
+        JDialog dialog = new JDialog();
+        dialog.setSize(600, 300);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setUndecorated(true);
+        dialog.setLocationRelativeTo(null);
+
+        try {
+            File backgroundImageFile = new File("assets//blackground.png");
+            if (!backgroundImageFile.exists()) {
+                throw new IOException("Arquivo de imagem não encontrado: " + backgroundImageFile.getAbsolutePath());
+            }
+
+            BufferedImage backgroundImage = ImageIO.read(backgroundImageFile);
+            ImageIcon backgroundIcon = new ImageIcon(backgroundImage);
+
+            JLabel backgroundLabel = new JLabel(backgroundIcon);
+            backgroundLabel.setLayout(new GridBagLayout());
+            dialog.setContentPane(backgroundLabel);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao carregar a imagem de fundo: " + e.getMessage());
+            return;
+        }
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        panel.setOpaque(false);
+        dialog.add(panel);
+
+        JTextField textField1 = new JTextField(10);
+        JTextField textField2 = new JTextField(10);
+
+        Font pressStartFont = loadFont("assets//PressStart2P.ttf", 16);
+        textField1.setFont(pressStartFont);
+        textField2.setFont(pressStartFont);
+
+        textField1.setOpaque(false);
+        textField1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        textField1.setForeground(Color.WHITE);
+
+        JLabel label1 = new JLabel("Digite o nome do Jogador 1:");
+        label1.setForeground(Color.WHITE);
+        label1.setFont(pressStartFont);
+
+        panel.add(label1, gbc);
+        gbc.gridy++;
+        panel.add(textField1, gbc);
+        gbc.gridy++;
+
+        if (doisJogadores) {
+            textField2.setOpaque(false);
+            textField2.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+            textField2.setForeground(Color.WHITE);
+
+            JLabel label2 = new JLabel("Digite o nome do Jogador 2:");
+            label2.setForeground(Color.WHITE);
+            label2.setFont(pressStartFont);
+            panel.add(label2, gbc);
+            gbc.gridy++;
+            panel.add(textField2, gbc);
+        }
+
+        gbc.gridy++;
+
+        JButton okButton = new JButton("OK");
+        JButton cancelButton = new JButton("Voltar");
+
+        okButton.setFont(pressStartFont);
+        cancelButton.setFont(pressStartFont);
+        gbc.gridy++;
+
+        okButton.addActionListener(e -> {
+            nomeJogador1 = textField1.getText().isEmpty() ? "Player 1" : textField1.getText();
+            if (doisJogadores) {
+                nomeJogador2 = textField2.getText().isEmpty() ? "Player 2" : textField2.getText();
+            }
+            container.avancarFase();
+            dialog.dispose();
+        });
+
+        cancelButton.addActionListener(e -> {
+            dialog.dispose();
+        });
+
+        panel.add(okButton, gbc);
+        gbc.gridy++;
+        panel.add(cancelButton, gbc);
+
+        textField1.setFocusable(true);
+        textField1.requestFocusInWindow();
+        textField1.setFocusTraversalKeysEnabled(false);
+        textField2.setFocusTraversalKeysEnabled(false);
+
+        InputMap inputMap = panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = panel.getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "focusNextComponent");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "focusPreviousComponent");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enterPressed");
+
+        actionMap.put("focusNextComponent", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
+            }
+        });
+
+        actionMap.put("focusPreviousComponent", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().focusPreviousComponent();
+            }
+        });
+
+        actionMap.put("enterPressed", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (okButton.isFocusOwner()) {
+					okButton.doClick();
+				} else if (cancelButton.isFocusOwner()) {
+					cancelButton.doClick();
+				}
 			}
-	
-			BufferedImage backgroundImage = ImageIO.read(backgroundImageFile);
-			ImageIcon backgroundIcon = new ImageIcon(backgroundImage);
-	
-			// Adicionar a imagem de fundo a um JLabel
-			JLabel backgroundLabel = new JLabel(backgroundIcon);
-			backgroundLabel.setLayout(new GridBagLayout());
-			dialog.setContentPane(backgroundLabel);
-	
-		} catch (IOException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Erro ao carregar a imagem de fundo: " + e.getMessage());
-			return;
-		}
-	
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.insets = new Insets(10, 10, 10, 10);
-	
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridBagLayout());
-		panel.setOpaque(false);
-	
-		JTextField textField1 = new JTextField(10);
-		JTextField textField2 = new JTextField(10);
-	
-		// Configurar a fonte PressStart
-		Font pressStartFont = loadFont("assets//PressStart2P.ttf", 16);
-		textField1.setFont(pressStartFont);
-	
-		// Remover a cor de fundo da caixa de texto
-		textField1.setOpaque(false);
-		textField1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-		textField1.setForeground(Color.WHITE);
-	
-		JLabel label1 = new JLabel("Digite o nome do Jogador 1:");
-		label1.setForeground(Color.WHITE);
-		label1.setFont(pressStartFont);
-	
-		panel.add(label1, gbc);
-		gbc.gridy++;
-		panel.add(textField1, gbc);
-		gbc.gridy++;
-	
-		if (doisJogadores) {
-			textField2.setFont(pressStartFont);
-	
-			// Remover a cor de fundo da caixa de texto
-			textField2.setOpaque(false);
-			textField2.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-			textField2.setForeground(Color.WHITE);
-	
-			JLabel label2 = new JLabel("Digite o nome do Jogador 2:");
-			label2.setForeground(Color.WHITE);
-			label2.setFont(pressStartFont);
-			panel.add(label2, gbc);
-			gbc.gridy++;
-			panel.add(textField2, gbc);
-		}
-	
-		gbc.gridy++;
-	
-		JButton okButton = new JButton("OK");
-		JButton cancelButton = new JButton("Voltar");
-	
-		// Configurar a fonte PressStart para os botões
-		okButton.setFont(pressStartFont);
-		cancelButton.setFont(pressStartFont);
-		gbc.gridy++;
-	
-		okButton.addActionListener(e -> {
-			nomeJogador1 = textField1.getText();
-			if (doisJogadores) {
-				nomeJogador2 = textField2.getText();
-			}
-			stopSound();
-			container.avancarFase();
-			
-			dialog.dispose();
 		});
-	
-		cancelButton.addActionListener(e -> {
-			container.reiniciarJogo();
-			dialog.dispose();
-		});
-	
-		panel.add(okButton, gbc);
-		gbc.gridy++;
-		panel.add(cancelButton, gbc);
-		// Centralizar o painel no diálogo
-		int panelWidth = 300;
-		int panelHeight = 200;
-		int dialogWidth = dialog.getWidth();
-		int dialogHeight = dialog.getHeight();
-		panel.setBounds((dialogWidth - panelWidth) / 2, (dialogHeight - panelHeight) / 2, panelWidth, panelHeight);
-	
-		dialog.add(panel);
-		dialog.setVisible(true);
-	}
+
+        dialog.setVisible(true);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
