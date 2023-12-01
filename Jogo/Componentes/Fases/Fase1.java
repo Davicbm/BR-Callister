@@ -373,18 +373,18 @@ public class Fase1 extends Fase implements ActionListener {
 				graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
 			}
 		}
-		if (pausado) {
+		if (pausado) { 
 			Font fonteMenu = loadFont("assets//PressStart2P.ttf", 24);
 			graficos.setFont(fonteMenu);
 			graficos.setColor(Color.WHITE);
-			graficos.drawString("Jogo Pausado", 800, 100);
+			graficos.drawString("Jogo Pausado", 620, 300);
 
 			graficos.setFont(fonte);
 			graficos.setColor(Color.WHITE);
-			graficos.drawString("Continuar", 850, 750);
-			graficos.drawString("Reiniciar", 860, 800);
-			graficos.drawString("Sair", 890, 850);
-			graficos.drawString(">", 830 + (opcaoMenuPausa * 25) - 20, 750 + opcaoMenuPausa * 50);
+			graficos.drawString("Continuar", 690, 350);
+			graficos.drawString("Reiniciar", 690, 400);
+			graficos.drawString("Sair", 720, 450);
+			graficos.drawString(">", 670 + (opcaoMenuPausa * 15) - 20, 350 + opcaoMenuPausa * 50);
 		}
 
 		g.dispose();
