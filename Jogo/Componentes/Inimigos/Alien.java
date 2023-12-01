@@ -19,14 +19,14 @@ public class Alien {
 	private int largura;
 	private int altura;
 	private boolean isVisivel;
-	private int vida;	
+	private int vida;
 
 	private List<TiroAlien> tiros1;
-    private long tempoUltimoTiro = System.currentTimeMillis();
-    private long intervaloTiros = 2800;
+	private long tempoUltimoTiro = System.currentTimeMillis();
+	private long intervaloTiros = 2800;
 
 	private static int velocidade = 3;
-	
+
 	public Alien(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -39,27 +39,27 @@ public class Alien {
 	public void load() {
 		ImageIcon referencia = new ImageIcon("assets//navealiens.gif");
 		imagem = referencia.getImage();
-		
+
 		this.largura = imagem.getWidth(null);
 		this.altura = imagem.getHeight(null);
 	}
 
-	
-	public void updateAlien(int localizacaoX){
-			this.x -= velocidade;
-		
-			if(this.x < localizacaoX) {
-				this.x = localizacaoX;
-			}
+	public void updateAlien(int localizacaoX) {
+		this.x -= velocidade;
+
+		if (this.x < localizacaoX) {
+			this.x = localizacaoX;
+		}
 	}
-	
+
 	public void tiroSimples() {
 		long tempoAtual = System.currentTimeMillis();
-        if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
-            this.tiros1.add(new TiroAlien(x + largura, y + (altura / 2)));
-            tempoUltimoTiro = tempoAtual;
-        }
+		if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
+			this.tiros1.add(new TiroAlien(x + largura, y + (altura / 2)));
+			tempoUltimoTiro = tempoAtual;
+		}
 	}
+
 	public void atirar() {
 		tiroSimples();
 		tiros1 = getTiros();
@@ -72,7 +72,8 @@ public class Alien {
 			}
 		}
 	}
-	public void drawTiroAlien(Graphics2D graficos){
+
+	public void drawTiroAlien(Graphics2D graficos) {
 		List<TiroAlien> tiros2 = getTiros();
 		for (int j = 0; j < tiros2.size(); j++) {
 			TiroAlien m = tiros2.get(j);
@@ -81,58 +82,43 @@ public class Alien {
 		}
 	}
 
-	public void colisaoAlienTiro (Jogador1 jogador, int j){
+	public void colisaoAlienTiro(Jogador1 jogador, int j) {
 		List<TiroNave> tiros3 = jogador.getTiros();
-			TiroNave tempTiro = tiros3.get(j);
-			Rectangle formaTiro = tempTiro.getBounds();
-			Rectangle formaAlien = getBounds();
-			if (formaTiro.intersects(formaAlien) && isVisivel() && tempTiro.isVisivel()) {
-				perdeVida(1);
-				tempTiro.setVisivel(false);
-				if (vida == 0){
-					Jogador1.pontuacaoJogador1 += 30;
-				}
+		TiroNave tempTiro = tiros3.get(j);
+		Rectangle formaTiro = tempTiro.getBounds();
+		Rectangle formaAlien = getBounds();
+		if (formaTiro.intersects(formaAlien) && isVisivel() && tempTiro.isVisivel()) {
+			perdeVida(1);
+			tempTiro.setVisivel(false);
+			if (vida == 0) {
+				Jogador1.pontuacaoJogador1 += 30;
 			}
+		}
 
 	}
-	public void colisaoAlienTiro (Jogador2 jogador, int j){
+
+	public void colisaoAlienTiro(Jogador2 jogador, int j) {
 		List<TiroNave> tiros3 = jogador.getTiros();
-			TiroNave tempTiro = tiros3.get(j);
-			Rectangle formaTiro = tempTiro.getBounds();
-			Rectangle formaAlien = getBounds();
-			if (formaTiro.intersects(formaAlien) && isVisivel() && tempTiro.isVisivel()) {
-				perdeVida(1);
-				tempTiro.setVisivel(false);
-				if (vida == 0){
-					Jogador2.pontuacaoJogador2 += 30;
-				}
+		TiroNave tempTiro = tiros3.get(j);
+		Rectangle formaTiro = tempTiro.getBounds();
+		Rectangle formaAlien = getBounds();
+		if (formaTiro.intersects(formaAlien) && isVisivel() && tempTiro.isVisivel()) {
+			perdeVida(1);
+			tempTiro.setVisivel(false);
+			if (vida == 0) {
+				Jogador2.pontuacaoJogador2 += 30;
 			}
+		}
 	}
 
-	public void colisaoNaveTiro(Jogador1 jogador){
+	public void colisaoNaveTiro(Jogador1 jogador) {
 		List<TiroAlien> tiros3 = getTiros();
 		for (int j = 0; j < tiros3.size(); j++) {
 			TiroAlien tempTiroAlien = tiros3.get(j);
 			Rectangle formaTiroAlien = tempTiroAlien.getBounds();
 			Rectangle formaNave = jogador.getBounds();
 			if (formaTiroAlien.intersects(formaNave) && jogador.isVisivel()) {
-				if (jogador.getEscudo() > 0){
-					jogador.perdeEscudo(3);
-				} else {
-					jogador.perdeVida(3);
-				}
-				tempTiroAlien.setVisivel(false);
-			}
-		}
-	}
-	public void colisaoNaveTiro(Jogador2 jogador){
-		List<TiroAlien> tiros3 = getTiros();
-		for (int j = 0; j < tiros3.size(); j++) {
-			TiroAlien tempTiroAlien = tiros3.get(j);
-			Rectangle formaTiroAlien= tempTiroAlien.getBounds();
-			Rectangle formaNave = jogador.getBounds();
-			if (formaTiroAlien.intersects(formaNave) && jogador.isVisivel()) {
-				if (jogador.getEscudo() > 0){
+				if (jogador.getEscudo() > 0) {
 					jogador.perdeEscudo(3);
 				} else {
 					jogador.perdeVida(3);
@@ -142,35 +128,60 @@ public class Alien {
 		}
 	}
 
-	public void perdeVida(int dano){
+	public void colisaoNaveTiro(Jogador2 jogador) {
+		List<TiroAlien> tiros3 = getTiros();
+		for (int j = 0; j < tiros3.size(); j++) {
+			TiroAlien tempTiroAlien = tiros3.get(j);
+			Rectangle formaTiroAlien = tempTiroAlien.getBounds();
+			Rectangle formaNave = jogador.getBounds();
+			if (formaTiroAlien.intersects(formaNave) && jogador.isVisivel()) {
+				if (jogador.getEscudo() > 0) {
+					jogador.perdeEscudo(3);
+				} else {
+					jogador.perdeVida(3);
+				}
+				tempTiroAlien.setVisivel(false);
+			}
+		}
+	}
+
+	public void perdeVida(int dano) {
 		this.vida = vida - dano;
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, largura,altura);
+		return new Rectangle(x, y, largura, altura);
 	}
+
 	public boolean isVisivel() {
 		return isVisivel;
 	}
+
 	public void setVisivel(boolean isVisivel) {
 		this.isVisivel = isVisivel;
 	}
+
 	public int getX() {
 		return x;
 	}
+
 	public int getY() {
 		return y;
 	}
+
 	public Image getImagem() {
 		return imagem;
 	}
+
 	public List<TiroAlien> getTiros() {
 		return tiros1;
-	} 
-	public void setVida(int vida){
+	}
+
+	public void setVida(int vida) {
 		this.vida = vida;
 	}
-	public int getVida(){
+
+	public int getVida() {
 		return this.vida;
 	}
 }
