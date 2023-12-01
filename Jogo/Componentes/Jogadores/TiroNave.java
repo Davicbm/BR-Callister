@@ -5,6 +5,8 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+import Jogo.Componentes.Sons.EfeitosSonoros;
+
 public class TiroNave {
 	private Image imagem;
 	private int x;
@@ -19,6 +21,7 @@ public class TiroNave {
 		this.x = x;
 		this.y = y;
 		isVisivel = true;
+		somTiroSimples();
 	}
 
 	public void load() {
@@ -35,6 +38,11 @@ public class TiroNave {
 		if (this.x > 1500) {
 			isVisivel = false;
 		}
+	}
+	
+	public void somTiroSimples() {
+		EfeitosSonoros a = new EfeitosSonoros();
+		a.tocarTiro();
 	}
 
 	public Rectangle getBounds() {

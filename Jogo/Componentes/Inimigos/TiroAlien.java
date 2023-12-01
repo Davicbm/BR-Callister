@@ -8,10 +8,13 @@ import javax.swing.ImageIcon;
 public class TiroAlien {
 
 	private Image imagem;
+	
 	private int x;
 	private int y;
+
 	private int largura;
 	private int altura;
+
 	private boolean isVisivel;
 
 	private static int VELOCIDADE = 6;
