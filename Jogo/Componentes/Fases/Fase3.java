@@ -35,7 +35,10 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase3 extends Fase implements ActionListener {
 
-	private Clip clip;
+	private Clip temaBatalha;
+	private Clip musicaDerrota;
+	private Clip musicaVitoria;
+
 	private Image fundo;
 	private Image alerta;
 
@@ -51,6 +54,9 @@ public class Fase3 extends Fase implements ActionListener {
 	private boolean vitoria;
 	private boolean doisJogadores;
 	private boolean gameOver;
+
+	private String nomeJogador1 = Menu.nomeJogador1;
+	private String nomeJogador2 = Menu.nomeJogador2;
 
 	private Alien alien1;
 	private Alien alien2;
@@ -107,10 +113,21 @@ public class Fase3 extends Fase implements ActionListener {
 
 		try {
 			File audioFile = new File("assets//musica-batalha.wav");
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+			File audioFile2 = new File("assets//vitoria.wav");
+			File audioFile3 = new File("assets//gameover.wav");
 
-			clip = AudioSystem.getClip();
-			clip.open(audioStream);
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(audioFile2);
+			AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(audioFile3);
+
+			temaBatalha = AudioSystem.getClip();
+			temaBatalha.open(audioStream);
+
+			musicaVitoria = AudioSystem.getClip();
+			musicaVitoria.open(audioStream2);
+
+			musicaDerrota = AudioSystem.getClip();
+			musicaDerrota.open(audioStream3);
 
 		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
 			e.printStackTrace();
@@ -119,15 +136,21 @@ public class Fase3 extends Fase implements ActionListener {
 	}
 
 	public void startSound() {
+		if (temaBatalha != null) {
+			temaBatalha.start();
+			temaBatalha.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+	}
+
+	public void startSound(Clip clip) {
 		if (clip != null) {
 			clip.start();
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 	}
 
 	public void stopSound() {
-		if (clip != null) {
-			clip.stop();
+		if (temaBatalha != null) {
+			temaBatalha.stop();
 		}
 	}
 
@@ -173,11 +196,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 
-		fase.drawComponentesIniciais(graficos, jogador1, jogador2);
-
-		g.setFont(fonte);
-		g.setColor(Color.WHITE);
-		graficos.drawString("Fase 3", 1400, 50);
+		fase.drawComponentesIniciais(graficos, jogador1, jogador2, nomeJogador1, nomeJogador2, barra, "3");
 
 		contador = 0;
 		for (int i = 0; i < robos.size(); i++) {
@@ -229,45 +248,14 @@ public class Fase3 extends Fase implements ActionListener {
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 		}
 
-		g.setFont(fonte2);
-		g.setColor(Color.WHITE);
-		graficos.drawString("Vida Jogador 1 ", 15, 30);
-		barra.paintBarraVida(graficos, jogador1);
-
-		if (doisJogadores) {
-			g.setFont(fonte2);
-			g.setColor(Color.WHITE);
-			graficos.drawString("Vida Jogador 2 ", 15, 100);
-			barra.paintBarraVida(graficos, jogador2);
-		}
-
 		if (gameOver == true) {
-			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
-			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
-			g.setFont(fonte);
-			g.setColor(Color.WHITE);
-			graficos.drawString("Aperte enter para reiniciar o jogo!", 500, 800);
+			drawTelaDerrota(graficos);
 		}
 		if (vitoria == true) {
-			g.setFont(fonte);
-			g.setColor(Color.WHITE);
-			ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
-			graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
-			graficos.drawString("Pontuação Jogador 1 = " + Jogador1.pontuacaoJogador1, 20, 40);
-			graficos.drawString("Pontuação Jogador 2 = " + Jogador2.pontuacaoJogador2, 1125, 40);
+			drawTelaVitoria(graficos, nomeJogador1, nomeJogador1);
 		}
 		if (pausado) {
-			Font fonteMenu = loadFont("assets//PressStart2P.ttf", 24);
-			graficos.setFont(fonteMenu);
-			graficos.setColor(Color.WHITE);
-			graficos.drawString("Jogo Pausado", 800, 100);
-
-			graficos.setFont(fonte);
-			graficos.setColor(Color.WHITE);
-			graficos.drawString("Continuar", 850, 750);
-			graficos.drawString("Reiniciar", 860, 800);
-			graficos.drawString("Sair", 890, 850);
-			graficos.drawString(">", 830 + (opcaoMenuPausa * 25) - 20, 750 + opcaoMenuPausa * 50);
+			drawTelaPausa(graficos, contador);
 		}
 
 		g.dispose();
@@ -346,13 +334,16 @@ public class Fase3 extends Fase implements ActionListener {
 
 		checarRobos(robos);
 
-		if (jogador1.getVida() <= 0) {
-			gameOver = true;
+		if (!alien1.isVisivel() && !alien2.isVisivel() && !drakthar.isVisivel()){
+			stopSound();
+			startSound(musicaVitoria);
 		}
-		if (doisJogadores) {
-			if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0) {
-				gameOver = true;
-			}
+
+		gameOver = fase.checarJogadores(jogador1, jogador2, doisJogadores);
+
+		if (gameOver) {
+			stopSound();
+			startSound(musicaDerrota);
 		}
 	}
 
@@ -373,9 +364,8 @@ public class Fase3 extends Fase implements ActionListener {
 				}
 			}
 			if (gameOver) {
-				stopSound();
 				if (codigo == KeyEvent.VK_ENTER) {
-					container.reiniciarJogo();
+					container.reiniciarFase();
 				}
 			}
 			if (codigo == KeyEvent.VK_ESCAPE) {
@@ -430,7 +420,7 @@ public class Fase3 extends Fase implements ActionListener {
 				alternarPausa();
 				break;
 			case 1:
-				container.reiniciarJogo();
+				container.reiniciarFase();
 				break;
 			case 2:
 				System.exit(0);

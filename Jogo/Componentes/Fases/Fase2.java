@@ -34,7 +34,10 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase2 extends Fase implements ActionListener {
 
-	private Clip clip;
+	private Clip temaBatalha;
+	private Clip musicaDerrota;
+	private Clip musicaVitoria;
+
 	private Image fundo;
 	private Image alerta;
 
@@ -114,10 +117,21 @@ public class Fase2 extends Fase implements ActionListener {
 
 		try {
 			File audioFile = new File("assets//musica-batalha.wav");
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+			File audioFile2 = new File("assets//vitoria.wav");
+			File audioFile3 = new File("assets//gameover.wav");
 
-			clip = AudioSystem.getClip();
-			clip.open(audioStream);
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(audioFile2);
+			AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(audioFile3);
+
+			temaBatalha = AudioSystem.getClip();
+			temaBatalha.open(audioStream);
+
+			musicaVitoria = AudioSystem.getClip();
+			musicaVitoria.open(audioStream2);
+
+			musicaDerrota = AudioSystem.getClip();
+			musicaDerrota.open(audioStream3);
 
 		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
 			e.printStackTrace();
@@ -126,15 +140,21 @@ public class Fase2 extends Fase implements ActionListener {
 	}
 
 	public void startSound() {
+		if (temaBatalha != null) {
+			temaBatalha.start();
+			temaBatalha.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+	}
+
+	public void startSound(Clip clip) {
 		if (clip != null) {
 			clip.start();
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 	}
 
 	public void stopSound() {
-		if (clip != null) {
-			clip.stop();
+		if (temaBatalha != null) {
+			temaBatalha.stop();
 		}
 	}
 
@@ -143,7 +163,7 @@ public class Fase2 extends Fase implements ActionListener {
 		robos = new ArrayList<Robo>();
 		barras = new ArrayList<BarraVidaInimigos>();
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -166,14 +186,16 @@ public class Fase2 extends Fase implements ActionListener {
 
 		robo1 = new Robo(1800, 100);
 		robo2 = new Robo(1800, 600);
-		robo3 = new Robo(1800, 200);
-		robo4 = new Robo(1800, 600);
+
+		robo3 = new Robo(1800, 80);
+		robo4 = new Robo(1800, 620);
 
 		alien1 = new Alien(1800, 250);
 		alien2 = new Alien(1800, 450);
-		alien3 = new Alien(1800, 200);
-		alien4 = new Alien(1800, 500);
-		alien5 = new Alien(1800, 600);
+
+		alien3 = new Alien(1800, 250);
+		alien4 = new Alien(1800, 350);
+		alien5 = new Alien(1800, 476);
 
 		alien1.load();
 		alien2.load();
@@ -202,12 +224,10 @@ public class Fase2 extends Fase implements ActionListener {
 	public void paint(Graphics g) {
 		barra = new BarraVida();
 		Graphics2D graficos = (Graphics2D) g;
-		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
-		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
-
+		
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 
-		fase.drawComponentesIniciais(graficos, jogador1, jogador2);
+		fase.drawComponentesIniciais(graficos, jogador1, jogador2, nomeJogador1, nomeJogador2, barra, "2");
 
 		contador = 0;
 		for (int i = 0; i < robos.size(); i++) {
@@ -351,67 +371,17 @@ public class Fase2 extends Fase implements ActionListener {
 			barraInimigos.load(graficos, robo);
 		}
 
-		g.setFont(fonte);
-		g.setColor(Color.WHITE);
-		graficos.drawString("Fase 2", 700, 50);
-
-		g.setFont(fonte2);
-		g.setColor(Color.WHITE);
-
-		if (doisJogadores) {
-			graficos.drawString("-- Pontuações -- ", 1325, 35);
-			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 1350, 60);
-			graficos.drawString(nomeJogador2 + " = " + Jogador2.pontuacaoJogador2, 1350, 90);
-		} else if (doisJogadores == false) {
-			graficos.drawString("-- Pontuações -- ", 1325, 35);
-			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 1350, 50);
-		}
-
-		g.setFont(fonte2);
-		g.setColor(Color.WHITE);
-		graficos.drawString(nomeJogador1, 15, 30);
-		barra.paintBarraVida(graficos, jogador1);
-
-		if (doisJogadores) {
-			if (nomeJogador1 != null && nomeJogador1 != null) {
-				g.setFont(fonte2);
-				g.setColor(Color.WHITE);
-				graficos.drawString(nomeJogador2, 15, 790);
-				barra.paintBarraVida(graficos, jogador2);
-			}
-		}
-
 		if (gameOver == true) {
-			ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
-			graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
-			g.setFont(fonte);
-			g.setColor(Color.WHITE);
-			graficos.drawString("Aperte enter para reiniciar o jogo!", 500, 800);
+			drawTelaDerrota(graficos);
 		}
 
 		if (vitoria == true) {
-			g.setFont(fonte);
-			g.setColor(Color.WHITE);
-			ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
-			graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
-			graficos.drawString("Pontuação Jogador 1 = " + Jogador1.pontuacaoJogador1, 20, 40);
-			graficos.drawString("Pontuação Jogador 2 = " + Jogador2.pontuacaoJogador2, 1125, 40);
-			graficos.drawString("Aperte enter para a próxima fase!", 500, 800);
+			drawTelaVitoria(graficos, nomeJogador1, nomeJogador1);
 		}
-		if (pausado) { 
-			Font fonteMenu = loadFont("assets//PressStart2P.ttf", 24);
-			graficos.setFont(fonteMenu);
-			graficos.setColor(Color.WHITE);
-			graficos.drawString("Jogo Pausado", 620, 300);
+		if (pausado) {
+			drawTelaPausa(graficos, contador);
+		}
 
-			graficos.setFont(fonte);
-			graficos.setColor(Color.WHITE);
-			graficos.drawString("Continuar", 690, 350);
-			graficos.drawString("Reiniciar", 690, 400);
-			graficos.drawString("Sair", 720, 450);
-			graficos.drawString(">", 670 + (opcaoMenuPausa * 15) - 20, 350 + opcaoMenuPausa * 50);
-		}
-		
 		g.dispose();
 	}
 
@@ -441,14 +411,14 @@ public class Fase2 extends Fase implements ActionListener {
 				alien2.updateAlien(1200);
 
 				for (int j = 0; j < powerUps.size(); j++) {
-				powerUp = powerUps.get(j);
+					powerUp = powerUps.get(j);
 
-				if (powerUp.isVisivel()) {
-					powerUp.update();
-				} else {
-					powerUps.remove(j);
+					if (powerUp.isVisivel()) {
+						powerUp.update();
+					} else {
+						powerUps.remove(j);
+					}
 				}
-			}
 			}
 
 			if (robo1.getX() == 1000 && robo2.getX() == 1000) {
@@ -503,7 +473,6 @@ public class Fase2 extends Fase implements ActionListener {
 			checarColisoes();
 			repaint();
 		}
-
 	}
 
 	public void checarColisoes() {
@@ -519,8 +488,7 @@ public class Fase2 extends Fase implements ActionListener {
 		fase.colisoesTiroEmRobo1(robo3, jogador1, jogador2, 1000);
 		fase.colisoesTiroEmRobo1(robo4, jogador1, jogador2, 1000);
 
-		fase.colisoesTiroEmRobo2(jogador1, robos);
-		fase.colisoesTiroEmRobo2(jogador2, robos);
+		fase.colisoesTiroEmRobo2(jogador1, jogador2, robos);
 
 		// Colisões de tiro da Nave com Alien:
 		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1200);
@@ -557,13 +525,20 @@ public class Fase2 extends Fase implements ActionListener {
 		if (!robo1.isVisivel() && !robo2.isVisivel() && !alien1.isVisivel() && !alien2.isVisivel()) {
 			proximaOnda = true;
 		}
-		if (!robo1.isVisivel() && !robo2.isVisivel() && !robo3.isVisivel() && !robo4.isVisivel() &&
-				!alien1.isVisivel() && !alien2.isVisivel() && !alien3.isVisivel() && !alien4.isVisivel()
+		if (!robo1.isVisivel() && !robo2.isVisivel() && !robo3.isVisivel() && !robo4.isVisivel()
+				&& !alien1.isVisivel() && !alien2.isVisivel() && !alien3.isVisivel() && !alien4.isVisivel()
 				&& !alien5.isVisivel()) {
 			vitoria = true;
+			stopSound();
+			startSound(musicaVitoria);
 		}
 
 		gameOver = fase.checarJogadores(jogador1, jogador2, doisJogadores);
+
+		if (gameOver) {
+			stopSound();
+			startSound(musicaDerrota);
+		}
 	}
 
 	private class TecladoAdapter implements KeyListener {
@@ -583,9 +558,8 @@ public class Fase2 extends Fase implements ActionListener {
 				}
 			}
 			if (gameOver) {
-				stopSound();
 				if (codigo == KeyEvent.VK_ENTER) {
-					container.reiniciarJogo();
+					container.reiniciarFase();
 				}
 			}
 			if (codigo == KeyEvent.VK_ESCAPE) {
@@ -640,7 +614,7 @@ public class Fase2 extends Fase implements ActionListener {
 				alternarPausa();
 				break;
 			case 1:
-				container.reiniciarJogo();
+				container.reiniciarFase();
 				break;
 			case 2:
 				System.exit(0);
