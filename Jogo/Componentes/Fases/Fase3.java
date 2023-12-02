@@ -178,7 +178,7 @@ public class Fase3 extends Fase implements ActionListener {
 		alien1 = new Alien(1800, 100);
 		alien2 = new Alien(1800, 600);
 
-		drakthar = new Drakthar(1800, 200, 2);
+		drakthar = new Drakthar(1570, 200, 2);
 
 		investida1 = new Drakthar(500, -500, 5);
 		investida2 = new Drakthar(200, 900, 5);
@@ -315,6 +315,9 @@ public class Fase3 extends Fase implements ActionListener {
 				drakthar.updateDrakthar2(1750);
 				if (drakthar.getX() == 1750) {
 					investida1.updateInvestidas(900);
+					if (investida1.getX() == 900){
+
+					}
 				}
 			}
 		}

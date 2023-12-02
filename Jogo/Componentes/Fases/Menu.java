@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -27,7 +26,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
@@ -36,7 +34,6 @@ import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import Jogo.Container;
@@ -50,7 +47,6 @@ public class Menu extends JPanel implements ActionListener {
     private Timer timer;
 
     private int opcaoSelecionada;
-    private boolean nomesCapturados = false;
     public static boolean doisJogadores;
     public static String nomeJogador1 = "Jogador 1";
     public static String nomeJogador2 = "Jogador 2";
@@ -119,18 +115,13 @@ public class Menu extends JPanel implements ActionListener {
         g.setFont(fonte);
         g.setColor(Color.WHITE);
 
-        if (!nomesCapturados) {
-            graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
-        }
+        graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
 
         graficos.drawString("Single-Player", 650, 600);
         graficos.drawString("Two Players", 660, 650);
         graficos.drawString("E X I T", 690, 700);
         graficos.drawString(">", 630 + (opcaoSelecionada * 25) - 20, 600 + opcaoSelecionada * 50);
 
-        if (nomesCapturados) {
-            graficos.drawImage(fundoNomes, 0, 0, getWidth(), getHeight(), this);
-        }
     }
 
     public void capturarNomes() {
@@ -141,7 +132,7 @@ public class Menu extends JPanel implements ActionListener {
         dialog.setUndecorated(true);
         dialog.setLocationRelativeTo(null);
 
-        ImageIcon backgroundImage = new ImageIcon("planosFundo//blackground.png");
+        ImageIcon backgroundImage = new ImageIcon("planosFundo//blackground2.0.png");
 
         JLabel backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setLayout(new GridBagLayout());
@@ -249,7 +240,6 @@ public class Menu extends JPanel implements ActionListener {
                 if (okButton.isFocusOwner()) {
                     okButton.doClick();
                 } else if (cancelButton.isFocusOwner()) {
-                    nomesCapturados = false;
                     cancelButton.doClick();
                 }
             }
@@ -302,12 +292,10 @@ public class Menu extends JPanel implements ActionListener {
         switch (opcaoSelecionada) {
             case 0:
                 doisJogadores = false;
-                nomesCapturados = true;
                 capturarNomes();
                 break;
             case 1:
                 doisJogadores = true;
-                nomesCapturados = true;
                 capturarNomes();
                 break;
             case 2:
