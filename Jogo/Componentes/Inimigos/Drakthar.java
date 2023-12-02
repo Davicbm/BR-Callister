@@ -19,19 +19,20 @@ public class Drakthar {
 	private int largura;
 	private int altura;
 	private boolean isVisivel;
-	private int vida;	
+	private int vida;
 
 	private List<TiroDrakthar> tiros1;
-    private long tempoUltimoTiro = System.currentTimeMillis();
-    private long intervaloTiros = 2800;
- 
-	private static int velocidade = 2;
-	
-	public Drakthar(int x, int y) {
+	private long tempoUltimoTiro = System.currentTimeMillis();
+	private long intervaloTiros = 2800;
+
+	private int velocidade;
+
+	public Drakthar(int x, int y, int velocidade) {
 		this.x = x;
 		this.y = y;
 		this.isVisivel = true;
-		this.vida = 50;
+		this.vida = 26;
+		this.velocidade = velocidade;
 
 		tiros1 = new ArrayList<TiroDrakthar>();
 	}
@@ -39,27 +40,35 @@ public class Drakthar {
 	public void load() {
 		ImageIcon referencia = new ImageIcon("assets//boss256px.gif");
 		imagem = referencia.getImage();
-		
+
 		this.largura = imagem.getWidth(null);
 		this.altura = imagem.getHeight(null);
 	}
 
-	
-	public void updateDrakthar(int localizacaoX){
-			this.x -= velocidade;
-		
-			if(this.x < localizacaoX) {
-				this.x = localizacaoX;
-			}
+	public void updateDrakthar(int localizacaoX) {
+		this.x -= velocidade;
+
+		if (this.x < localizacaoX) {
+			this.x = localizacaoX;
+		}
 	}
-	
+
+	public void updateDrakthar2(int localizacaoX) {
+		this.x += velocidade;
+
+		if (this.x > localizacaoX) {
+			this.x = localizacaoX;
+		}
+	}
+
 	public void tiroSimples() {
 		long tempoAtual = System.currentTimeMillis();
-        if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
-            this.tiros1.add(new TiroDrakthar(x + largura, y + (altura / 2)));
-            tempoUltimoTiro = tempoAtual;
-        }
+		if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
+			this.tiros1.add(new TiroDrakthar(x + largura, y + (altura / 2)));
+			tempoUltimoTiro = tempoAtual;
+		}
 	}
+
 	public void atirar() {
 		tiroSimples();
 		tiros1 = getTiros();
@@ -72,7 +81,22 @@ public class Drakthar {
 			}
 		}
 	}
-	public void drawTiroDrakthar(Graphics2D graficos){
+
+	public void startEstagio2(int y, int destinoY) {
+		this.y = y;
+
+		updateInvestidas(destinoY);
+	}
+
+	public void updateInvestidas(int destinoY) {
+		this.y += velocidade;
+
+		if (this.y > destinoY) {
+			this.y = destinoY;
+		}
+	}
+
+	public void drawTiroDrakthar(Graphics2D graficos) {
 		List<TiroDrakthar> tiros2 = getTiros();
 		for (int j = 0; j < tiros2.size(); j++) {
 			TiroDrakthar m = tiros2.get(j);
@@ -81,90 +105,95 @@ public class Drakthar {
 		}
 	}
 
-	public void colisaoDraktharTiro (Jogador1 jogador, int j){
-		List<TiroNave> tiros3 = jogador.getTiros();
-			TiroNave tempTiro = tiros3.get(j);
-			Rectangle formaTiro = tempTiro.getBounds();
-			Rectangle formaDrakthar = getBounds();
-			if (formaTiro.intersects(formaDrakthar) && isVisivel() && tempTiro.isVisivel()) {
-				perdeVida(1);
-				tempTiro.setVisivel(false);
-				if (vida == 0){
-					Jogador1.pontuacaoJogador1 += 100;
-				}
-
+	public void colisaoDraktharTiro(Jogador1 jogador, int j) {
+		List<TiroNave> tiros = jogador.getTiros();
+		TiroNave tempTiro = tiros.get(j);
+		Rectangle formaTiro = tempTiro.getBounds();
+		Rectangle formaDrakthar = getBounds();
+		if (formaTiro.intersects(formaDrakthar) && isVisivel() && tempTiro.isVisivel()) {
+			perdeVida(1);
+			tempTiro.setVisivel(false);
+			if (vida == 0) {
+				Jogador1.pontuacaoJogador1 += 500;
 			}
-
-	}
-	public void colisaoDraktharTiro (Jogador2 jogador, int j){
-		List<TiroNave> tiros3 = jogador.getTiros();
-			TiroNave tempTiro = tiros3.get(j);
-			Rectangle formaTiro = tempTiro.getBounds();
-			Rectangle formaDrakthar = getBounds();
-			if (formaTiro.intersects(formaDrakthar) && isVisivel() && tempTiro.isVisivel()) {
-				perdeVida(1);
-				tempTiro.setVisivel(false);
-				if (vida == 0){
-					Jogador2.pontuacaoJogador2 += 100;
-				}
-			}
+		}
 	}
 
-	public void colisaoNaveTiro(Jogador1 jogador){
-		List<TiroDrakthar> tiros3 = getTiros();
-		for (int j = 0; j < tiros3.size(); j++) {
-			TiroDrakthar tempTiroDrakthar = tiros3.get(j);
+	public void colisaoDraktharTiro(Jogador2 jogador, int j) {
+		List<TiroNave> tiros = jogador.getTiros();
+		TiroNave tempTiro = tiros.get(j);
+		Rectangle formaTiro = tempTiro.getBounds();
+		Rectangle formaDrakthar = getBounds();
+		if (formaTiro.intersects(formaDrakthar) && isVisivel() && tempTiro.isVisivel()) {
+			perdeVida(1);
+			tempTiro.setVisivel(false);
+			if (vida == 0) {
+				Jogador2.pontuacaoJogador2 += 500;
+			}
+		}
+	}
+
+	public void colisaoNaveTiro(Jogador1 jogador1, Jogador2 jogador2) {
+		List<TiroDrakthar> tiros1 = getTiros();
+		for (int j = 0; j < tiros1.size(); j++) {
+			TiroDrakthar tempTiroDrakthar = tiros1.get(j);
 			Rectangle formaTiroDrakthar = tempTiroDrakthar.getBounds();
-			Rectangle formaNave = jogador.getBounds();
-			if (formaTiroDrakthar.intersects(formaNave) && jogador.isVisivel()) {
-				jogador.perdeVida(3);
+			Rectangle formaNave = jogador1.getBounds();
+			if (formaTiroDrakthar.intersects(formaNave) && jogador1.isVisivel()) {
+				jogador1.perdeVida(3);
 				tempTiroDrakthar.setVisivel(false);
 			}
 		}
-	}
-    
-	public void colisaoNaveTiro(Jogador2 jogador){
-		List<TiroDrakthar> tiros3 = getTiros();
-		for (int j = 0; j < tiros3.size(); j++) {
-			TiroDrakthar tempTiroDrakthar = tiros3.get(j);
-			Rectangle formaTiroDrakthar= tempTiroDrakthar.getBounds();
-			Rectangle formaNave = jogador.getBounds();
-			if (formaTiroDrakthar.intersects(formaNave) && jogador.isVisivel()) {
-				jogador.perdeVida(2);
+
+		List<TiroDrakthar> tiros2 = getTiros();
+		for (int j = 0; j < tiros2.size(); j++) {
+			TiroDrakthar tempTiroDrakthar = tiros2.get(j);
+			Rectangle formaTiroDrakthar = tempTiroDrakthar.getBounds();
+			Rectangle formaNave = jogador2.getBounds();
+			if (formaTiroDrakthar.intersects(formaNave) && jogador2.isVisivel()) {
+				jogador2.perdeVida(4);
 				tempTiroDrakthar.setVisivel(false);
 			}
 		}
 	}
 
-	public void perdeVida(int dano){
+	public void perdeVida(int dano) {
 		this.vida = vida - dano;
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, largura,altura);
+		return new Rectangle(x, y, largura, altura);
 	}
+
 	public boolean isVisivel() {
 		return isVisivel;
 	}
+
 	public void setVisivel(boolean isVisivel) {
 		this.isVisivel = isVisivel;
 	}
+
 	public int getX() {
 		return x;
 	}
+
 	public int getY() {
 		return y;
 	}
+
 	public Image getImagem() {
 		return imagem;
 	}
+
 	public List<TiroDrakthar> getTiros() {
 		return tiros1;
-	} 
-	public void setVida(int vida){
+	}
+
+	public void setVida(int vida) {
 		this.vida = vida;
 	}
-	public int getVida(){
+
+	public int getVida() {
 		return this.vida;
 	}
 }

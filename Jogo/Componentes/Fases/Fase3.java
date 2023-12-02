@@ -38,6 +38,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 	private Image fundo;
 	private Image alerta;
+	private Image portal;
 
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
@@ -60,6 +61,10 @@ public class Fase3 extends Fase implements ActionListener {
 	private Alien alien1;
 	private Alien alien2;
 	private Drakthar drakthar;
+	private Drakthar investida1;
+	private Drakthar investida2;
+	private Drakthar investida3;
+	private Drakthar investida4;
 
 	private int contador = 0;
 
@@ -85,6 +90,9 @@ public class Fase3 extends Fase implements ActionListener {
 
 		referencia = new ImageIcon("assets//warninggif.gif");
 		alerta = referencia.getImage();
+
+		referencia = new ImageIcon("assets//portal.gif");
+		portal = referencia.getImage();
 
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
@@ -170,7 +178,12 @@ public class Fase3 extends Fase implements ActionListener {
 		alien1 = new Alien(1800, 100);
 		alien2 = new Alien(1800, 600);
 
-		drakthar = new Drakthar(1800, 200);
+		drakthar = new Drakthar(1800, 200, 2);
+
+		investida1 = new Drakthar(500, -500, 5);
+		investida2 = new Drakthar(200, 900, 5);
+		investida3 = new Drakthar(1700, 1000, 5);
+		investida4 = new Drakthar(100, 0, 5);
 
 		alien1.load();
 		alien2.load();
@@ -211,20 +224,24 @@ public class Fase3 extends Fase implements ActionListener {
 				graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
 				if (alien1.getX() != 1000) {
 					// muda a posição para os alien
-					graficos.drawImage(alerta, 1450, 100, this);
+					graficos.drawImage(alerta, 1450, alien1.getY(), this);
 				}
 			}
 			if (alien2.isVisivel()) {
 				graficos.drawImage(alien2.getImagem(), alien2.getX(), alien2.getY(), this);
 				if (alien2.getX() != 1000) {
-					graficos.drawImage(alerta, 1450, 500, this);
+					graficos.drawImage(alerta, 1450, alien2.getY(), this);
 				}
 			}
 			if (drakthar.isVisivel()) {
 				graficos.drawImage(drakthar.getImagem(), drakthar.getX(), drakthar.getY(), this);
-				if (drakthar.getX() != 1100) {
-					graficos.drawImage(alerta, 1450, 300, this);
+				if (drakthar.getX() != 1100 && drakthar.getX() < 1700) {
+					graficos.drawImage(portal, 1300, 200 - 55, this);
 				}
+			}
+
+			if (investida1.isVisivel()) {
+				graficos.drawImage(drakthar.getImagem(), investida1.getX(), investida1.getY(), this);
 			}
 
 			if (alien1.getX() == 1000) {
@@ -291,7 +308,15 @@ public class Fase3 extends Fase implements ActionListener {
 			alien1.updateAlien(1000);
 			alien2.updateAlien(1000);
 
-			drakthar.updateDrakthar(1100);
+			if (drakthar.getVida() > 25) {
+				drakthar.updateDrakthar(1100);
+			}
+			if (drakthar.getVida() == 25) {
+				drakthar.updateDrakthar2(1750);
+				if (drakthar.getX() == 1750) {
+					investida1.updateInvestidas(900);
+				}
+			}
 		}
 
 		if (alien1.getX() == 1000) {
@@ -319,21 +344,27 @@ public class Fase3 extends Fase implements ActionListener {
 	public void checarColisoes() {
 
 		// Colisões de Nave com Robô:
-		fase.colisoesPowerUps(powerUps, jogador1, jogador2);
+		colisoesPowerUps(powerUps, jogador1, jogador2);
 
 		// Colisões de Nave com Robô:
-		fase.colisoesNavesRobos(robos, jogador1, jogador2);
+		colisoesNavesRobos(robos, jogador1, jogador2);
 
 		// Colisões de tiro de Nave em Robos:
-		fase.colisoesTiroEmRobo2(jogador1, jogador2, robos);
+		colisoesTiroEmRobo2(jogador1, jogador2, robos);
 
 		// Colisões de tiro de Nave em Aliens:
-		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1000);
-		fase.colisoesTiroEmAlien(alien2, jogador1, jogador2, 1000);
+		colisoesTiroEmAlien(alien1, jogador1, jogador2, 1000);
+		colisoesTiroEmAlien(alien2, jogador1, jogador2, 1000);
 
 		// Colisões de tiro do Alien com a Nave:
 		alien1.colisaoNaveTiro(jogador1, jogador2);
 		alien2.colisaoNaveTiro(jogador1, jogador2);
+
+		// Colisões de Tiro de Nave com Drakthar:
+		colisoesTiroEmDrakthar(drakthar, jogador1, jogador2, 1100);
+
+		// Colisões de tiro do Drakthar com a Nave:
+		drakthar.colisaoNaveTiro(jogador1, jogador2);
 
 		// Checagem das Entidades:
 		checarJogadores(jogador1, jogador2, doisJogadores);
@@ -343,7 +374,10 @@ public class Fase3 extends Fase implements ActionListener {
 
 		checarRobos(robos);
 
+		checarDrakthar(drakthar);
+
 		if (!alien1.isVisivel() && !alien2.isVisivel() && !drakthar.isVisivel()) {
+			vitoria = true;
 			stopSound();
 			startSound(musicaVitoria);
 		}
@@ -369,7 +403,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 			if (vitoria) {
 				if (codigo == KeyEvent.VK_ENTER) {
-					container.avancarFase();
+					container.reiniciarJogo();
 				}
 			}
 			if (gameOver) {
