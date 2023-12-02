@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 public class Jogador1 extends Jogador {
 
 	public static int pontuacaoJogador1 = 0;
+	public static int pontuacaoAnteriorJogador1;
 
 	public Jogador1() {
 		super(300, 150);

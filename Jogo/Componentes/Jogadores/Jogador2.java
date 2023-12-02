@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 public class Jogador2 extends Jogador {
 
     public static int pontuacaoJogador2 = 0;
+	public static int pontuacaoAnteriorJogador2;
 
     public Jogador2() {
         super(300, 650);
