@@ -28,7 +28,6 @@ import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Objetos.BarraVida;
-import Jogo.Componentes.Objetos.BarraVidaRobos;
 import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase3 extends Fase implements ActionListener {
@@ -66,6 +65,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 	private boolean pausado = false;
 	private int opcaoMenuPausa = 0;
+	private int opcaoGameOver = 0;
 
 	private Container container;
 
@@ -80,7 +80,7 @@ public class Fase3 extends Fase implements ActionListener {
 		setFocusable(true);
 		setDoubleBuffered(true);
 
-		ImageIcon referencia = new ImageIcon("assets//fundo03.png");
+		ImageIcon referencia = new ImageIcon("planosFundo//fundo03.png");
 		fundo = referencia.getImage();
 
 		referencia = new ImageIcon("assets//warninggif.gif");
@@ -159,7 +159,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -181,7 +181,7 @@ public class Fase3 extends Fase implements ActionListener {
 	public void inicializaPowerUps() {
 		powerUps = new ArrayList<PowerUp>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 10; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 			int codigo = (int) (Math.random() * 4) + 1;
@@ -206,12 +206,7 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 
 		if (contador == robos.size()) {
-			for (int j = 0; j < powerUps.size(); j++) {
-				powerUp = powerUps.get(j);
-				powerUp.load();
 
-				graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
-			}
 			if (alien1.isVisivel()) {
 				graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
 				if (alien1.getX() != 1000) {
@@ -248,6 +243,13 @@ public class Fase3 extends Fase implements ActionListener {
 				}
 			}
 		}
+
+		for (int j = 0; j < powerUps.size(); j++) {
+			powerUp = powerUps.get(j);
+			powerUp.load();
+
+			graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
+		}
 		for (int j = 0; j < robos.size(); j++) {
 			Robo robo = robos.get(j);
 
@@ -256,7 +258,7 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 
 		if (gameOver == true) {
-			drawTelaDerrota(graficos);
+			drawTelaDerrota(graficos, opcaoGameOver);
 		}
 		if (vitoria == true) {
 			drawTelaVitoria(graficos, nomeJogador1, nomeJogador1);
@@ -326,7 +328,8 @@ public class Fase3 extends Fase implements ActionListener {
 		fase.colisoesTiroEmRobo2(jogador1, jogador2, robos);
 
 		// Colisões de tiro de Nave em Aliens:
-		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1100);
+		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1000);
+		fase.colisoesTiroEmAlien(alien2, jogador1, jogador2, 1000);
 
 		// Colisões de tiro do Alien com a Nave:
 		alien1.colisaoNaveTiro(jogador1, jogador2);
@@ -370,8 +373,20 @@ public class Fase3 extends Fase implements ActionListener {
 				}
 			}
 			if (gameOver) {
-				if (codigo == KeyEvent.VK_ENTER) {
-					container.reiniciarFase();
+				switch (codigo) {
+					case KeyEvent.VK_UP:
+						if (opcaoGameOver > 0) {
+							opcaoGameOver--;
+						}
+						break;
+					case KeyEvent.VK_DOWN:
+						if (opcaoGameOver < 1) {
+							opcaoGameOver++;
+						}
+						break;
+					case KeyEvent.VK_ENTER:
+						executarAcaoGameOver();
+						break;
 				}
 			}
 			if (codigo == KeyEvent.VK_ESCAPE) {
@@ -430,6 +445,21 @@ public class Fase3 extends Fase implements ActionListener {
 				break;
 			case 2:
 				System.exit(0);
+				break;
+		}
+	}
+
+	private void executarAcaoGameOver() {
+		switch (opcaoGameOver) {
+			case 0:
+				Jogador1.pontuacaoJogador1 = Jogador1.pontuacaoAnteriorJogador1;
+				Jogador2.pontuacaoJogador2 = Jogador2.pontuacaoAnteriorJogador2;
+				container.reiniciarFase();
+				break;
+			case 1:
+				Jogador1.pontuacaoJogador1 = 0;
+				Jogador2.pontuacaoJogador2 = 0;
+				container.reiniciarJogo();
 				break;
 		}
 	}

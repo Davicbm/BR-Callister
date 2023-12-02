@@ -104,7 +104,7 @@ public class Fase extends JPanel {
 
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
-		ImageIcon vitoriaJogo = new ImageIcon("assets//victory.png");
+		ImageIcon vitoriaJogo = new ImageIcon("planosFundo//victory.png");
 		graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
@@ -118,14 +118,16 @@ public class Fase extends JPanel {
 		}
 	}
 
-	public void drawTelaDerrota(Graphics2D graficos) {
+	public void drawTelaDerrota(Graphics2D graficos, int opcaoGameOver) {
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 
-		ImageIcon fimJogo = new ImageIcon("assets//fim_de_jogo.png");
+		ImageIcon fimJogo = new ImageIcon("planosFundo//fim_de_jogo.png");
 		graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
-		graficos.drawString("Aperte enter para reiniciar o jogo!", 500, 800);
+		graficos.drawString("Reiniciar a fase!", 600, 700);
+		graficos.drawString("Voltar ao menu principal!", 600, 750);
+		graficos.drawString(">", 575 + (opcaoGameOver / 15), 700 + opcaoGameOver * 50);
 	}
 
 	// Inicializa a fonte a ser utilizada:
