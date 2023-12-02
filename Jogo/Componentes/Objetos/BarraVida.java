@@ -24,37 +24,37 @@ public class BarraVida {
 
 	public void paintBarraVida(Graphics2D graficos, Jogador1 jogador) {
 
-		ImageIcon referencia = new ImageIcon("assets//barravida_full.png");
+		ImageIcon referencia = new ImageIcon("barrasVida//barravida_full.png");
 		barraVida10 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_9.png");
+		referencia = new ImageIcon("barrasVida//barravida_9.png");
 		barraVida9 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_8.png");
+		referencia = new ImageIcon("barrasVida//barravida_8.png");
 		barraVida8 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_7.png");
+		referencia = new ImageIcon("barrasVida//barravida_7.png");
 		barraVida7 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_6.png");
+		referencia = new ImageIcon("barrasVida//barravida_6.png");
 		barraVida6 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_5.png");
+		referencia = new ImageIcon("barrasVida//barravida_5.png");
 		barraVida5 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_4.png");
+		referencia = new ImageIcon("barrasVida//barravida_4.png");
 		barraVida4 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_3.png");
+		referencia = new ImageIcon("barrasVida//barravida_3.png");
 		barraVida3 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_2.png");
+		referencia = new ImageIcon("barrasVida//barravida_2.png");
 		barraVida2 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_1.png");
+		referencia = new ImageIcon("barrasVida//barravida_1.png");
 		barraVida1 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_0.png");
+		referencia = new ImageIcon("barrasVida//barravida_0.png");
 		barraVida0 = referencia.getImage();
 
 		graficos.drawImage(barraVida10, 15, 40, null);
@@ -84,37 +84,37 @@ public class BarraVida {
 
 	public void paintBarraVida(Graphics2D graficos, Jogador2 jogador) {
 
-		ImageIcon referencia = new ImageIcon("assets//barravida_full.png");
+		ImageIcon referencia = new ImageIcon("barrasVida//barravida_full.png");
 		barraVida10 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_9.png");
+		referencia = new ImageIcon("barrasVida//barravida_9.png");
 		barraVida9 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_8.png");
+		referencia = new ImageIcon("barrasVida//barravida_8.png");
 		barraVida8 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_7.png");
+		referencia = new ImageIcon("barrasVida//barravida_7.png");
 		barraVida7 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_6.png");
+		referencia = new ImageIcon("barrasVida//barravida_6.png");
 		barraVida6 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_5.png");
+		referencia = new ImageIcon("barrasVida//barravida_5.png");
 		barraVida5 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_4.png");
+		referencia = new ImageIcon("barrasVida//barravida_4.png");
 		barraVida4 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_3.png");
+		referencia = new ImageIcon("barrasVida//barravida_3.png");
 		barraVida3 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_2.png");
+		referencia = new ImageIcon("barrasVida//barravida_2.png");
 		barraVida2 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_1.png");
+		referencia = new ImageIcon("barrasVida//barravida_1.png");
 		barraVida1 = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barravida_0.png");
+		referencia = new ImageIcon("barrasVida//barravida_0.png");
 		barraVida0 = referencia.getImage();
 
 		graficos.drawImage(barraVida10, 15, 800, null);

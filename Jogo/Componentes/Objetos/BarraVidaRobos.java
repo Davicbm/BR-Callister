@@ -24,10 +24,10 @@ public class BarraVidaRobos {
 
     public void loadBarrasRobos(Graphics2D graficos, Robo robo) {
 
-        ImageIcon referencia = new ImageIcon("assets//robosVida2.png");
+        ImageIcon referencia = new ImageIcon("barrasVida//robosVida2.png");
         robosVida2 = referencia.getImage();
 
-        referencia = new ImageIcon("assets/robosVida1.png");
+        referencia = new ImageIcon("barrasVida//robosVida1.png");
         robosVida1 = referencia.getImage();
 
         if (robo.getVida() == 2) {

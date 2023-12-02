@@ -24,34 +24,34 @@ public class BarraVidaRobo {
 
     public void loadBarraRobo(Graphics2D graficos, Robo robo) {
 
-        ImageIcon referencia = new ImageIcon("assets//vidaRobo10.png");
+        ImageIcon referencia = new ImageIcon("barrasVida//vidaRobo10.png");
         vidaRobo10 = referencia.getImage();
 
-        referencia = new ImageIcon("assets//vidaRobo9.png");
+        referencia = new ImageIcon("barrasVida//vidaRobo9.png");
         vidaRobo9 = referencia.getImage();
 
-        referencia = new ImageIcon("assets//vidaRobo8.png");
+        referencia = new ImageIcon("barrasVida//vidaRobo8.png");
         vidaRobo8 = referencia.getImage();
 
-        referencia = new ImageIcon("assets//vidaRobo7.png");
+        referencia = new ImageIcon("barrasVida//vidaRobo7.png");
         vidaRobo7 = referencia.getImage();
 
-        referencia = new ImageIcon("assets//vidaRobo6.png");
+        referencia = new ImageIcon("barrasVida//vidaRobo6.png");
         vidaRobo6 = referencia.getImage();
 
-        referencia = new ImageIcon("assets//vidaRobo5.png");
+        referencia = new ImageIcon("barrasVida//vidaRobo5.png");
         vidaRobo5 = referencia.getImage();
 
-        referencia = new ImageIcon("assets//vidaRobo4.png");
+        referencia = new ImageIcon("barrasVida//vidaRobo4.png");
         vidaRobo4 = referencia.getImage();
 
-        referencia = new ImageIcon("assets//vidaRobo3.png");
+        referencia = new ImageIcon("barrasVida//vidaRobo3.png");
         vidaRobo3 = referencia.getImage();
 
-        referencia = new ImageIcon("assets//vidaRobo2.png");
+        referencia = new ImageIcon("barrasVida//vidaRobo2.png");
         vidaRobo2 = referencia.getImage();
 
-        referencia = new ImageIcon("assets//vidaRobo1.png");
+        referencia = new ImageIcon("barrasVida//vidaRobo1.png");
         vidaRobo1 = referencia.getImage();
 
         if (robo.getVida() == 10) {
