@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 public class Jogador2 extends Jogador {
 
-    private int pontuacaoJogador2 = 0;
+    public static int pontuacaoJogador2 = 0;
 
     public Jogador2() {
         super(300, 650);
@@ -53,13 +53,13 @@ public class Jogador2 extends Jogador {
 	
 	private void definirDirecao(int codigo) {
 		if (codigo == KeyEvent.VK_UP) {
-			dy = -4;
+			dy = -3;
 		} else if (codigo == KeyEvent.VK_DOWN) {
-			dy = 4;
+			dy = 3;
 		} else if (codigo == KeyEvent.VK_LEFT) {
-			dx = -4;
+			dx = -3;
 		} else if (codigo == KeyEvent.VK_RIGHT) {
-			dx = 4;
+			dx = 3;
 		}
 	}
 	
@@ -70,12 +70,4 @@ public class Jogador2 extends Jogador {
 			dx = 0;
 		}
 	}
-	
-    public void setPontuacaoJogador2(int pontuacao) {
-        this.pontuacaoJogador2 += pontuacao;
-    }
-
-    public int getPontuacaoJogador2() {
-        return this.pontuacaoJogador2;
-    }
 }

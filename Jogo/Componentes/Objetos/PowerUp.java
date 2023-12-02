@@ -62,14 +62,14 @@ public class PowerUp {
 		Rectangle formaPowerUp = getBounds();
         switch (codigo) {
             case 1:
-                if (formaNave.intersects(formaPowerUp)) {
+                if (formaNave.intersects(formaPowerUp) && jogador.isVisivel()) {
 			        jogador.regeneraVida();
 			        setVisivel(false);
 		        } 
                 break;
         
             case 2:
-                if (formaNave.intersects(formaPowerUp)) {
+                if (formaNave.intersects(formaPowerUp) && jogador.isVisivel()) {
 			        jogador.ganhaEscudo();
 			        setVisivel(false);
 		        } 
@@ -81,14 +81,14 @@ public class PowerUp {
 		Rectangle formaPowerUp = getBounds();
         switch (codigo) {
             case 1:
-                if (formaNave.intersects(formaPowerUp)) {
+                if (formaNave.intersects(formaPowerUp) && jogador.isVisivel()) {
 			        jogador.regeneraVida();
 			        setVisivel(false);
 		        } 
                 break;
         
             case 2:
-                if (formaNave.intersects(formaPowerUp)) {
+                if (formaNave.intersects(formaPowerUp) && jogador.isVisivel()) {
 			        jogador.ganhaEscudo();
 			        setVisivel(false);
 		        } 
@@ -111,9 +111,7 @@ public class PowerUp {
     public int getY() {
         return y;
     }
-
     public boolean isVisivel() {
         return isVisivel;
     }
-    
 } 

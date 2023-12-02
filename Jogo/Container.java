@@ -6,11 +6,15 @@ import javax.swing.JPanel;
 import Jogo.Componentes.Fases.Fase1;
 import Jogo.Componentes.Fases.Fase2;
 import Jogo.Componentes.Fases.Fase3;
+import Jogo.Componentes.Fases.Menu;
 
 public class Container extends JFrame {
     private JPanel currentPanel;
-    private int faseAtual;
 
+    private int faseAtual;
+    private int faseReinicio;
+
+    private boolean reiniciaJogo = false;
 
     public Container() {
         setTitle("Br-Callister");
@@ -20,7 +24,8 @@ public class Container extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
 
-        faseAtual = 1;
+        faseAtual = 0;
+        faseReinicio = 0;
         switchFase();
     }
 
@@ -30,14 +35,25 @@ public class Container extends JFrame {
         }
 
         switch (faseAtual) {
+            case 0:
+                currentPanel = new Menu(this);
+                faseReinicio = 0;
+                reiniciaJogo = false;
+                break;
             case 1:
                 currentPanel = new Fase1(this);
+                faseReinicio = 1;
+                reiniciaJogo = false;
                 break;
             case 2:
                 currentPanel = new Fase2(this);
+                faseReinicio = 2;
+                reiniciaJogo = false;
                 break;
             case 3:
                 currentPanel = new Fase3(this);
+                faseReinicio = 3;
+                reiniciaJogo = false;
                 break;
             default:
                 System.exit(0);
@@ -54,9 +70,12 @@ public class Container extends JFrame {
         switchFase();
     }
 
-    public void reiniciarJogo() {
-        faseAtual = 1;
+    public void reiniciarFase() {
+        faseAtual = faseReinicio;
         switchFase();
+    }
+    public Boolean getReiniciaJogo(){
+        return reiniciaJogo;
     }
     public static void main(String[] args) {
         new Container();
