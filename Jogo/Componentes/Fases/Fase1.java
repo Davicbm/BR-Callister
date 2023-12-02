@@ -27,7 +27,6 @@ import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Objetos.BarraVida;
-import Jogo.Componentes.Objetos.BarraVidaInimigos;
 import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase1 extends Fase implements ActionListener {
@@ -47,8 +46,6 @@ public class Fase1 extends Fase implements ActionListener {
 	private Jogador2 jogador2;
 
 	private BarraVida barra;
-	private List<BarraVidaInimigos> barras;
-	private List<BarraVidaInimigos> barras2;
 	private PowerUp powerUp;
 	private List<PowerUp> powerUps;
 
@@ -157,26 +154,22 @@ public class Fase1 extends Fase implements ActionListener {
 
 	public void inicializaInimigos() {
 		robos = new ArrayList<Robo>();
-		barras = new ArrayList<BarraVidaInimigos>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 10; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
 			robos.add(new Robo(x, y));
-			barras.add(new BarraVidaInimigos(x, y));
 			robos.get(i).setVida(2);
 		}
 
 		robos2 = new ArrayList<Robo>();
-		barras2 = new ArrayList<BarraVidaInimigos>();
 
 		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 6000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
 			robos2.add(new Robo(x, y));
-			barras2.add(new BarraVidaInimigos(x, y));
 			robos2.get(i).setVida(2);
 		}
 
@@ -216,6 +209,7 @@ public class Fase1 extends Fase implements ActionListener {
 	public void paint(Graphics g) {
 
 		Graphics2D graficos = (Graphics2D) g;
+
 		barra = new BarraVida();
 
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
@@ -336,20 +330,18 @@ public class Fase1 extends Fase implements ActionListener {
 		if (proximaOndaColisoes) {
 			for (int j = 0; j < robos2.size(); j++) {
 				Robo robo = robos2.get(j);
-				BarraVidaInimigos barraInimigos = barras2.get(j);
 
-				robo.load2();
-				barraInimigos.load(graficos, robo);
+				robo.load2(graficos);
+				//barraInimigos.loadBarrasRobos(graficos, robo);
 				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 			}
 		}
 
 		for (int j = 0; j < robos.size(); j++) {
 			Robo robo = robos.get(j);
-			BarraVidaInimigos barraInimigos = barras.get(j);
 
-			robo.load2();
-			barraInimigos.load(graficos, robo);
+			robo.load2(graficos);
+		
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 		}
 
@@ -421,27 +413,21 @@ public class Fase1 extends Fase implements ActionListener {
 
 		for (int j = 0; j < robos.size(); j++) {
 			Robo robo = robos.get(j);
-			BarraVidaInimigos barraInimigo = barras.get(j);
 
 			if (robo.isVisivel()) {
 				robo.updateRoboDeColisao();
-				barraInimigo.updateBarraInimigo();
 			} else {
 				robos.remove(j);
-				barras.remove(j);
 			}
 		}
 		if (proximaOndaColisoes) {
 			for (int j = 0; j < robos2.size(); j++) {
 				Robo robo = robos2.get(j);
-				BarraVidaInimigos barraInimigo = barras2.get(j);
 
 				if (robo.isVisivel()) {
 					robo.updateRoboDeColisao();
-					barraInimigo.updateBarraInimigo();
 				} else {
 					robos2.remove(j);
-					barras2.remove(j);
 				}
 			}
 		}

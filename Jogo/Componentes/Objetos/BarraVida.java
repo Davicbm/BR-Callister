@@ -9,7 +9,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 
 public class BarraVida {
-    private Image barraVida10;
+
+	private Image barraVida10;
 	private Image barraVida9;
 	private Image barraVida8;
 	private Image barraVida7;
@@ -20,9 +21,9 @@ public class BarraVida {
 	private Image barraVida2;
 	private Image barraVida1;
 	private Image barraVida0;
-		
-	public void paintBarraVida(Graphics2D graficos, Jogador1 jogador){
-		
+
+	public void paintBarraVida(Graphics2D graficos, Jogador1 jogador) {
+
 		ImageIcon referencia = new ImageIcon("assets//barravida_full.png");
 		barraVida10 = referencia.getImage();
 
@@ -57,35 +58,35 @@ public class BarraVida {
 		barraVida0 = referencia.getImage();
 
 		graficos.drawImage(barraVida10, 15, 40, null);
-		if (jogador.getVida() == 9){
-				graficos.drawImage(barraVida9, 15, 40, null);
-			} else if (jogador.getVida() == 8){
-				graficos.drawImage(barraVida8, 15, 40, null);
-			} else if (jogador.getVida() == 7){
-				graficos.drawImage(barraVida7, 15, 40, null);
-			} else if (jogador.getVida() == 6){
-				graficos.drawImage(barraVida6, 15, 40, null);
-			} else if (jogador.getVida() == 5){
-				graficos.drawImage(barraVida5, 15, 40, null);
-			} else if (jogador.getVida() == 4){
-				graficos.drawImage(barraVida4, 15, 40, null);
-			} else if (jogador.getVida() == 3){
-				graficos.drawImage(barraVida3, 15, 40, null);
-			} else if (jogador.getVida() == 2){
-				graficos.drawImage(barraVida2, 15, 40, null);
-			} else if (jogador.getVida() == 1){
-				graficos.drawImage(barraVida1, 15, 40, null);
-			} else if (jogador.getVida() <= 0){
-				graficos.drawImage(barraVida0, 15, 40, null);
-				jogador.setVisivel(false);
-			}
+		if (jogador.getVida() == 9) {
+			graficos.drawImage(barraVida9, 15, 40, null);
+		} else if (jogador.getVida() == 8) {
+			graficos.drawImage(barraVida8, 15, 40, null);
+		} else if (jogador.getVida() == 7) {
+			graficos.drawImage(barraVida7, 15, 40, null);
+		} else if (jogador.getVida() == 6) {
+			graficos.drawImage(barraVida6, 15, 40, null);
+		} else if (jogador.getVida() == 5) {
+			graficos.drawImage(barraVida5, 15, 40, null);
+		} else if (jogador.getVida() == 4) {
+			graficos.drawImage(barraVida4, 15, 40, null);
+		} else if (jogador.getVida() == 3) {
+			graficos.drawImage(barraVida3, 15, 40, null);
+		} else if (jogador.getVida() == 2) {
+			graficos.drawImage(barraVida2, 15, 40, null);
+		} else if (jogador.getVida() == 1) {
+			graficos.drawImage(barraVida1, 15, 40, null);
+		} else if (jogador.getVida() <= 0) {
+			graficos.drawImage(barraVida0, 15, 40, null);
+			jogador.setVisivel(false);
+		}
 	}
 
-	public void paintBarraVida(Graphics2D graficos, Jogador2 jogador){
-		
+	public void paintBarraVida(Graphics2D graficos, Jogador2 jogador) {
+
 		ImageIcon referencia = new ImageIcon("assets//barravida_full.png");
 		barraVida10 = referencia.getImage();
-		
+
 		referencia = new ImageIcon("assets//barravida_9.png");
 		barraVida9 = referencia.getImage();
 
@@ -117,28 +118,28 @@ public class BarraVida {
 		barraVida0 = referencia.getImage();
 
 		graficos.drawImage(barraVida10, 15, 800, null);
-		if (jogador.getVida() == 9){
-				graficos.drawImage(barraVida9, 15, 800, null);
-			} else if (jogador.getVida() == 8){
-				graficos.drawImage(barraVida8, 15, 800, null);
-			} else if (jogador.getVida() == 7){
-				graficos.drawImage(barraVida7, 15, 800, null);
-			} else if (jogador.getVida() == 6){
-				graficos.drawImage(barraVida6, 15, 800, null);
-			} else if (jogador.getVida() == 5){
-				graficos.drawImage(barraVida5, 15, 800, null);
-			} else if (jogador.getVida() == 4){
-				graficos.drawImage(barraVida4, 15, 800, null);
-			} else if (jogador.getVida() == 3){
-				graficos.drawImage(barraVida3, 15, 800, null);
-			} else if (jogador.getVida() == 2){
-				graficos.drawImage(barraVida2, 15, 800, null);
-			} else if (jogador.getVida() == 1){
-				graficos.drawImage(barraVida1, 15, 800, null);
-			} else if (jogador.getVida() <= 0){
-				graficos.drawImage(barraVida0, 15, 800, null);
-				jogador.setVisivel(false);
-			}
+		if (jogador.getVida() == 9) {
+			graficos.drawImage(barraVida9, 15, 800, null);
+		} else if (jogador.getVida() == 8) {
+			graficos.drawImage(barraVida8, 15, 800, null);
+		} else if (jogador.getVida() == 7) {
+			graficos.drawImage(barraVida7, 15, 800, null);
+		} else if (jogador.getVida() == 6) {
+			graficos.drawImage(barraVida6, 15, 800, null);
+		} else if (jogador.getVida() == 5) {
+			graficos.drawImage(barraVida5, 15, 800, null);
+		} else if (jogador.getVida() == 4) {
+			graficos.drawImage(barraVida4, 15, 800, null);
+		} else if (jogador.getVida() == 3) {
+			graficos.drawImage(barraVida3, 15, 800, null);
+		} else if (jogador.getVida() == 2) {
+			graficos.drawImage(barraVida2, 15, 800, null);
+		} else if (jogador.getVida() == 1) {
+			graficos.drawImage(barraVida1, 15, 800, null);
+		} else if (jogador.getVida() <= 0) {
+			graficos.drawImage(barraVida0, 15, 800, null);
+			jogador.setVisivel(false);
+		}
 	}
 
 	public Image getBarraVida10() {

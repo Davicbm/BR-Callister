@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
+import Jogo.Componentes.Objetos.BarraVidaRobo;
+import Jogo.Componentes.Objetos.BarraVidaRobos;
 
 public class Robo {
 	private Image imagem;
@@ -20,6 +22,10 @@ public class Robo {
 	private int altura;
 	private boolean isVisivel;
 	private int vida;	
+
+	private BarraVidaRobo barraVidaRobo;
+
+	private BarraVidaRobos barraVidaRobos;
 
 	private List<TiroRobo> tiros1;
     private long tempoUltimoTiro = System.currentTimeMillis();
@@ -31,8 +37,10 @@ public class Robo {
 		this.x = x;
 		this.y = y;
 		this.isVisivel = true;
-		this.vida = 3;
+		this.vida = 10;
 
+		barraVidaRobo = new BarraVidaRobo();
+		barraVidaRobos = new BarraVidaRobos(x, y);
 		tiros1 = new ArrayList<TiroRobo>();
 	}
 
@@ -44,10 +52,12 @@ public class Robo {
 		this.altura = imagem.getHeight(null);
 	}
 
-	public void load2(){
+	public void load2(Graphics2D graficos){
 		ImageIcon referencia = new ImageIcon("assets//robo_colisao.gif");
 		imagem = referencia.getImage();
 		
+		barraVidaRobos.loadBarrasRobos(graficos, this);
+
 		this.largura = imagem.getWidth(null);
 		this.altura = imagem.getHeight(null);
 	}
@@ -88,6 +98,8 @@ public class Robo {
 		}
 	}
 	public void drawTiroRobo(Graphics2D graficos){
+		barraVidaRobo.loadBarraRobo(graficos, this);
+
 		List<TiroRobo> tiros2 = getTiros();
 		for (int j = 0; j < tiros2.size(); j++) {
 			TiroRobo m = tiros2.get(j);

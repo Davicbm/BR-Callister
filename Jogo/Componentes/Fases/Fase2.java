@@ -27,7 +27,7 @@ import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Objetos.BarraVida;
-import Jogo.Componentes.Objetos.BarraVidaInimigos;
+import Jogo.Componentes.Objetos.BarraVidaRobos;
 import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase2 extends Fase implements ActionListener {
@@ -42,8 +42,6 @@ public class Fase2 extends Fase implements ActionListener {
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
 	private BarraVida barra;
-	private List<BarraVidaInimigos> barras;
-	private List<BarraVidaInimigos> barras2;
 	private List<PowerUp> powerUps;
 	private PowerUp powerUp;
 
@@ -159,7 +157,6 @@ public class Fase2 extends Fase implements ActionListener {
 	public void inicializaInimigos() {
 
 		robos = new ArrayList<Robo>();
-		barras = new ArrayList<BarraVidaInimigos>();
 
 		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
@@ -167,11 +164,9 @@ public class Fase2 extends Fase implements ActionListener {
 
 			robos.add(new Robo(x, y));
 			robos.get(i).setVida(2);
-			barras.add(new BarraVidaInimigos(x, y));
 		}
 
 		robos2 = new ArrayList<Robo>();
-		barras2 = new ArrayList<BarraVidaInimigos>();
 
 		for (int i = 0; i < 10; i++) {
 			int x = (int) (Math.random() * 6000) + 1980;
@@ -179,7 +174,6 @@ public class Fase2 extends Fase implements ActionListener {
 
 			robos2.add(new Robo(x, y));
 			robos2.get(i).setVida(2);
-			barras2.add(new BarraVidaInimigos(x, y));
 		}
 
 		robo1 = new Robo(1800, 100);
@@ -352,21 +346,17 @@ public class Fase2 extends Fase implements ActionListener {
 
 			for (int j = 0; j < robos2.size(); j++) {
 				Robo robo = robos2.get(j);
-				BarraVidaInimigos barraInimigos = barras2.get(j);
 
-				robo.load2();
+				robo.load2(graficos);
 				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
-				barraInimigos.load(graficos, robo);
 			}
 		}
 
 		for (int j = 0; j < robos.size(); j++) {
 			Robo robo = robos.get(j);
-			BarraVidaInimigos barraInimigos = barras.get(j);
 
-			robo.load2();
+			robo.load2(graficos);
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
-			barraInimigos.load(graficos, robo);
 		}
 
 		if (gameOver == true) {

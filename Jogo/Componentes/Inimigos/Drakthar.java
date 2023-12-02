@@ -31,7 +31,7 @@ public class Drakthar {
 		this.x = x;
 		this.y = y;
 		this.isVisivel = true;
-		this.vida = 6;
+		this.vida = 50;
 
 		tiros1 = new ArrayList<TiroDrakthar>();
 	}

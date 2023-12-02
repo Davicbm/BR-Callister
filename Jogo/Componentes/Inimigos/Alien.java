@@ -31,7 +31,7 @@ public class Alien {
 		this.x = x;
 		this.y = y;
 		this.isVisivel = true;
-		this.vida = 6;
+		this.vida = 15;
 
 		tiros1 = new ArrayList<TiroAlien>();
 	}

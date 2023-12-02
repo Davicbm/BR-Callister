@@ -28,7 +28,7 @@ import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Objetos.BarraVida;
-import Jogo.Componentes.Objetos.BarraVidaInimigos;
+import Jogo.Componentes.Objetos.BarraVidaRobos;
 import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase3 extends Fase implements ActionListener {
@@ -43,7 +43,6 @@ public class Fase3 extends Fase implements ActionListener {
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
 	private BarraVida barra;
-	private List<BarraVidaInimigos> barras;
 	private List<PowerUp> powerUps;
 	private PowerUp powerUp;
 
@@ -159,7 +158,6 @@ public class Fase3 extends Fase implements ActionListener {
 	public void inicializaInimigos() {
 
 		robos = new ArrayList<Robo>();
-		barras = new ArrayList<BarraVidaInimigos>();
 
 		for (int i = 0; i < 3; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
@@ -167,7 +165,6 @@ public class Fase3 extends Fase implements ActionListener {
 
 			robos.add(new Robo(x, y));
 			robos.get(i).setVida(2);
-			barras.add(new BarraVidaInimigos(x, y));
 		}
 
 		alien1 = new Alien(1800, 100);
@@ -253,11 +250,9 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 		for (int j = 0; j < robos.size(); j++) {
 			Robo robo = robos.get(j);
-			BarraVidaInimigos barraInimigos = barras.get(j);
 
-			robo.load2();
+			robo.load2(graficos);
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
-			barraInimigos.load(graficos, robo);
 		}
 
 		if (gameOver == true) {
