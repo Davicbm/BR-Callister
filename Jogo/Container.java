@@ -74,6 +74,10 @@ public class Container extends JFrame {
         faseAtual = faseReinicio;
         switchFase();
     }
+     public void reiniciarJogo() {
+        faseAtual = 0;
+        switchFase();
+    }
     public Boolean getReiniciaJogo(){
         return reiniciaJogo;
     }
