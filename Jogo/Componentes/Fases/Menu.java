@@ -63,10 +63,10 @@ public class Menu extends JPanel implements ActionListener {
         setFocusable(true);
         setDoubleBuffered(true);
 
-        ImageIcon referencia = new ImageIcon("assets//fundomenu.png");
+        ImageIcon referencia = new ImageIcon("planosFundo//fundomenu.png");
         fundoMenu = referencia.getImage();
 
-        referencia = new ImageIcon("assets//blackground.png");
+        referencia = new ImageIcon("planosFundo//blackground.png");
         fundoNomes = referencia.getImage();
 
         addKeyListener(teclado);
@@ -119,41 +119,33 @@ public class Menu extends JPanel implements ActionListener {
         g.setFont(fonte);
         g.setColor(Color.WHITE);
 
-        graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
+        if (!nomesCapturados) {
+            graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
+        }
 
         graficos.drawString("Single-Player", 650, 600);
         graficos.drawString("Two Players", 660, 650);
         graficos.drawString("E X I T", 690, 700);
         graficos.drawString(">", 630 + (opcaoSelecionada * 25) - 20, 600 + opcaoSelecionada * 50);
 
-        if (nomesCapturados == true) {
+        if (nomesCapturados) {
             graficos.drawImage(fundoNomes, 0, 0, getWidth(), getHeight(), this);
         }
     }
 
     public void capturarNomes() {
         JDialog dialog = new JDialog();
-        
+
         dialog.setSize(600, 300);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setUndecorated(true);
         dialog.setLocationRelativeTo(null);
 
-        try {
-            File backgroundImageFile = new File("assets//blackground.png");
+        ImageIcon backgroundImage = new ImageIcon("planosFundo//blackground.png");
 
-            BufferedImage backgroundImage = ImageIO.read(backgroundImageFile);
-            ImageIcon backgroundIcon = new ImageIcon(backgroundImage);
-
-            JLabel backgroundLabel = new JLabel(backgroundIcon);
-            backgroundLabel.setLayout(new GridBagLayout());
-            dialog.setContentPane(backgroundLabel);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao carregar a imagem de fundo: " + e.getMessage());
-            return;
-        }
+        JLabel backgroundLabel = new JLabel(backgroundImage);
+        backgroundLabel.setLayout(new GridBagLayout());
+        dialog.setContentPane(backgroundLabel);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -257,6 +249,7 @@ public class Menu extends JPanel implements ActionListener {
                 if (okButton.isFocusOwner()) {
                     okButton.doClick();
                 } else if (cancelButton.isFocusOwner()) {
+                    nomesCapturados = false;
                     cancelButton.doClick();
                 }
             }
@@ -309,10 +302,12 @@ public class Menu extends JPanel implements ActionListener {
         switch (opcaoSelecionada) {
             case 0:
                 doisJogadores = false;
+                nomesCapturados = true;
                 capturarNomes();
                 break;
             case 1:
                 doisJogadores = true;
+                nomesCapturados = true;
                 capturarNomes();
                 break;
             case 2:
