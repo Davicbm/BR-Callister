@@ -84,19 +84,19 @@ public class Fase extends JPanel {
 		}
 	}
 
-	public void drawTelaPausa(Graphics2D graficos, int opcaoMenuPausa){
+	public void drawTelaPausa(Graphics2D graficos, int opcaoMenuPausa) {
 		Font fonteMenu = loadFont("assets//PressStart2P.ttf", 24);
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
-			graficos.setFont(fonteMenu);
-			graficos.setColor(Color.WHITE);
-			graficos.drawString("Jogo Pausado", 620, 300);
+		graficos.setFont(fonteMenu);
+		graficos.setColor(Color.WHITE);
+		graficos.drawString("Jogo Pausado", 620, 300);
 
-			graficos.setFont(fonte);
-			graficos.setColor(Color.WHITE);
-			graficos.drawString("Continuar", 690, 350);
-			graficos.drawString("Reiniciar", 690, 400);
-			graficos.drawString("Sair", 720, 450);
-			graficos.drawString(">", 670 + (opcaoMenuPausa * 15) - 20, 350 + opcaoMenuPausa * 50);
+		graficos.setFont(fonte);
+		graficos.setColor(Color.WHITE);
+		graficos.drawString("Continuar", 690, 350);
+		graficos.drawString("Reiniciar", 690, 400);
+		graficos.drawString("Sair", 720, 450);
+		graficos.drawString(">", 670 + (opcaoMenuPausa * 15) - 20, 350 + opcaoMenuPausa * 50);
 	}
 
 	public void drawTelaVitoria(Graphics2D graficos, String nomeJogador1, String nomeJogador2) {
@@ -176,10 +176,12 @@ public class Fase extends JPanel {
 
 	// Checa o estado dos Jogadores:
 	public boolean checarJogadores(Jogador1 jogador1, Jogador2 jogador2, boolean doisJogadores) {
-		if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0) {
-			gameOver = true;
+		if (doisJogadores) {
+			if (jogador1.getVida() <= 0 && jogador2.getVida() <= 0) {
+				gameOver = true;
+			}
 		}
-		if (jogador1.getVida() <= 0 && doisJogadores == false) {
+		if (jogador1.getVida() <= 0 && !doisJogadores) {
 			gameOver = true;
 		}
 		return gameOver;
@@ -187,7 +189,9 @@ public class Fase extends JPanel {
 
 	///// *SEÇÃO DE COLISÕES */////
 	// Colisões de naves com power ups:
-	public void colisoesPowerUps(List<PowerUp> powerUps, Jogador1 jogador1, Jogador2 jogador2) {
+
+	public void colisoesPowerUps(List<PowerUp> powerUps, Jogador1 jogador1,
+			Jogador2 jogador2) {
 		for (int i = 0; i < powerUps.size(); i++) {
 			PowerUp tempPowerUp = powerUps.get(i);
 			tempPowerUp.colisaoPowerUp(jogador1);
@@ -259,14 +263,13 @@ public class Fase extends JPanel {
 
 	// Colisões de tiros(naves) com o Chefão:
 	public void colisoesTiroEmDrakthar(Drakthar drakthar, Jogador1 jogador1, Jogador2 jogador2, int x) {
+		
 		if (drakthar.getX() == x) {
 			List<TiroNave> tiros1 = jogador1.getTiros();
 			for (int j = 0; j < tiros1.size(); j++) {
 				drakthar.colisaoDraktharTiro(jogador1, j);
 			}
-		}
-
-		if (drakthar.getX() == x) {
+	
 			List<TiroNave> tiros2 = jogador2.getTiros();
 			for (int j = 0; j < tiros2.size(); j++) {
 				drakthar.colisaoDraktharTiro(jogador2, j);

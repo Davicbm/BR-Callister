@@ -28,7 +28,7 @@ public abstract class Jogador {
     public Jogador(int x, int y) {
         this.x = x;
         this.y = y;
-        this.vida = 1;
+        this.vida = 10;
         this.escudo = 0;
         this.isVisivel = true;
 
@@ -38,7 +38,7 @@ public abstract class Jogador {
     public abstract void load();
 
     public void update() {
-        if (x + dx >= 0 && x + dx + largura / 2 <= 750) {
+        if (x + dx >= 0 && x + dx + largura / 2 <= 1000) {
             x += dx;
         }
         if (y + dy >= 0 && y + dy + altura <= 850) {
@@ -48,6 +48,7 @@ public abstract class Jogador {
 
     public void tiroSimples() {
         long tempoAtual = System.currentTimeMillis();
+        
         if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
             this.tiros.add(new TiroNave(x + largura, y + (altura / 2)));
             tempoUltimoTiro = tempoAtual;

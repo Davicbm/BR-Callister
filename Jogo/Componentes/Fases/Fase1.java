@@ -34,6 +34,7 @@ public class Fase1 extends Fase implements ActionListener {
 	private Clip temaBatalha;
 	private Clip musicaDerrota;
 	private Clip musicaVitoria;
+	private Clip alertaSom;
 
 	private boolean doisJogadores;
 	private String nomeJogador1 = Menu.nomeJogador1;
@@ -58,6 +59,7 @@ public class Fase1 extends Fase implements ActionListener {
 	private Robo robo5;
 	private Robo robo6;
 	private Robo robo7;
+	
 	private Alien alien;
 	private List<Robo> robos;
 	private List<Robo> robos2;
@@ -118,10 +120,12 @@ public class Fase1 extends Fase implements ActionListener {
 			File audioFile = new File("assets//musica-batalha.wav");
 			File audioFile2 = new File("assets//vitoria.wav");
 			File audioFile3 = new File("assets//gameover.wav");
+			File audioFile4 = new File("assets//alerta.wav");
 
 			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(audioFile2);
 			AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(audioFile3);
+			AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(audioFile4);
 
 			temaBatalha = AudioSystem.getClip();
 			temaBatalha.open(audioStream);
@@ -131,6 +135,9 @@ public class Fase1 extends Fase implements ActionListener {
 
 			musicaDerrota = AudioSystem.getClip();
 			musicaDerrota.open(audioStream3);
+
+			alertaSom = AudioSystem.getClip();
+			alertaSom.open(audioStream4);
 
 		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
 			e.printStackTrace();
@@ -156,10 +163,16 @@ public class Fase1 extends Fase implements ActionListener {
 		}
 	}
 
+	public void stopSound(Clip clip) {
+		if (clip != null) {
+			clip.stop();
+		}
+	}
+
 	public void inicializaInimigos() {
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 10; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -169,7 +182,7 @@ public class Fase1 extends Fase implements ActionListener {
 
 		robos2 = new ArrayList<Robo>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 10; i++) {
 			int x = (int) (Math.random() * 6000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -177,15 +190,15 @@ public class Fase1 extends Fase implements ActionListener {
 			robos2.get(i).setVida(2);
 		}
 
-		robo1 = new Robo(2000, 90);
-		robo2 = new Robo(2000, 350);
-		robo3 = new Robo(2000, 650);
-		robo4 = new Robo(2200, 230);
-		robo5 = new Robo(2200, 470);
-		robo6 = new Robo(2000, 100);
-		robo7 = new Robo(2000, 600);
+		robo1 = new Robo(1800, 90);
+		robo2 = new Robo(1800, 350);
+		robo3 = new Robo(1800, 650);
+		robo4 = new Robo(2000, 230);
+		robo5 = new Robo(2000, 470);
+		robo6 = new Robo(1800, 100);
+		robo7 = new Robo(1800, 600);
 
-		alien = new Alien(2000, 325);
+		alien = new Alien(1800, 325);
 
 		robo1.load();
 		robo2.load();
@@ -237,6 +250,7 @@ public class Fase1 extends Fase implements ActionListener {
 			if (robo1.isVisivel()) {
 				graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
 				if (robo1.getX() != 1100) {
+					startSound(alertaSom);
 					graficos.drawImage(alerta, 1450, 90, this);
 				}
 			}
@@ -287,6 +301,7 @@ public class Fase1 extends Fase implements ActionListener {
 			}
 			if (robo5.getX() == 1200) {
 				if (robo5.isVisivel()) {
+					stopSound(alertaSom);
 					robo5.drawTiroRobo(graficos);
 				}
 			}
@@ -336,7 +351,6 @@ public class Fase1 extends Fase implements ActionListener {
 				Robo robo = robos2.get(j);
 
 				robo.load2(graficos);
-				//barraInimigos.loadBarrasRobos(graficos, robo);
 				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 			}
 		}

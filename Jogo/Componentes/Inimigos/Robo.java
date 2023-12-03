@@ -145,7 +145,7 @@ public class Robo {
 			Rectangle formaNave1 = jogador1.getBounds();
 			Rectangle formaNave2 = jogador2.getBounds();
 
-			if (formaTiroRobo.intersects(formaNave1) && jogador1.isVisivel()) {
+			if (formaTiroRobo.intersects(formaNave1) && jogador1.isVisivel() && isVisivel) {
 				if (jogador1.getEscudo() > 0){
 					jogador1.perdeEscudo(2);
 				} else {
@@ -176,6 +176,7 @@ public class Robo {
 			setVisivel(false);
 		} 
 	}
+	
 	public void colisaoNaveRobo(Jogador2 jogador){
 		Rectangle formaNave = jogador.getBounds();
 		Rectangle formaRobo = getBounds();

@@ -123,7 +123,7 @@ public class Alien {
 			TiroAlien tempTiroAlien = tiros1.get(j);
 			Rectangle formaTiroAlien = tempTiroAlien.getBounds();
 			Rectangle formaNave = jogador1.getBounds();
-			if (formaTiroAlien.intersects(formaNave) && jogador1.isVisivel()) {
+			if (formaTiroAlien.intersects(formaNave) && jogador1.isVisivel() && isVisivel) {
 				if (jogador1.getEscudo() > 0) {
 					jogador1.perdeEscudo(3);
 				} else {

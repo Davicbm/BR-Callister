@@ -24,7 +24,7 @@ public class BarraVida {
 
 	public void paintBarraVida(Graphics2D graficos, Jogador1 jogador) {
 
-		ImageIcon referencia = new ImageIcon("barrasVida//barravida_full.png");
+		ImageIcon referencia = new ImageIcon("barrasVida//barravida_10.png");
 		barraVida10 = referencia.getImage();
 
 		referencia = new ImageIcon("barrasVida//barravida_9.png");

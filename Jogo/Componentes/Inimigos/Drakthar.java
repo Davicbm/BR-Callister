@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
+import Jogo.Componentes.Sons.EfeitosSonoros;
 
 public class Drakthar {
 	private Image imagem;
@@ -21,9 +22,13 @@ public class Drakthar {
 	private boolean isVisivel;
 	private int vida;
 
+	private int contador1 = 0;
+	private int contador2 = 0;
+	private int contador3 = 0;
+
 	private List<TiroDrakthar> tiros1;
 	private long tempoUltimoTiro = System.currentTimeMillis();
-	private long intervaloTiros = 2800;
+	private long intervaloTiros = 1800;
 
 	private int velocidade;
 
@@ -31,14 +36,27 @@ public class Drakthar {
 		this.x = x;
 		this.y = y;
 		this.isVisivel = true;
-		this.vida = 26;
+		this.vida = 50;
 		this.velocidade = velocidade;
 
 		tiros1 = new ArrayList<TiroDrakthar>();
 	}
 
+	public void somRugido(){
+		EfeitosSonoros a = new EfeitosSonoros();
+		a.tocarSomRugido();;
+	}
+
 	public void load() {
 		ImageIcon referencia = new ImageIcon("assets//boss256px.gif");
+		imagem = referencia.getImage();
+
+		this.largura = imagem.getWidth(null);
+		this.altura = imagem.getHeight(null);
+	}
+
+	public void load2() {
+		ImageIcon referencia = new ImageIcon("assets//boss256pxFlip.png");
 		imagem = referencia.getImage();
 
 		this.largura = imagem.getWidth(null);
@@ -82,26 +100,90 @@ public class Drakthar {
 		}
 	}
 
-	public void startEstagio2(int y, int destinoY) {
-		this.y = y;
-
-		updateInvestidas(destinoY);
+	public void removerTiros() {
+		tiros1 = getTiros();
+		for (int i = 0; i < tiros1.size(); i++) {
+			tiros1.remove(i);
+		}
 	}
 
-	public void updateInvestidas(int destinoY) {
-		this.y += velocidade;
+	public void atirarFlip() {
+		tiroSimples();
+		tiros1 = getTiros();
+		for (int i = 0; i < tiros1.size(); i++) {
+			TiroDrakthar m = tiros1.get(i);
+			if (m.isVisivel()) {
+				m.updateFlip();
+			} else {
+				tiros1.remove(i);
+			}
+		}
+	}
 
+	public void updateInvestidasBaixo(int destinoY) {
+		this.y += velocidade;
+		if (contador3 == 0){
+			somRugido();
+			contador3++;
+		}	
 		if (this.y > destinoY) {
 			this.y = destinoY;
 		}
 	}
 
+	public void updateInvestidasCima(int destinoY) {
+		this.y -= velocidade;
+		
+		if (contador3 == 0){
+			somRugido();
+			contador3++;
+		}	
+		if (this.y < destinoY) {
+			this.y = destinoY;
+		}
+	}
+
 	public void drawTiroDrakthar(Graphics2D graficos) {
+		List<TiroDrakthar> tiros = getTiros();
+
+		for (int j = 0; j < tiros.size(); j++) {
+			TiroDrakthar m = tiros.get(j);
+			m.load();
+			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, null);
+		}
+	}
+
+	public void drawTiroDraktharFlip(Graphics2D graficos) {
+		List<TiroDrakthar> tiros = getTiros();
+
+		for (int j = 0; j < tiros.size(); j++) {
+			TiroDrakthar m = tiros.get(j);
+			m.loadFlip();
+			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, null);
+		}
+	}
+
+	public void drawTiroDraktharTriplo(Graphics2D graficos) {
+		List<TiroDrakthar> tiros1 = getTiros();
 		List<TiroDrakthar> tiros2 = getTiros();
+		List<TiroDrakthar> tiros3 = getTiros();
+
+		for (int j = 0; j < tiros1.size(); j++) {
+			TiroDrakthar m = tiros1.get(j);
+			m.load();
+			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 100, null);
+		}
+
 		for (int j = 0; j < tiros2.size(); j++) {
 			TiroDrakthar m = tiros2.get(j);
 			m.load();
 			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, null);
+		}
+
+		for (int j = 0; j < tiros3.size(); j++) {
+			TiroDrakthar m = tiros3.get(j);
+			m.load();
+			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() + 100, null);
 		}
 	}
 
@@ -135,17 +217,19 @@ public class Drakthar {
 
 	public void colisaoNaveTiro(Jogador1 jogador1, Jogador2 jogador2) {
 		List<TiroDrakthar> tiros1 = getTiros();
+
 		for (int j = 0; j < tiros1.size(); j++) {
 			TiroDrakthar tempTiroDrakthar = tiros1.get(j);
 			Rectangle formaTiroDrakthar = tempTiroDrakthar.getBounds();
 			Rectangle formaNave = jogador1.getBounds();
 			if (formaTiroDrakthar.intersects(formaNave) && jogador1.isVisivel()) {
-				jogador1.perdeVida(3);
+				jogador1.perdeVida(4);
 				tempTiroDrakthar.setVisivel(false);
 			}
 		}
 
 		List<TiroDrakthar> tiros2 = getTiros();
+
 		for (int j = 0; j < tiros2.size(); j++) {
 			TiroDrakthar tempTiroDrakthar = tiros2.get(j);
 			Rectangle formaTiroDrakthar = tempTiroDrakthar.getBounds();
@@ -154,6 +238,33 @@ public class Drakthar {
 				jogador2.perdeVida(4);
 				tempTiroDrakthar.setVisivel(false);
 			}
+		}
+	}
+
+	public void colisaoNaveDrakthar(Jogador1 jogador) {
+		Rectangle formaNave = jogador.getBounds();
+		Rectangle formaDrakthar = getBounds();
+
+		if (formaNave.intersects(formaDrakthar) && jogador.isVisivel() && contador1 == 0) {
+			if (jogador.getEscudo() > 0) {
+				jogador.perdeEscudo(4);
+			} else {
+				jogador.perdeVida(4);
+			}
+			contador1++;
+		}
+	}
+
+	public void colisaoNaveDrakthar(Jogador2 jogador) {
+		Rectangle formaNave = jogador.getBounds();
+		Rectangle formaDrakthar = getBounds();
+		if (formaNave.intersects(formaDrakthar) && jogador.isVisivel() && contador2 == 0) {
+			if (jogador.getEscudo() > 0) {
+				jogador.perdeEscudo(4);
+			} else {
+				jogador.perdeVida(4);
+			}
+			contador2++;
 		}
 	}
 

@@ -24,17 +24,18 @@ import Jogo.Container;
 import Jogo.Componentes.Inimigos.Alien;
 import Jogo.Componentes.Inimigos.Drakthar;
 import Jogo.Componentes.Inimigos.Robo;
-
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Objetos.BarraVida;
 import Jogo.Componentes.Objetos.PowerUp;
+import Jogo.Componentes.Objetos.RaioLaser;
 
 public class Fase3 extends Fase implements ActionListener {
 
 	private Clip temaBatalha;
 	private Clip musicaDerrota;
 	private Clip musicaVitoria;
+	private Clip musicaBoss;
 
 	private Image fundo;
 	private Image alerta;
@@ -50,23 +51,26 @@ public class Fase3 extends Fase implements ActionListener {
 
 	private List<Robo> robos;
 
-	private boolean proximaFase;
 	private boolean vitoria;
 	private boolean doisJogadores;
 	private boolean gameOver;
+	private boolean segundoEstagio = false;
+	private boolean terceiroEstagio = false;
 
 	private String nomeJogador1 = Menu.nomeJogador1;
 	private String nomeJogador2 = Menu.nomeJogador2;
 
 	private Alien alien1;
 	private Alien alien2;
+	
 	private Drakthar drakthar;
 	private Drakthar investida1;
 	private Drakthar investida2;
-	private Drakthar investida3;
-	private Drakthar investida4;
+
+	private RaioLaser laserDrakthar;
 
 	private int contador = 0;
+	private int contador1 = 0;
 
 	private boolean pausado = false;
 	private int opcaoMenuPausa = 0;
@@ -114,9 +118,9 @@ public class Fase3 extends Fase implements ActionListener {
 			doisJogadores = false;
 		}
 
-		proximaFase = false;
-		vitoria = false;
-		gameOver = false;
+		laserDrakthar = new RaioLaser();
+        add(laserDrakthar);
+        laserDrakthar.setVisible(false);
 
 		this.requestFocusInWindow();
 
@@ -124,10 +128,12 @@ public class Fase3 extends Fase implements ActionListener {
 			File audioFile = new File("assets//musica-batalha.wav");
 			File audioFile2 = new File("assets//vitoria.wav");
 			File audioFile3 = new File("assets//gameover.wav");
+			File audioFile4 = new File("assets//DraktharTema.wav");
 
 			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(audioFile2);
 			AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(audioFile3);
+			AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(audioFile4);
 
 			temaBatalha = AudioSystem.getClip();
 			temaBatalha.open(audioStream);
@@ -138,28 +144,31 @@ public class Fase3 extends Fase implements ActionListener {
 			musicaDerrota = AudioSystem.getClip();
 			musicaDerrota.open(audioStream3);
 
+			musicaBoss = AudioSystem.getClip();
+			musicaBoss.open(audioStream4);
+
 		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
-		startSound();
+		startSound1(temaBatalha);
 	}
 
-	public void startSound() {
-		if (temaBatalha != null) {
-			temaBatalha.start();
-			temaBatalha.loop(Clip.LOOP_CONTINUOUSLY);
+	public void startSound1(Clip clip) {
+		if (clip != null) {
+			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 	}
 
-	public void startSound(Clip clip) {
+	public void startSound2(Clip clip) {
 		if (clip != null) {
 			clip.start();
 		}
 	}
 
-	public void stopSound() {
-		if (temaBatalha != null) {
-			temaBatalha.stop();
+	public void stopSound(Clip clip) {
+		if (clip != null) {
+			clip.stop();
 		}
 	}
 
@@ -180,24 +189,25 @@ public class Fase3 extends Fase implements ActionListener {
 
 		drakthar = new Drakthar(1570, 200, 2);
 
-		investida1 = new Drakthar(500, -500, 5);
-		investida2 = new Drakthar(200, 900, 5);
-		investida3 = new Drakthar(1700, 1000, 5);
-		investida4 = new Drakthar(100, 0, 5);
+		investida1 = new Drakthar(600, -500, 3);
+		investida2 = new Drakthar(270, 1000, 3);
 
 		alien1.load();
 		alien2.load();
 
 		drakthar.load();
+
+		investida1.load();
+		investida2.load2();
 	}
 
 	public void inicializaPowerUps() {
 		powerUps = new ArrayList<PowerUp>();
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 20; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
-			int codigo = (int) (Math.random() * 4) + 1;
+			int codigo = (int) (Math.random() * 3) + 1;
 
 			powerUps.add(new PowerUp(x, y, codigo));
 		}
@@ -220,6 +230,19 @@ public class Fase3 extends Fase implements ActionListener {
 
 		if (contador == robos.size()) {
 
+			if (contador1 == 0) {
+				stopSound(temaBatalha);
+				startSound1(musicaBoss);
+				contador1++;
+			}
+
+			for (int j = 0; j < powerUps.size(); j++) {
+				powerUp = powerUps.get(j);
+				powerUp.load();
+
+				graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
+			}
+
 			if (alien1.isVisivel()) {
 				graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
 				if (alien1.getX() != 1000) {
@@ -237,11 +260,31 @@ public class Fase3 extends Fase implements ActionListener {
 				graficos.drawImage(drakthar.getImagem(), drakthar.getX(), drakthar.getY(), this);
 				if (drakthar.getX() != 1100 && drakthar.getX() < 1700) {
 					graficos.drawImage(portal, 1300, 200 - 55, this);
+					
 				}
 			}
 
 			if (investida1.isVisivel()) {
-				graficos.drawImage(drakthar.getImagem(), investida1.getX(), investida1.getY(), this);
+				graficos.drawImage(investida1.getImagem(), investida1.getX(), investida1.getY(), this);
+				if (investida1.getY() < 0 && drakthar.getX() >= 1750) {
+					graficos.drawImage(alerta, investida1.getX() + 100, 0, this);
+				}
+				graficos.drawImage(investida2.getImagem(), investida2.getX(), investida2.getY(), this);
+				if (investida2.getY() > 900 && drakthar.getX() >= 1750) {
+					graficos.drawImage(alerta, investida2.getX() - 100, 800, this);
+				}
+			}
+
+			if (investida1.getY() >= 0 && investida1.getY() <= 900) {
+				if (investida1.isVisivel()) {
+					investida1.drawTiroDrakthar(graficos);
+				}
+			}
+
+			if (investida2.getY() >= -400 && investida2.getY() <= 900) {
+				if (investida2.isVisivel()) {
+					investida2.drawTiroDraktharFlip(graficos);
+				}
 			}
 
 			if (alien1.getX() == 1000) {
@@ -254,19 +297,16 @@ public class Fase3 extends Fase implements ActionListener {
 					alien2.drawTiroAlien(graficos);
 				}
 			}
-			if (drakthar.getX() == 1100) {
-				if (drakthar.isVisivel()) {
+			if (drakthar.getX() == 1100){
+				if (drakthar.isVisivel() && !terceiroEstagio) {
 					drakthar.drawTiroDrakthar(graficos);
 				}
+				if (drakthar.isVisivel() && terceiroEstagio){
+					laserDrakthar.drawRaioLaser(graficos);
+				}	
 			}
 		}
 
-		for (int j = 0; j < powerUps.size(); j++) {
-			powerUp = powerUps.get(j);
-			powerUp.load();
-
-			graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
-		}
 		for (int j = 0; j < robos.size(); j++) {
 			Robo robo = robos.get(j);
 
@@ -311,24 +351,69 @@ public class Fase3 extends Fase implements ActionListener {
 			if (drakthar.getVida() > 25) {
 				drakthar.updateDrakthar(1100);
 			}
-			if (drakthar.getVida() == 25) {
+			if (drakthar.getVida() == 25 && !terceiroEstagio) {
 				drakthar.updateDrakthar2(1750);
+				segundoEstagio = true;
 				if (drakthar.getX() == 1750) {
-					investida1.updateInvestidas(900);
-					if (investida1.getX() == 900){
-
+					investida1.updateInvestidasBaixo(900);
+				}
+				if (investida1.getY() >= 900) {
+					investida2.updateInvestidasCima(-400);
+					if (investida2.getY() == - 400){
+						terceiroEstagio = true;
 					}
+				}
+			}
+			if (terceiroEstagio){
+				drakthar.updateDrakthar(1100);
+			
+				if (!laserDrakthar.isVisible()) {
+					laserDrakthar.startLaser();
+					laserDrakthar.setVisible(true);
+				}
+				// Verifica o tempo do laser do boss e para quando necessário
+				laserDrakthar.update();
+				if (!laserDrakthar.isVisible()) {
+					laserDrakthar.stopLaser();
+				}
+			} else {
+				// Se não estiver no terceiro estágio, esconda o laser
+				laserDrakthar.setVisible(false);
+			}
+
+			for (int j = 0; j < powerUps.size(); j++) {
+				powerUp = powerUps.get(j);
+
+				if (powerUp.isVisivel()) {
+					powerUp.update();
+				} else {
+					powerUps.remove(j);
 				}
 			}
 		}
 
 		if (alien1.getX() == 1000) {
 			alien1.atirar();
+		}
+
+		if (alien2.getX() == 1000) {
 			alien2.atirar();
 		}
 
 		if (drakthar.getX() == 1100) {
 			drakthar.atirar();
+		}
+
+		if (segundoEstagio){
+			drakthar.removerTiros();
+		}
+
+		if (investida1.getY() >= 0 && investida1.getY() <= 900) {
+			investida1.atirar();
+		}
+
+		if (investida2.getY() > -400 && investida2.getY() < 900) {
+			investida2.atirarFlip();
 		}
 
 		for (int j = 0; j < robos.size(); j++) {
@@ -347,49 +432,64 @@ public class Fase3 extends Fase implements ActionListener {
 	public void checarColisoes() {
 
 		// Colisões de Nave com Robô:
-		colisoesPowerUps(powerUps, jogador1, jogador2);
+		fase.colisoesPowerUps(powerUps, jogador1, jogador2);
 
 		// Colisões de Nave com Robô:
-		colisoesNavesRobos(robos, jogador1, jogador2);
+		fase.colisoesNavesRobos(robos, jogador1, jogador2);
 
 		// Colisões de tiro de Nave em Robos:
-		colisoesTiroEmRobo2(jogador1, jogador2, robos);
+		fase.colisoesTiroEmRobo2(jogador1, jogador2, robos);
 
 		// Colisões de tiro de Nave em Aliens:
-		colisoesTiroEmAlien(alien1, jogador1, jogador2, 1000);
-		colisoesTiroEmAlien(alien2, jogador1, jogador2, 1000);
+		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1000);
+		fase.colisoesTiroEmAlien(alien2, jogador1, jogador2, 1000);
 
 		// Colisões de tiro do Alien com a Nave:
 		alien1.colisaoNaveTiro(jogador1, jogador2);
 		alien2.colisaoNaveTiro(jogador1, jogador2);
 
 		// Colisões de Tiro de Nave com Drakthar:
-		colisoesTiroEmDrakthar(drakthar, jogador1, jogador2, 1100);
+		fase.colisoesTiroEmDrakthar(drakthar, jogador1, jogador2, 1100);
+
+		// Colisões de Nave com Drakthar:
+		drakthar.colisaoNaveDrakthar(jogador1);
+		drakthar.colisaoNaveDrakthar(jogador2);
+
+		investida1.colisaoNaveDrakthar(jogador1);
+		investida1.colisaoNaveDrakthar(jogador2);
+
+		investida2.colisaoNaveDrakthar(jogador1);
+		investida2.colisaoNaveDrakthar(jogador2);
 
 		// Colisões de tiro do Drakthar com a Nave:
 		drakthar.colisaoNaveTiro(jogador1, jogador2);
+		
+		investida1.colisaoNaveTiro(jogador1, jogador2);
+		investida2.colisaoNaveTiro(jogador1, jogador2);
+
+		laserDrakthar.colisaoLaser(jogador1);
 
 		// Checagem das Entidades:
-		checarJogadores(jogador1, jogador2, doisJogadores);
+		fase.checarJogadores(jogador1, jogador2, doisJogadores);
 
-		checarAlien(alien1);
-		checarAlien(alien2);
+		fase.checarAlien(alien1);
+		fase.checarAlien(alien2);
 
-		checarRobos(robos);
+		fase.checarRobos(robos);
 
-		checarDrakthar(drakthar);
+		fase.checarDrakthar(drakthar);
 
 		if (!alien1.isVisivel() && !alien2.isVisivel() && !drakthar.isVisivel()) {
 			vitoria = true;
-			stopSound();
-			startSound(musicaVitoria);
+			stopSound(musicaBoss);
+			startSound2(musicaVitoria);
 		}
 
 		gameOver = fase.checarJogadores(jogador1, jogador2, doisJogadores);
 
 		if (gameOver) {
-			stopSound();
-			startSound(musicaDerrota);
+			startSound2(musicaDerrota);
+			stopSound(musicaBoss);
 		}
 	}
 
@@ -500,29 +600,4 @@ public class Fase3 extends Fase implements ActionListener {
 				break;
 		}
 	}
-
-	public boolean isDoisJogadores() {
-		return doisJogadores;
-	}
-
-	public void setDoisJogadores(boolean doisJogadores) {
-		this.doisJogadores = doisJogadores;
-	}
-
-	public void setVitoria(boolean vitoria) {
-		this.vitoria = vitoria;
-	}
-
-	public boolean isVitoria() {
-		return this.vitoria;
-	}
-
-	public boolean isProximaFase() {
-		return this.proximaFase;
-	}
-
-	public void setProximaFase(boolean proximaFase) {
-		this.proximaFase = proximaFase;
-	}
-
 }

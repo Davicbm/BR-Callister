@@ -14,7 +14,7 @@ public class TiroDrakthar {
 	private int altura;
 	private boolean isVisivel;
 
-	private static int VELOCIDADE = 6;
+	private static int velocidade = 6;
 
 	public TiroDrakthar(int x, int y) {
 		this.x = x;
@@ -30,10 +30,34 @@ public class TiroDrakthar {
 		this.altura = imagem.getHeight(null);
 	}
 
+	public void loadFlip() {
+		ImageIcon referencia = new ImageIcon("assets//alien_tiroFlip.png");
+		imagem = referencia.getImage();
+
+		this.largura = imagem.getWidth(null);
+		this.altura = imagem.getHeight(null);
+	}
+
+	public void loadLaser() {
+		ImageIcon referencia = new ImageIcon("assets//raioLaser.png");
+		imagem = referencia.getImage();
+
+		this.largura = imagem.getWidth(null);
+		this.altura = imagem.getHeight(null);
+	}
+
 	public void update() {
-		this.x -= VELOCIDADE;
+		this.x -= velocidade;
 		
 		if (this.x < 0) {
+			isVisivel = false;
+		}
+	}
+
+	public void updateFlip() {
+		this.x += velocidade;
+		
+		if (this.x > 1500) {
 			isVisivel = false;
 		}
 	}
@@ -50,12 +74,12 @@ public class TiroDrakthar {
 		this.isVisivel = isVisivel;
 	}
 
-	public static int getVELOCIDADE() {
-		return VELOCIDADE;
+	public static int getVelocidade() {
+		return velocidade;
 	}
 
-	public static void setVELOCIDADE(int vELOCIDADE) {
-		VELOCIDADE = vELOCIDADE;
+	public static void setVelocidade(int vELOCIDADE) {
+		velocidade = vELOCIDADE;
 	}
 
 	public int getX() {
