@@ -62,7 +62,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 	private Alien alien1;
 	private Alien alien2;
-	
+
 	private Drakthar drakthar;
 	private Drakthar investida1;
 	private Drakthar investida2;
@@ -119,8 +119,8 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 
 		laserDrakthar = new RaioLaser();
-        add(laserDrakthar);
-        laserDrakthar.setVisible(false);
+		add(laserDrakthar);
+		laserDrakthar.setVisible(false);
 
 		this.requestFocusInWindow();
 
@@ -176,7 +176,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 1; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -189,8 +189,8 @@ public class Fase3 extends Fase implements ActionListener {
 
 		drakthar = new Drakthar(1570, 200, 2);
 
-		investida1 = new Drakthar(600, -500, 3);
-		investida2 = new Drakthar(270, 1000, 3);
+		investida1 = new Drakthar(600, -700, 3);
+		investida2 = new Drakthar(270, 1100, 3);
 
 		alien1.load();
 		alien2.load();
@@ -246,7 +246,6 @@ public class Fase3 extends Fase implements ActionListener {
 			if (alien1.isVisivel()) {
 				graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
 				if (alien1.getX() != 1000) {
-					// muda a posição para os alien
 					graficos.drawImage(alerta, 1450, alien1.getY(), this);
 				}
 			}
@@ -259,19 +258,18 @@ public class Fase3 extends Fase implements ActionListener {
 			if (drakthar.isVisivel()) {
 				graficos.drawImage(drakthar.getImagem(), drakthar.getX(), drakthar.getY(), this);
 				if (drakthar.getX() != 1100 && drakthar.getX() < 1700) {
-					graficos.drawImage(portal, 1300, 200 - 55, this);
-					
+					graficos.drawImage(portal, 1300, 100, this);
 				}
 			}
 
 			if (investida1.isVisivel()) {
 				graficos.drawImage(investida1.getImagem(), investida1.getX(), investida1.getY(), this);
-				if (investida1.getY() < 0 && drakthar.getX() >= 1750) {
+				if (investida1.getY() < 0 && segundoEstagio) {
 					graficos.drawImage(alerta, investida1.getX() + 100, 0, this);
 				}
 				graficos.drawImage(investida2.getImagem(), investida2.getX(), investida2.getY(), this);
-				if (investida2.getY() > 900 && drakthar.getX() >= 1750) {
-					graficos.drawImage(alerta, investida2.getX() - 100, 800, this);
+				if (investida2.getY() > 900 && segundoEstagio && investida1.getY() >= 900) {
+					graficos.drawImage(alerta, investida2.getX() - 100, 750, this);
 				}
 			}
 
@@ -297,13 +295,15 @@ public class Fase3 extends Fase implements ActionListener {
 					alien2.drawTiroAlien(graficos);
 				}
 			}
-			if (drakthar.getX() == 1100){
+
+			if (drakthar.getX() == 1100) {
 				if (drakthar.isVisivel() && !terceiroEstagio) {
 					drakthar.drawTiroDrakthar(graficos);
 				}
-				if (drakthar.isVisivel() && terceiroEstagio){
+				if (drakthar.isVisivel() && terceiroEstagio) {
+					drakthar.drawTiroDraktharTriplo(graficos);
 					laserDrakthar.drawRaioLaser(graficos);
-				}	
+				}
 			}
 		}
 
@@ -348,39 +348,22 @@ public class Fase3 extends Fase implements ActionListener {
 			alien1.updateAlien(1000);
 			alien2.updateAlien(1000);
 
-			if (drakthar.getVida() > 25) {
+			if (drakthar.getVida() > 35) {
 				drakthar.updateDrakthar(1100);
 			}
-			if (drakthar.getVida() == 25 && !terceiroEstagio) {
-				drakthar.updateDrakthar2(1750);
-				segundoEstagio = true;
-				if (drakthar.getX() == 1750) {
+			if (drakthar.getVida() == 35 && !terceiroEstagio) {
+				drakthar.updateDrakthar2(1700);
+				if (drakthar.getX() != 1100) {
+					segundoEstagio = true;
 					investida1.updateInvestidasBaixo(900);
 				}
 				if (investida1.getY() >= 900) {
-					investida2.updateInvestidasCima(-400);
-					if (investida2.getY() == - 400){
+					investida2.updateInvestidasCima(-600);
+					if (investida2.getY() == -600) {
 						terceiroEstagio = true;
 					}
 				}
 			}
-			if (terceiroEstagio){
-				drakthar.updateDrakthar(1100);
-			
-				if (!laserDrakthar.isVisible()) {
-					laserDrakthar.startLaser();
-					laserDrakthar.setVisible(true);
-				}
-				// Verifica o tempo do laser do boss e para quando necessário
-				laserDrakthar.update();
-				if (!laserDrakthar.isVisible()) {
-					laserDrakthar.stopLaser();
-				}
-			} else {
-				// Se não estiver no terceiro estágio, esconda o laser
-				laserDrakthar.setVisible(false);
-			}
-
 			for (int j = 0; j < powerUps.size(); j++) {
 				powerUp = powerUps.get(j);
 
@@ -390,6 +373,24 @@ public class Fase3 extends Fase implements ActionListener {
 					powerUps.remove(j);
 				}
 			}
+		}
+
+		if (terceiroEstagio) {
+			drakthar.updateDrakthar(1100);
+
+			if (drakthar.getX() == 1100) {
+				drakthar.atirarTriplo();
+			}
+			if (!laserDrakthar.isVisible() && drakthar.getX() == 1100) {
+				laserDrakthar.startLaser();
+				laserDrakthar.setVisible(true);
+			}
+			laserDrakthar.update();
+			if (!laserDrakthar.isVisible()) {
+				laserDrakthar.stopLaser();
+			}
+		} else {
+			laserDrakthar.setVisible(false);
 		}
 
 		if (alien1.getX() == 1000) {
@@ -402,10 +403,6 @@ public class Fase3 extends Fase implements ActionListener {
 
 		if (drakthar.getX() == 1100) {
 			drakthar.atirar();
-		}
-
-		if (segundoEstagio){
-			drakthar.removerTiros();
 		}
 
 		if (investida1.getY() >= 0 && investida1.getY() <= 900) {
@@ -462,7 +459,14 @@ public class Fase3 extends Fase implements ActionListener {
 		investida2.colisaoNaveDrakthar(jogador2);
 
 		// Colisões de tiro do Drakthar com a Nave:
-		drakthar.colisaoNaveTiro(jogador1, jogador2);
+		if (segundoEstagio && terceiroEstagio) {
+			drakthar.colisaoNaveTiro(jogador1, jogador2);
+		}
+		if (terceiroEstagio){
+			drakthar.colisaoTirosTriplos1(jogador1, jogador2);
+			drakthar.colisaoTirosTriplos2(jogador1, jogador2);
+			drakthar.colisaoTirosTriplos3(jogador1, jogador2);
+		}
 		
 		investida1.colisaoNaveTiro(jogador1, jogador2);
 		investida2.colisaoNaveTiro(jogador1, jogador2);

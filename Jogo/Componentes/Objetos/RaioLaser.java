@@ -42,14 +42,13 @@ public class RaioLaser extends JPanel {
     public void drawRaioLaser(Graphics2D graficos) {
         if (disparaLaser) {
             // Define a cor do laser;
-
             graficos.setColor(Color.RED);
     
             int larguraLaser = 100; // Defina a largura desejada
             graficos.setStroke(new BasicStroke(larguraLaser));
 
             // Desenha uma linha representando o laser (da esquerda à direita da tela)
-            graficos.drawLine(1100, 400, 0, 400); // Altere as coordenadas conforme necessário
+            graficos.drawLine(1050, 400, 0, 400); // Altere as coordenadas conforme necessário
     
             // Outras ações relacionadas ao laser (dano ao jogador, etc.) podem ser adicionadas aqui
         }
@@ -73,18 +72,26 @@ public class RaioLaser extends JPanel {
     public void colisaoLaser(Jogador1 jogador){
 		Rectangle formaNave = jogador.getBounds();
 		Rectangle formaLaser = getBounds();
-		if (formaNave.intersects(formaLaser) && jogador.isVisivel() && danoLaser) {
+
+		if (formaNave.intersects(formaLaser) && jogador.isVisivel() && danoLaser && disparaLaser) {
 			if (jogador.getEscudo() > 0){
 				jogador.perdeEscudo(5);
 			} else {
 				jogador.perdeVida(5);
 			}
-			setVisivel(false);
+			setDisparaLaser(false);
             danoLaser = false;
 		} 
+        if (!disparaLaser){
+            danoLaser = true;
+        }
 	}
 
     public Rectangle getBounds() {
-		return new Rectangle(0, 400, 1100, 100);
+		return new Rectangle(0, 350, 1100, 100);
 	}
+
+    public void setDisparaLaser(boolean disparaLaser) {
+        this.disparaLaser = disparaLaser;
+    }
 }

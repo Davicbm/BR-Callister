@@ -27,6 +27,10 @@ public class Drakthar {
 	private int contador3 = 0;
 
 	private List<TiroDrakthar> tiros1;
+	private List<TiroDrakthar> tiros2;
+	private List<TiroDrakthar> tiros3;
+	private List<TiroDrakthar> tiros4;
+
 	private long tempoUltimoTiro = System.currentTimeMillis();
 	private long intervaloTiros = 1800;
 
@@ -36,15 +40,18 @@ public class Drakthar {
 		this.x = x;
 		this.y = y;
 		this.isVisivel = true;
-		this.vida = 50;
+		this.vida = 36;
 		this.velocidade = velocidade;
 
 		tiros1 = new ArrayList<TiroDrakthar>();
+		tiros2 = new ArrayList<TiroDrakthar>();
+		tiros3 = new ArrayList<TiroDrakthar>();
+		tiros4 = new ArrayList<TiroDrakthar>();
 	}
 
-	public void somRugido(){
+	public void somRugido() {
 		EfeitosSonoros a = new EfeitosSonoros();
-		a.tocarSomRugido();;
+		a.tocarSomRugido();
 	}
 
 	public void load() {
@@ -87,8 +94,19 @@ public class Drakthar {
 		}
 	}
 
+	public void tiroTriplo() {
+		long tempoAtual = System.currentTimeMillis();
+		if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
+			this.tiros4.add(new TiroDrakthar(x + largura, y - altura));
+			this.tiros2.add(new TiroDrakthar(x + largura, y));
+			this.tiros3.add(new TiroDrakthar(x + largura, y + altura));
+			tempoUltimoTiro = tempoAtual;
+		}
+	}
+
 	public void atirar() {
 		tiroSimples();
+
 		tiros1 = getTiros();
 		for (int i = 0; i < tiros1.size(); i++) {
 			TiroDrakthar m = tiros1.get(i);
@@ -100,10 +118,59 @@ public class Drakthar {
 		}
 	}
 
+	public void atirarTriplo() {
+		tiroTriplo();
+
+		tiros1 = getTiros();
+		for (int i = 0; i < tiros1.size(); i++) {
+			tiros1.remove(i);
+		}
+
+		for (int i = 0; i < tiros4.size(); i++) {
+			TiroDrakthar tiro = tiros4.get(i);
+			if (tiro.isVisivel()) {
+				tiro.update();
+			} else {
+				tiros4.remove(i);
+			}
+		}
+		for (int i = 0; i < tiros2.size(); i++) {
+			TiroDrakthar tiro = tiros2.get(i);
+			if (tiro.isVisivel()) {
+				tiro.update();
+			} else {
+				tiros2.remove(i);
+			}
+		}
+		for (int i = 0; i < tiros3.size(); i++) {
+			TiroDrakthar tiro = tiros3.get(i);
+			if (tiro.isVisivel()) {
+				tiro.update();
+			} else {
+				tiros3.remove(i);
+			}
+		}
+	}
+
 	public void removerTiros() {
 		tiros1 = getTiros();
 		for (int i = 0; i < tiros1.size(); i++) {
 			tiros1.remove(i);
+		}
+	}
+
+	public void drawTiroDraktharTriplo(Graphics2D graficos) {
+		desenharTiros(tiros4, graficos);
+		desenharTiros(tiros2, graficos);
+		desenharTiros(tiros3, graficos);
+	}
+
+	private void desenharTiros(List<TiroDrakthar> tiros, Graphics2D graficos) {
+		for (int j = 0; j < tiros.size(); j++) {
+			TiroDrakthar m = tiros.get(j);
+			m.load();
+
+			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY(), null);
 		}
 	}
 
@@ -122,10 +189,10 @@ public class Drakthar {
 
 	public void updateInvestidasBaixo(int destinoY) {
 		this.y += velocidade;
-		if (contador3 == 0){
+		if (contador3 == 0) {
 			somRugido();
 			contador3++;
-		}	
+		}
 		if (this.y > destinoY) {
 			this.y = destinoY;
 		}
@@ -133,11 +200,11 @@ public class Drakthar {
 
 	public void updateInvestidasCima(int destinoY) {
 		this.y -= velocidade;
-		
-		if (contador3 == 0){
+
+		if (contador3 == 0) {
 			somRugido();
 			contador3++;
-		}	
+		}
 		if (this.y < destinoY) {
 			this.y = destinoY;
 		}
@@ -163,36 +230,13 @@ public class Drakthar {
 		}
 	}
 
-	public void drawTiroDraktharTriplo(Graphics2D graficos) {
-		List<TiroDrakthar> tiros1 = getTiros();
-		List<TiroDrakthar> tiros2 = getTiros();
-		List<TiroDrakthar> tiros3 = getTiros();
-
-		for (int j = 0; j < tiros1.size(); j++) {
-			TiroDrakthar m = tiros1.get(j);
-			m.load();
-			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 100, null);
-		}
-
-		for (int j = 0; j < tiros2.size(); j++) {
-			TiroDrakthar m = tiros2.get(j);
-			m.load();
-			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() - 15, null);
-		}
-
-		for (int j = 0; j < tiros3.size(); j++) {
-			TiroDrakthar m = tiros3.get(j);
-			m.load();
-			graficos.drawImage(m.getImagem(), m.getX() - 64, m.getY() + 100, null);
-		}
-	}
-
 	public void colisaoDraktharTiro(Jogador1 jogador, int j) {
 		List<TiroNave> tiros = jogador.getTiros();
+
 		TiroNave tempTiro = tiros.get(j);
 		Rectangle formaTiro = tempTiro.getBounds();
 		Rectangle formaDrakthar = getBounds();
-		if (formaTiro.intersects(formaDrakthar) && isVisivel() && tempTiro.isVisivel()) {
+		if (formaTiro.intersects(formaDrakthar) && isVisivel()) {
 			perdeVida(1);
 			tempTiro.setVisivel(false);
 			if (vida == 0) {
@@ -206,7 +250,8 @@ public class Drakthar {
 		TiroNave tempTiro = tiros.get(j);
 		Rectangle formaTiro = tempTiro.getBounds();
 		Rectangle formaDrakthar = getBounds();
-		if (formaTiro.intersects(formaDrakthar) && isVisivel() && tempTiro.isVisivel()) {
+
+		if (formaTiro.intersects(formaDrakthar) && isVisivel()) {
 			perdeVida(1);
 			tempTiro.setVisivel(false);
 			if (vida == 0) {
@@ -215,26 +260,88 @@ public class Drakthar {
 		}
 	}
 
+	public void colisaoTirosTriplos1(Jogador1 jogador1, Jogador2 jogador2) {
+		tiros4 = getTiros();
+
+		for (int j = 0; j < tiros4.size(); j++) {
+			TiroDrakthar tempTiro = tiros4.get(j);
+			Rectangle formaTiro = tempTiro.getBounds();
+			Rectangle formaNave1 = jogador1.getBounds();
+			Rectangle formaNave2 = jogador2.getBounds();
+
+			if (formaTiro.intersects(formaNave1) && jogador1.isVisivel()) {
+				jogador1.perdeVida(4);
+				tempTiro.setVisivel(false);
+			}
+
+			if (formaTiro.intersects(formaNave2) && jogador2.isVisivel()) {
+				jogador2.perdeVida(4);
+				tempTiro.setVisivel(false);
+			}
+		}
+	}
+
+	public void colisaoTirosTriplos2(Jogador1 jogador1, Jogador2 jogador2) {
+		tiros2 = getTiros();
+
+		for (int j = 0; j < tiros2.size(); j++) {
+			TiroDrakthar tempTiro = tiros2.get(j);
+			Rectangle formaTiro = tempTiro.getBounds();
+			Rectangle formaNave1 = jogador1.getBounds();
+			Rectangle formaNave2 = jogador2.getBounds();
+
+			if (formaTiro.intersects(formaNave1) && jogador1.isVisivel() && tempTiro.isVisivel()) {
+				jogador1.perdeVida(4);
+				tempTiro.setVisivel(false);
+			}
+
+			if (formaTiro.intersects(formaNave2) && jogador2.isVisivel() && tempTiro.isVisivel()) {
+				jogador2.perdeVida(4);
+				tempTiro.setVisivel(false);
+			}
+		}
+	}
+
+	public void colisaoTirosTriplos3(Jogador1 jogador1, Jogador2 jogador2) {
+		tiros3 = getTiros();
+
+		for (int j = 0; j < tiros3.size(); j++) {
+			TiroDrakthar tempTiro = tiros3.get(j);
+			Rectangle formaTiro = tempTiro.getBounds();
+			Rectangle formaNave1 = jogador1.getBounds();
+			Rectangle formaNave2 = jogador2.getBounds();
+
+			if (formaTiro.intersects(formaNave1) && jogador1.isVisivel() && tempTiro.isVisivel()) {
+				jogador1.perdeVida(4);
+				tempTiro.setVisivel(false);
+			}
+
+			if (formaTiro.intersects(formaNave2) && jogador2.isVisivel() && tempTiro.isVisivel()) {
+				jogador2.perdeVida(4);
+				tempTiro.setVisivel(false);
+			}
+		}
+	}
+
 	public void colisaoNaveTiro(Jogador1 jogador1, Jogador2 jogador2) {
-		List<TiroDrakthar> tiros1 = getTiros();
+		tiros1 = getTiros();
 
 		for (int j = 0; j < tiros1.size(); j++) {
 			TiroDrakthar tempTiroDrakthar = tiros1.get(j);
 			Rectangle formaTiroDrakthar = tempTiroDrakthar.getBounds();
 			Rectangle formaNave = jogador1.getBounds();
+
 			if (formaTiroDrakthar.intersects(formaNave) && jogador1.isVisivel()) {
 				jogador1.perdeVida(4);
 				tempTiroDrakthar.setVisivel(false);
 			}
 		}
 
-		List<TiroDrakthar> tiros2 = getTiros();
-
-		for (int j = 0; j < tiros2.size(); j++) {
-			TiroDrakthar tempTiroDrakthar = tiros2.get(j);
+		for (int j = 0; j < tiros1.size(); j++) {
+			TiroDrakthar tempTiroDrakthar = tiros1.get(j);
 			Rectangle formaTiroDrakthar = tempTiroDrakthar.getBounds();
 			Rectangle formaNave = jogador2.getBounds();
-			if (formaTiroDrakthar.intersects(formaNave) && jogador2.isVisivel()) {
+			if (formaTiroDrakthar.intersects(formaNave) && jogador2.isVisivel() && tempTiroDrakthar.isVisivel()) {
 				jogador2.perdeVida(4);
 				tempTiroDrakthar.setVisivel(false);
 			}
@@ -273,7 +380,7 @@ public class Drakthar {
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, largura, altura);
+		return new Rectangle(x + 50, y, largura, altura);
 	}
 
 	public boolean isVisivel() {

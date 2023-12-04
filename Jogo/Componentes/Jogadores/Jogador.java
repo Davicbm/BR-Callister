@@ -61,6 +61,7 @@ public abstract class Jogador {
 
     public void keyPressed(KeyEvent tecla) {
         int codigo = tecla.getKeyCode();
+        
         if (codigo == KeyEvent.VK_SPACE && podeAtirar) {
             tiroSimples();
             podeAtirar = false;

@@ -24,8 +24,6 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase extends JPanel {
 
-	public static boolean doisJogadores;
-
 	private boolean vitoria;
 	private boolean gameOver;
 
@@ -46,7 +44,7 @@ public class Fase extends JPanel {
 			jogador1.drawTiroNave(graficos);
 		}
 
-		if (doisJogadores == true) {
+		if (Menu.doisJogadores == true) {
 			if (jogador2.isVisivel()) {
 				graficos.drawImage(jogador2.getImagem(), jogador2.getX(), jogador2.getY(), this);
 				jogador2.drawTiroNave(graficos);
@@ -64,17 +62,17 @@ public class Fase extends JPanel {
 		graficos.drawString(nomeJogador1, 15, 30);
 		barra.paintBarraVida(graficos, jogador1);
 
-		if (doisJogadores) {
+		if (Menu.doisJogadores) {
 			graficos.drawString("-- Pontuações -- ", 1325, 35);
 			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 1350, 60);
-
 			graficos.drawString(nomeJogador2 + " = " + Jogador2.pontuacaoJogador2, 1350, 90);
-		} else if (doisJogadores == false) {
+			barra.paintBarraVida(graficos, jogador2);
+		} else if (Menu.doisJogadores == false) {
 			graficos.drawString("-- Pontuações -- ", 1325, 35);
 			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 1350, 50);
 		}
 
-		if (doisJogadores) {
+		if (Menu.doisJogadores) {
 			if (nomeJogador1 != null && nomeJogador1 != null) {
 				graficos.setFont(fonte2);
 				graficos.setColor(Color.WHITE);
@@ -110,10 +108,10 @@ public class Fase extends JPanel {
 		graficos.setColor(Color.WHITE);
 		graficos.drawString("Aperte enter para a próxima fase!", 500, 800);
 
-		if (doisJogadores) {
+		if (Menu.doisJogadores) {
 			graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
 			graficos.drawString("Pontuação " + nomeJogador2 + " = " + Jogador2.pontuacaoJogador2, 1125, 40);
-		} else if (doisJogadores == false) {
+		} else if (Menu.doisJogadores == false) {
 			graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
 		}
 	}
