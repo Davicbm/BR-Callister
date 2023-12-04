@@ -17,6 +17,7 @@ public class Container extends JFrame {
     private boolean reiniciaJogo = false;
 
     public Container() {
+        setUndecorated(true);
         setTitle("Br-Callister");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

@@ -41,7 +41,7 @@ public abstract class Jogador {
         if (x + dx >= 0 && x + dx + largura / 2 <= 1000) {
             x += dx;
         }
-        if (y + dy >= 0 && y + dy + altura <= 850) {
+        if (y + dy >= 95 && y + dy + altura <= 850) {
             y += dy;
         }
     }

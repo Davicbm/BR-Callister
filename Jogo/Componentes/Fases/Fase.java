@@ -57,28 +57,27 @@ public class Fase extends JPanel {
 
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
-		graficos.drawString("Fase " + faseAtual, 700, 50);
+		graficos.drawString("LEVEL " + faseAtual, 700, 50);
 
 		graficos.setFont(fonte2);
 		graficos.setColor(Color.WHITE);
-		graficos.drawString(nomeJogador1, 15, 30);
+		graficos.drawString(nomeJogador1, 80, 40);
 		barra.paintBarraVida(graficos, jogador1);
 
 		if (doisJogadores) {
-			graficos.drawString("-- Pontuações -- ", 1325, 35);
-			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 1350, 60);
-
-			graficos.drawString(nomeJogador2 + " = " + Jogador2.pontuacaoJogador2, 1350, 90);
-		} else if (doisJogadores == false) {
-			graficos.drawString("-- Pontuações -- ", 1325, 35);
-			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 1350, 50);
+			graficos.drawString("SCORE", 950, 35);
+			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 950, 55);
+			graficos.drawString(nomeJogador2 + " = " + Jogador2.pontuacaoJogador2, 950, 70);
+		} else {
+			graficos.drawString("SCORE", 950, 45);
+			graficos.drawString(nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 950, 60);
 		}
 
 		if (doisJogadores) {
-			if (nomeJogador1 != null && nomeJogador1 != null) {
+			if (nomeJogador1 != null && nomeJogador2 != null) {
 				graficos.setFont(fonte2);
 				graficos.setColor(Color.WHITE);
-				graficos.drawString(nomeJogador2, 15, 790);
+				graficos.drawString(nomeJogador2, 305, 40);
 				barra.paintBarraVida(graficos, jogador2);
 			}
 		}
@@ -263,13 +262,13 @@ public class Fase extends JPanel {
 
 	// Colisões de tiros(naves) com o Chefão:
 	public void colisoesTiroEmDrakthar(Drakthar drakthar, Jogador1 jogador1, Jogador2 jogador2, int x) {
-		
+
 		if (drakthar.getX() == x) {
 			List<TiroNave> tiros1 = jogador1.getTiros();
 			for (int j = 0; j < tiros1.size(); j++) {
 				drakthar.colisaoDraktharTiro(jogador1, j);
 			}
-	
+
 			List<TiroNave> tiros2 = jogador2.getTiros();
 			for (int j = 0; j < tiros2.size(); j++) {
 				drakthar.colisaoDraktharTiro(jogador2, j);
