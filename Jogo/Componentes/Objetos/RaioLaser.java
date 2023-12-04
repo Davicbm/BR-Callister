@@ -3,6 +3,7 @@ package Jogo.Componentes.Objetos;
 import javax.swing.*;
 
 import Jogo.Componentes.Jogadores.Jogador1;
+import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Sons.EfeitosSonoros;
 
 import java.awt.*;
@@ -70,6 +71,24 @@ public class RaioLaser extends JPanel {
     }
 
     public void colisaoLaser(Jogador1 jogador){
+		Rectangle formaNave = jogador.getBounds();
+		Rectangle formaLaser = getBounds();
+
+		if (formaNave.intersects(formaLaser) && jogador.isVisivel() && danoLaser && disparaLaser) {
+			if (jogador.getEscudo() > 0){
+				jogador.perdeEscudo(5);
+			} else {
+				jogador.perdeVida(5);
+			}
+			setDisparaLaser(false);
+            danoLaser = false;
+		} 
+        if (!disparaLaser){
+            danoLaser = true;
+        }
+	}
+
+    public void colisaoLaser(Jogador2 jogador){
 		Rectangle formaNave = jogador.getBounds();
 		Rectangle formaLaser = getBounds();
 

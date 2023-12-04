@@ -472,6 +472,7 @@ public class Fase3 extends Fase implements ActionListener {
 		investida2.colisaoNaveTiro(jogador1, jogador2);
 
 		laserDrakthar.colisaoLaser(jogador1);
+		laserDrakthar.colisaoLaser(jogador2);
 
 		// Checagem das Entidades:
 		fase.checarJogadores(jogador1, jogador2, doisJogadores);

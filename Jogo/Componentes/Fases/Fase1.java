@@ -231,7 +231,7 @@ public class Fase1 extends Fase implements ActionListener {
 
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 
-		fase.drawComponentesIniciais(graficos, jogador1, jogador2, nomeJogador1, nomeJogador1, barra, "1");
+		fase.drawComponentesIniciais(graficos, jogador1, jogador2, nomeJogador1, nomeJogador2, barra, "1");
 
 		contador = 0;
 		for (int i = 0; i < robos.size(); i++) {
