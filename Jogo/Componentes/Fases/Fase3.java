@@ -584,6 +584,7 @@ public class Fase3 extends Fase implements ActionListener {
 				break;
 			case 1:
 				container.voltarMenuPrincipal();
+				stopSound(musicaBoss);
 				break;
 			case 2:
 				System.exit(0);
