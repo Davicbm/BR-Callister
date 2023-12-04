@@ -70,7 +70,10 @@ public class Container extends JFrame {
         faseAtual++;
         switchFase();
     }
-
+    public void voltarMenuPrincipal(){
+        faseAtual = 0;
+        switchFase();
+    }
     public void reiniciarFase() {
         faseAtual = faseReinicio;
         switchFase();

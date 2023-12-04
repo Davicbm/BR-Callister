@@ -321,7 +321,7 @@ public class Fase3 extends Fase implements ActionListener {
 			drawTelaVitoria(graficos, nomeJogador1, nomeJogador1);
 		}
 		if (pausado) {
-			drawTelaPausa(graficos, contador);
+			drawTelaPausa(graficos, opcaoMenuPausa);
 		}
 
 		g.dispose();
@@ -583,7 +583,7 @@ public class Fase3 extends Fase implements ActionListener {
 				alternarPausa();
 				break;
 			case 1:
-				container.reiniciarFase();
+				container.voltarMenuPrincipal();
 				break;
 			case 2:
 				System.exit(0);

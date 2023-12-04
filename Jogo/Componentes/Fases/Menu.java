@@ -42,12 +42,11 @@ public class Menu extends JPanel implements ActionListener {
 
     private Clip clip;
     private Image fundoMenu;
-    private Image fundoNomes;
-
     private Timer timer;
 
     private int opcaoSelecionada;
     public static boolean doisJogadores;
+    private boolean capturarNomes;
     public static String nomeJogador1 = "Jogador 1";
     public static String nomeJogador2 = "Jogador 2";
 
@@ -61,9 +60,6 @@ public class Menu extends JPanel implements ActionListener {
 
         ImageIcon referencia = new ImageIcon("planosFundo//fundomenu.png");
         fundoMenu = referencia.getImage();
-
-        referencia = new ImageIcon("planosFundo//blackground.png");
-        fundoNomes = referencia.getImage();
 
         addKeyListener(teclado);
 
@@ -121,7 +117,6 @@ public class Menu extends JPanel implements ActionListener {
         graficos.drawString("Two Players", 660, 650);
         graficos.drawString("E X I T", 690, 700);
         graficos.drawString(">", 630 + (opcaoSelecionada * 25) - 20, 600 + opcaoSelecionada * 50);
-
     }
 
     public void capturarNomes() {
@@ -292,10 +287,12 @@ public class Menu extends JPanel implements ActionListener {
         switch (opcaoSelecionada) {
             case 0:
                 doisJogadores = false;
+                capturarNomes = true;
                 capturarNomes();
                 break;
             case 1:
                 doisJogadores = true;
+                capturarNomes = true;
                 capturarNomes();
                 break;
             case 2:

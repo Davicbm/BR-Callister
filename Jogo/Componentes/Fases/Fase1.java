@@ -172,9 +172,9 @@ public class Fase1 extends Fase implements ActionListener {
 	public void inicializaInimigos() {
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
-			int y = (int) (Math.random() * 650) + 10;
+			int y = (int) (Math.random() * 650) + 100;
 
 			robos.add(new Robo(x, y));
 			robos.get(i).setVida(2);
@@ -190,15 +190,15 @@ public class Fase1 extends Fase implements ActionListener {
 			robos2.get(i).setVida(2);
 		}
 
-		robo1 = new Robo(1800, 90);
-		robo2 = new Robo(1800, 350);
-		robo3 = new Robo(1800, 650);
-		robo4 = new Robo(2000, 230);
-		robo5 = new Robo(2000, 470);
-		robo6 = new Robo(1800, 100);
-		robo7 = new Robo(1800, 600);
+		robo1 = new Robo(1800, 110);
+		robo2 = new Robo(1800, 370);
+		robo3 = new Robo(1800, 670);
+		robo4 = new Robo(2000, 250);
+		robo5 = new Robo(2000, 490);
+		robo6 = new Robo(1800, 120);
+		robo7 = new Robo(1800, 620);
 
-		alien = new Alien(1800, 325);
+		alien = new Alien(1800, 350);
 
 		robo1.load();
 		robo2.load();
@@ -251,31 +251,31 @@ public class Fase1 extends Fase implements ActionListener {
 				graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
 				if (robo1.getX() != 1100) {
 					startSound(alertaSom);
-					graficos.drawImage(alerta, 1450, 90, this);
+					graficos.drawImage(alerta, 1450, robo1.getY(), this);
 				}
 			}
 			if (robo2.isVisivel()) {
 				graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
 				if (robo2.getX() != 1000) {
-					graficos.drawImage(alerta, 1450, 350, this);
+					graficos.drawImage(alerta, 1450, robo2.getY(), this);
 				}
 			}
 			if (robo3.isVisivel()) {
 				graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
 				if (robo3.getX() != 1100) {
-					graficos.drawImage(alerta, 1450, 650, this);
+					graficos.drawImage(alerta, 1450, robo3.getY(), this);
 				}
 			}
 			if (robo4.isVisivel()) {
 				graficos.drawImage(robo4.getImagem(), robo4.getX(), robo4.getY(), this);
 				if (robo4.getX() != 1200) {
-					graficos.drawImage(alerta, 1450, 230, this);
+					graficos.drawImage(alerta, 1450, robo4.getY(), this);
 				}
 			}
 			if (robo5.isVisivel()) {
 				graficos.drawImage(robo5.getImagem(), robo5.getX(), robo5.getY(), this);
 				if (robo5.getX() != 1200) {
-					graficos.drawImage(alerta, 1450, 470, this);
+					graficos.drawImage(alerta, 1450, robo5.getY(), this);
 				}
 			}
 
@@ -618,7 +618,7 @@ public class Fase1 extends Fase implements ActionListener {
 				alternarPausa();
 				break;
 			case 1:
-				container.reiniciarFase();
+				container.voltarMenuPrincipal();
 				break;
 			case 2:
 				System.exit(0);

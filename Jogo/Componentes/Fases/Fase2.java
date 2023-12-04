@@ -179,18 +179,18 @@ public class Fase2 extends Fase implements ActionListener {
 			robos2.get(i).setVida(2);
 		}
 
-		robo1 = new Robo(1800, 100);
-		robo2 = new Robo(1800, 600);
+		robo1 = new Robo(1800, 120);
+		robo2 = new Robo(1800, 620);
 
-		robo3 = new Robo(1800, 80);
-		robo4 = new Robo(1800, 620);
+		robo3 = new Robo(1800, 100);
+		robo4 = new Robo(1800, 640);
 
-		alien1 = new Alien(1800, 250);
-		alien2 = new Alien(1800, 450);
+		alien1 = new Alien(1800, 270);
+		alien2 = new Alien(1800, 470);
 
-		alien3 = new Alien(1800, 250);
-		alien4 = new Alien(1800, 350);
-		alien5 = new Alien(1800, 476);
+		alien3 = new Alien(1800, 270);
+		alien4 = new Alien(1800, 375);
+		alien5 = new Alien(1800, 495);
 
 		alien1.load();
 		alien2.load();
@@ -370,7 +370,7 @@ public class Fase2 extends Fase implements ActionListener {
 			drawTelaVitoria(graficos, nomeJogador1, nomeJogador1);
 		}
 		if (pausado) {
-			drawTelaPausa(graficos, contador);
+			drawTelaPausa(graficos, opcaoMenuPausa);
 		}
 
 		g.dispose();
@@ -626,7 +626,7 @@ public class Fase2 extends Fase implements ActionListener {
 				alternarPausa();
 				break;
 			case 1:
-				container.reiniciarFase();
+				container.voltarMenuPrincipal();
 				break;
 			case 2:
 				System.exit(0);

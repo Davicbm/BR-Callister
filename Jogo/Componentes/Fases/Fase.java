@@ -91,7 +91,7 @@ public class Fase extends JPanel {
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
 		graficos.drawString("Continuar", 690, 350);
-		graficos.drawString("Reiniciar", 690, 400);
+		graficos.drawString("Menu", 720, 400);
 		graficos.drawString("Sair", 720, 450);
 		graficos.drawString(">", 670 + (opcaoMenuPausa * 15) - 20, 350 + opcaoMenuPausa * 50);
 	}
@@ -122,6 +122,7 @@ public class Fase extends JPanel {
 		graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
+		
 		graficos.drawString("Reiniciar a fase!", 600, 700);
 		graficos.drawString("Voltar ao menu principal!", 600, 750);
 		graficos.drawString(">", 575 + (opcaoGameOver / 15), 700 + opcaoGameOver * 50);
