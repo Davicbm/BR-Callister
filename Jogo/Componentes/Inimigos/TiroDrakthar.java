@@ -30,8 +30,16 @@ public class TiroDrakthar {
 		this.altura = imagem.getHeight(null);
 	}
 
-	public void loadFlip() {
-		ImageIcon referencia = new ImageIcon("assets//alien_tiroFlip.png");
+	public void loadCima() {
+		ImageIcon referencia = new ImageIcon("assets//drakthar-tiro-cima.png");
+		imagem = referencia.getImage();
+
+		this.largura = imagem.getWidth(null);
+		this.altura = imagem.getHeight(null);
+	}
+
+	public void loadBaixo() {
+		ImageIcon referencia = new ImageIcon("assets//drakthar-tiro-baixo.png");
 		imagem = referencia.getImage();
 
 		this.largura = imagem.getWidth(null);
@@ -48,20 +56,28 @@ public class TiroDrakthar {
 
 	public void update() {
 		this.x -= velocidade;
-		
+
 		if (this.x < 0) {
 			isVisivel = false;
 		}
 	}
 
-	public void updateFlip() {
-		this.x += velocidade;
-		
-		if (this.x > 1500) {
+	public void updateCima() {
+		this.y -= velocidade;
+
+		if (this.y < 100) {
 			isVisivel = false;
 		}
 	}
-	
+
+	public void updateBaixo() {
+		this.y += velocidade;
+
+		if (this.y > 900) {
+			isVisivel = false;
+		}
+	}
+
 	public Rectangle getBounds() {
 		return new Rectangle(x - 80, y - 20, largura, altura);
 	}

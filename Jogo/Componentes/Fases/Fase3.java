@@ -40,6 +40,9 @@ public class Fase3 extends Fase implements ActionListener {
 	private Image fundo;
 	private Image alerta;
 	private Image portal;
+	private Image portalA;
+	private Image portalB;
+	private Image barraCima;
 
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
@@ -64,8 +67,13 @@ public class Fase3 extends Fase implements ActionListener {
 	private Alien alien2;
 
 	private Drakthar drakthar;
+
 	private Drakthar investida1;
 	private Drakthar investida2;
+
+	private Drakthar tiroTriplo1;
+	private Drakthar tiroTriplo2;
+	private Drakthar tiroTriplo3;
 
 	private RaioLaser laserDrakthar;
 
@@ -97,6 +105,15 @@ public class Fase3 extends Fase implements ActionListener {
 
 		referencia = new ImageIcon("assets//portal.gif");
 		portal = referencia.getImage();
+
+		referencia = new ImageIcon("assets//portal-ladoA.gif");
+		portalA = referencia.getImage();
+
+		referencia = new ImageIcon("assets//portal-ladoB.gif");
+		portalB = referencia.getImage();
+
+		referencia = new ImageIcon("assets//barraCima.gif");
+		barraCima = referencia.getImage();
 
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
@@ -176,7 +193,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -184,13 +201,17 @@ public class Fase3 extends Fase implements ActionListener {
 			robos.get(i).setVida(2);
 		}
 
-		alien1 = new Alien(1800, 100);
-		alien2 = new Alien(1800, 600);
+		alien1 = new Alien(1800, 120);
+		alien2 = new Alien(1800, 620);
 
-		drakthar = new Drakthar(1570, 200, 2);
+		drakthar = new Drakthar(1570, 200, 2, 1800);
 
-		investida1 = new Drakthar(600, -700, 3);
-		investida2 = new Drakthar(270, 1100, 3);
+		investida1 = new Drakthar(1700, 105, 4, 1300);
+		investida2 = new Drakthar(-600, 480, 4, 1300);
+
+		tiroTriplo1 = new Drakthar(1600, 210, 1, 1800);
+		tiroTriplo2 = new Drakthar(1600, 400, 1, 1800);
+		tiroTriplo3 = new Drakthar(1600, 630, 1, 1800);
 
 		alien1.load();
 		alien2.load();
@@ -246,42 +267,45 @@ public class Fase3 extends Fase implements ActionListener {
 			if (alien1.isVisivel()) {
 				graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
 				if (alien1.getX() != 1000) {
-					graficos.drawImage(alerta, 1450, alien1.getY(), this);
+					graficos.drawImage(alerta, 1350, alien1.getY(), this);
 				}
 			}
 			if (alien2.isVisivel()) {
 				graficos.drawImage(alien2.getImagem(), alien2.getX(), alien2.getY(), this);
 				if (alien2.getX() != 1000) {
-					graficos.drawImage(alerta, 1450, alien2.getY(), this);
+					graficos.drawImage(alerta, 1350, alien2.getY(), this);
 				}
 			}
 			if (drakthar.isVisivel()) {
+				if (drakthar.getX() != 1100 && drakthar.getX() < 1700) {
+					graficos.drawImage(portalB, 1301, 90, this);
+				}
 				graficos.drawImage(drakthar.getImagem(), drakthar.getX(), drakthar.getY(), this);
 				if (drakthar.getX() != 1100 && drakthar.getX() < 1700) {
-					graficos.drawImage(portal, 1300, 100, this);
+					graficos.drawImage(portalA, 1300, 90, this);
 				}
 			}
 
 			if (investida1.isVisivel()) {
 				graficos.drawImage(investida1.getImagem(), investida1.getX(), investida1.getY(), this);
-				if (investida1.getY() < 0 && segundoEstagio) {
-					graficos.drawImage(alerta, investida1.getX() + 100, 0, this);
+				if (investida1.getX() > 1300 && segundoEstagio) {
+					graficos.drawImage(alerta, 1400, 150, this);
 				}
 				graficos.drawImage(investida2.getImagem(), investida2.getX(), investida2.getY(), this);
-				if (investida2.getY() > 900 && segundoEstagio && investida1.getY() >= 900) {
-					graficos.drawImage(alerta, investida2.getX() - 100, 750, this);
+				if (investida2.getX() < 0 && segundoEstagio && investida1.getY() <= -500) {
+					graficos.drawImage(alerta, 0, 600, this);
 				}
 			}
 
 			if (investida1.getY() >= 0 && investida1.getY() <= 900) {
 				if (investida1.isVisivel()) {
-					investida1.drawTiroDrakthar(graficos);
+					investida1.drawTiroDraktharBaixo(graficos);
 				}
 			}
 
 			if (investida2.getY() >= -400 && investida2.getY() <= 900) {
 				if (investida2.isVisivel()) {
-					investida2.drawTiroDraktharFlip(graficos);
+					investida2.drawTiroDraktharCima(graficos);
 				}
 			}
 
@@ -297,12 +321,24 @@ public class Fase3 extends Fase implements ActionListener {
 			}
 
 			if (drakthar.getX() == 1100) {
-				if (drakthar.isVisivel() && !terceiroEstagio) {
+				if (drakthar.isVisivel() && !segundoEstagio) {
 					drakthar.drawTiroDrakthar(graficos);
 				}
 				if (drakthar.isVisivel() && terceiroEstagio) {
-					drakthar.drawTiroDraktharTriplo(graficos);
+
+					if (laserDrakthar.isAlerta()){
+						graficos.drawImage(alerta, 1000, 400,this);
+					}
 					laserDrakthar.drawRaioLaser(graficos);
+
+					graficos.drawImage(portal, 1100, tiroTriplo1.getY() - 40, this);
+					tiroTriplo1.drawTiroDrakthar(graficos, 1100);
+
+					if (!laserDrakthar.isDisparaLaser()) {
+						tiroTriplo2.drawTiroDrakthar(graficos, 1100);
+					}
+					graficos.drawImage(portal, 1100, tiroTriplo3.getY() - 40, this);
+					tiroTriplo3.drawTiroDrakthar(graficos, 1100);
 				}
 			}
 		}
@@ -313,6 +349,8 @@ public class Fase3 extends Fase implements ActionListener {
 			robo.load2(graficos);
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 		}
+
+		graficos.drawImage(barraCima, 0, 0, this);
 
 		if (gameOver == true) {
 			drawTelaDerrota(graficos, opcaoGameOver);
@@ -353,13 +391,13 @@ public class Fase3 extends Fase implements ActionListener {
 			}
 			if (drakthar.getVida() == 35 && !terceiroEstagio) {
 				drakthar.updateDrakthar2(1700);
-				if (drakthar.getX() != 1100) {
+				if (drakthar.getX() != 1100 && !alien1.isVisivel() && !alien2.isVisivel()) {
 					segundoEstagio = true;
-					investida1.updateInvestidasBaixo(900);
+					investida1.updateDrakthar(-500);
 				}
-				if (investida1.getY() >= 900) {
-					investida2.updateInvestidasCima(-600);
-					if (investida2.getY() == -600) {
+				if (investida1.getX() <= -500) {
+					investida2.updateDrakthar2(1700);
+					if (investida2.getX() == 1700) {
 						terceiroEstagio = true;
 					}
 				}
@@ -377,15 +415,18 @@ public class Fase3 extends Fase implements ActionListener {
 
 		if (terceiroEstagio) {
 			drakthar.updateDrakthar(1100);
-
 			if (drakthar.getX() == 1100) {
-				drakthar.atirarTriplo();
+				tiroTriplo1.atirar();
+				tiroTriplo2.atirar();
+				tiroTriplo3.atirar();
+
+				if (!laserDrakthar.isVisible()) {
+					laserDrakthar.startLaser();
+					laserDrakthar.setVisible(true);
+				}
+				laserDrakthar.update();
 			}
-			if (!laserDrakthar.isVisible() && drakthar.getX() == 1100) {
-				laserDrakthar.startLaser();
-				laserDrakthar.setVisible(true);
-			}
-			laserDrakthar.update();
+
 			if (!laserDrakthar.isVisible()) {
 				laserDrakthar.stopLaser();
 			}
@@ -406,11 +447,11 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 
 		if (investida1.getY() >= 0 && investida1.getY() <= 900) {
-			investida1.atirar();
+			investida1.atirarBaixo();
 		}
 
 		if (investida2.getY() > -400 && investida2.getY() < 900) {
-			investida2.atirarFlip();
+			investida2.atirarCima();
 		}
 
 		for (int j = 0; j < robos.size(); j++) {
@@ -459,15 +500,18 @@ public class Fase3 extends Fase implements ActionListener {
 		investida2.colisaoNaveDrakthar(jogador2);
 
 		// Colisões de tiro do Drakthar com a Nave:
-		if (segundoEstagio && terceiroEstagio) {
+		if (drakthar.getX() == 1100){
 			drakthar.colisaoNaveTiro(jogador1, jogador2);
 		}
-		if (terceiroEstagio){
-			drakthar.colisaoTirosTriplos1(jogador1, jogador2);
-			drakthar.colisaoTirosTriplos2(jogador1, jogador2);
-			drakthar.colisaoTirosTriplos3(jogador1, jogador2);
+
+		if (terceiroEstagio) {
+			tiroTriplo1.colisaoNaveTiro(jogador1, jogador2);
+			if (!laserDrakthar.isDisparaLaser()) {
+				tiroTriplo2.colisaoNaveTiro(jogador1, jogador2);
+			}
+			tiroTriplo3.colisaoNaveTiro(jogador1, jogador2);
 		}
-		
+
 		investida1.colisaoNaveTiro(jogador1, jogador2);
 		investida2.colisaoNaveTiro(jogador1, jogador2);
 

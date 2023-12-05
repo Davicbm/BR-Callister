@@ -46,7 +46,7 @@ public class Menu extends JPanel implements ActionListener {
 
     private int opcaoSelecionada;
     public static boolean doisJogadores;
-    private boolean capturarNomes;
+
     public static String nomeJogador1 = "Jogador 1";
     public static String nomeJogador2 = "Jogador 2";
 
@@ -287,12 +287,10 @@ public class Menu extends JPanel implements ActionListener {
         switch (opcaoSelecionada) {
             case 0:
                 doisJogadores = false;
-                capturarNomes = true;
                 capturarNomes();
                 break;
             case 1:
                 doisJogadores = true;
-                capturarNomes = true;
                 capturarNomes();
                 break;
             case 2:
