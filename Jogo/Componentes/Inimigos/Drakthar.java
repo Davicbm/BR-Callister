@@ -36,7 +36,7 @@ public class Drakthar {
 		this.x = x;
 		this.y = y;
 		this.isVisivel = true;
-		this.vida = 36;
+		this.vida = 70;
 		this.velocidade = velocidade;
 		this.intervaloTiros = intervaloTiros;
 
@@ -49,7 +49,7 @@ public class Drakthar {
 	}
 
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//boss256px.gif");
+		ImageIcon referencia = new ImageIcon("assets//drakthar.gif");
 		imagem = referencia.getImage();
 
 		this.largura = imagem.getWidth(null);
@@ -57,7 +57,7 @@ public class Drakthar {
 	}
 
 	public void load2() {
-		ImageIcon referencia = new ImageIcon("assets//boss256pxFlip.png");
+		ImageIcon referencia = new ImageIcon("assets//draktharFlip.png");
 		imagem = referencia.getImage();
 
 		this.largura = imagem.getWidth(null);

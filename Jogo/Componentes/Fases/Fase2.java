@@ -7,16 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
@@ -30,10 +23,6 @@ import Jogo.Componentes.Objetos.BarraVida;
 import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase2 extends Fase implements ActionListener {
-
-	private Clip temaBatalha;
-	private Clip musicaDerrota;
-	private Clip musicaVitoria;
 
 	private Image fundo;
 	private Image alerta;
@@ -73,7 +62,6 @@ public class Fase2 extends Fase implements ActionListener {
 
 	private Container container;
 	TecladoAdapter teclado = new TecladoAdapter();
-	Fase fase = new Fase(container);
 
 	public Fase2(Container container) {
 		super(container);
@@ -114,56 +102,16 @@ public class Fase2 extends Fase implements ActionListener {
 
 		this.requestFocusInWindow();
 
-		try {
-			File audioFile = new File("assets//musica-batalha.wav");
-			File audioFile2 = new File("assets//vitoria.wav");
-			File audioFile3 = new File("assets//gameover.wav");
-
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(audioFile2);
-			AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(audioFile3);
-
-			temaBatalha = AudioSystem.getClip();
-			temaBatalha.open(audioStream);
-
-			musicaVitoria = AudioSystem.getClip();
-			musicaVitoria.open(audioStream2);
-
-			musicaDerrota = AudioSystem.getClip();
-			musicaDerrota.open(audioStream3);
-
-		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
-			e.printStackTrace();
-		}
-		startSound();
-	}
-
-	public void startSound() {
-		if (temaBatalha != null) {
-			temaBatalha.start();
-			temaBatalha.loop(Clip.LOOP_CONTINUOUSLY);
-		}
-	}
-
-	public void startSound(Clip clip) {
-		if (clip != null) {
-			clip.start();
-		}
-	}
-
-	public void stopSound() {
-		if (temaBatalha != null) {
-			temaBatalha.stop();
-		}
+		startSoundBatalha();
 	}
 
 	public void inicializaInimigos() {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 30; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
-			int y = (int) (Math.random() * 650) + 10;
+			int y = (int) (Math.random() * 650) + 100;
 
 			robos.add(new Robo(x, y));
 			robos.get(i).setVida(2);
@@ -171,25 +119,25 @@ public class Fase2 extends Fase implements ActionListener {
 
 		robos2 = new ArrayList<Robo>();
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 20; i++) {
 			int x = (int) (Math.random() * 6000) + 1980;
-			int y = (int) (Math.random() * 650) + 10;
+			int y = (int) (Math.random() * 650) + 100;
 
 			robos2.add(new Robo(x, y));
 			robos2.get(i).setVida(2);
 		}
 
-		robo1 = new Robo(1800, 120);
+		robo1 = new Robo(1800, 130);
 		robo2 = new Robo(1800, 620);
 
-		robo3 = new Robo(1800, 100);
+		robo3 = new Robo(1800, 130);
 		robo4 = new Robo(1800, 640);
 
 		alien1 = new Alien(1800, 270);
 		alien2 = new Alien(1800, 470);
 
 		alien3 = new Alien(1800, 270);
-		alien4 = new Alien(1800, 375);
+		alien4 = new Alien(1800, 400);
 		alien5 = new Alien(1800, 495);
 
 		alien1.load();
@@ -209,7 +157,7 @@ public class Fase2 extends Fase implements ActionListener {
 
 		for (int i = 0; i < 20; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
-			int y = (int) (Math.random() * 650) + 10;
+			int y = (int) (Math.random() * 650) + 100;
 			int codigo = (int) (Math.random() * 3) + 1;
 
 			powerUps.add(new PowerUp(x, y, codigo));
@@ -222,7 +170,7 @@ public class Fase2 extends Fase implements ActionListener {
 
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 
-		fase.drawComponentesIniciais(graficos, jogador1, jogador2, nomeJogador1, nomeJogador2, barra, "2");
+		drawComponentesIniciais(graficos, jogador1, jogador2, nomeJogador1, nomeJogador2, barra, "2");
 
 		contador = 0;
 		for (int i = 0; i < robos.size(); i++) {
@@ -255,7 +203,6 @@ public class Fase2 extends Fase implements ActionListener {
 			if (alien1.isVisivel()) {
 				graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
 				if (alien1.getX() != 1200) {
-					// muda a posição para os alien
 					graficos.drawImage(alerta, 1450, alien1.getY(), this);
 				}
 			}
@@ -370,7 +317,11 @@ public class Fase2 extends Fase implements ActionListener {
 			drawTelaVitoria(graficos, nomeJogador1, nomeJogador1);
 		}
 		if (pausado) {
+			stopSoundBatalha();
 			drawTelaPausa(graficos, opcaoMenuPausa);
+		}
+		if (!pausado && !gameOver && !vitoria){
+			startSoundBatalha();
 		}
 
 		g.dispose();
@@ -468,29 +419,29 @@ public class Fase2 extends Fase implements ActionListener {
 
 	public void checarColisoes() {
 		// Colisões com Power Ups:
-		fase.colisoesPowerUps(powerUps, jogador1, jogador2);
+		colisoesPowerUps(powerUps, jogador1, jogador2);
 
 		// Colisões de Nave com Robô:
-		fase.colisoesNavesRobos(robos, jogador1, jogador2);
-		fase.colisoesNavesRobos(robos2, jogador1, jogador2);
+		colisoesNavesRobos(robos, jogador1, jogador2);
+		colisoesNavesRobos(robos2, jogador1, jogador2);
 
 		// Colisões de tiro da Nave com Robo:
-		fase.colisoesTiroEmRobo1(robo1, jogador1, jogador2, 1000);
-		fase.colisoesTiroEmRobo1(robo2, jogador1, jogador2, 1000);
+		colisoesTiroEmRobo1(robo1, jogador1, jogador2, 1000);
+		colisoesTiroEmRobo1(robo2, jogador1, jogador2, 1000);
 
-		fase.colisoesTiroEmRobo1(robo3, jogador1, jogador2, 1000);
-		fase.colisoesTiroEmRobo1(robo4, jogador1, jogador2, 1000);
+		colisoesTiroEmRobo1(robo3, jogador1, jogador2, 1000);
+		colisoesTiroEmRobo1(robo4, jogador1, jogador2, 1000);
 
-		fase.colisoesTiroEmRobo2(jogador1, jogador2, robos);
-		fase.colisoesTiroEmRobo2(jogador1, jogador2, robos2);
+		colisoesTiroEmRobo2(jogador1, jogador2, robos);
+		colisoesTiroEmRobo2(jogador1, jogador2, robos2);
 
 		// Colisões de tiro da Nave com Alien:
-		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1200);
-		fase.colisoesTiroEmAlien(alien2, jogador1, jogador2, 1200);
+		colisoesTiroEmAlien(alien1, jogador1, jogador2, 1200);
+		colisoesTiroEmAlien(alien2, jogador1, jogador2, 1200);
 
-		fase.colisoesTiroEmAlien(alien3, jogador1, jogador2, 1200);
-		fase.colisoesTiroEmAlien(alien4, jogador1, jogador2, 1200);
-		fase.colisoesTiroEmAlien(alien5, jogador1, jogador2, 1200);
+		colisoesTiroEmAlien(alien3, jogador1, jogador2, 1200);
+		colisoesTiroEmAlien(alien4, jogador1, jogador2, 1200);
+		colisoesTiroEmAlien(alien5, jogador1, jogador2, 1200);
 
 		// Colisões de tiro do Robo com a Nave:
 		robo1.colisaoNaveTiro(jogador1, jogador2);
@@ -508,19 +459,19 @@ public class Fase2 extends Fase implements ActionListener {
 		alien5.colisaoNaveTiro(jogador1, jogador2);
 
 		// Checa a vida das entidades:
-		fase.checarRobo(robo1);
-		fase.checarRobo(robo2);
-		fase.checarRobo(robo3);
-		fase.checarRobo(robo4);
+		checarRobo(robo1);
+		checarRobo(robo2);
+		checarRobo(robo3);
+		checarRobo(robo4);
 
-		fase.checarAlien(alien1);
-		fase.checarAlien(alien2);
-		fase.checarAlien(alien3);
-		fase.checarAlien(alien4);
-		fase.checarAlien(alien5);
+		checarAlien(alien1);
+		checarAlien(alien2);
+		checarAlien(alien3);
+		checarAlien(alien4);
+		checarAlien(alien5);
 
-		fase.checarRobos(robos);
-		fase.checarRobos(robos2);
+		checarRobos(robos);
+		checarRobos(robos2);
 
 		if (!robo1.isVisivel() && !robo2.isVisivel() && !alien1.isVisivel() && !alien2.isVisivel()) {
 			proximaOnda = true;
@@ -529,15 +480,15 @@ public class Fase2 extends Fase implements ActionListener {
 				&& !alien1.isVisivel() && !alien2.isVisivel() && !alien3.isVisivel() && !alien4.isVisivel()
 				&& !alien5.isVisivel()) {
 			vitoria = true;
-			stopSound();
-			startSound(musicaVitoria);
+			stopSoundBatalha();
+			startSoundVitoria();
 		}
 
-		gameOver = fase.checarJogadores(jogador1, jogador2, doisJogadores);
+		gameOver = checarJogadores(jogador1, jogador2, doisJogadores);
 
 		if (gameOver) {
-			stopSound();
-			startSound(musicaDerrota);
+			stopSoundBatalha();
+			startSoundGameOver();
 		}
 	}
 

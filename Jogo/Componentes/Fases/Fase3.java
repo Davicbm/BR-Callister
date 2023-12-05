@@ -7,16 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
@@ -31,12 +24,6 @@ import Jogo.Componentes.Objetos.PowerUp;
 import Jogo.Componentes.Objetos.RaioLaser;
 
 public class Fase3 extends Fase implements ActionListener {
-
-	private Clip temaBatalha;
-	private Clip musicaDerrota;
-	private Clip musicaVitoria;
-	private Clip musicaBoss;
-
 	private Image fundo;
 	private Image alerta;
 	private Image portal;
@@ -141,59 +128,14 @@ public class Fase3 extends Fase implements ActionListener {
 
 		this.requestFocusInWindow();
 
-		try {
-			File audioFile = new File("assets//musica-batalha.wav");
-			File audioFile2 = new File("assets//vitoria.wav");
-			File audioFile3 = new File("assets//gameover.wav");
-			File audioFile4 = new File("assets//DraktharTema.wav");
-
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(audioFile2);
-			AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(audioFile3);
-			AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(audioFile4);
-
-			temaBatalha = AudioSystem.getClip();
-			temaBatalha.open(audioStream);
-
-			musicaVitoria = AudioSystem.getClip();
-			musicaVitoria.open(audioStream2);
-
-			musicaDerrota = AudioSystem.getClip();
-			musicaDerrota.open(audioStream3);
-
-			musicaBoss = AudioSystem.getClip();
-			musicaBoss.open(audioStream4);
-
-		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
-			e.printStackTrace();
-		}
-		startSound1(temaBatalha);
-	}
-
-	public void startSound1(Clip clip) {
-		if (clip != null) {
-			clip.start();
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
-		}
-	}
-
-	public void startSound2(Clip clip) {
-		if (clip != null) {
-			clip.start();
-		}
-	}
-
-	public void stopSound(Clip clip) {
-		if (clip != null) {
-			clip.stop();
-		}
+		startSoundBatalha();
 	}
 
 	public void inicializaInimigos() {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 5; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -206,8 +148,8 @@ public class Fase3 extends Fase implements ActionListener {
 
 		drakthar = new Drakthar(1570, 200, 2, 1800);
 
-		investida1 = new Drakthar(1700, 105, 4, 1300);
-		investida2 = new Drakthar(-600, 480, 4, 1300);
+		investida1 = new Drakthar(1900, 105, 4, 1300);
+		investida2 = new Drakthar(-800, 480, 4, 1300);
 
 		tiroTriplo1 = new Drakthar(1600, 210, 1, 1800);
 		tiroTriplo2 = new Drakthar(1600, 400, 1, 1800);
@@ -250,10 +192,9 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 
 		if (contador == robos.size()) {
-
 			if (contador1 == 0) {
-				stopSound(temaBatalha);
-				startSound1(musicaBoss);
+				stopSoundBatalha();
+				startSoundBoss();
 				contador1++;
 			}
 
@@ -327,7 +268,7 @@ public class Fase3 extends Fase implements ActionListener {
 				if (drakthar.isVisivel() && terceiroEstagio) {
 
 					if (laserDrakthar.isAlerta()){
-						graficos.drawImage(alerta, 1000, 400,this);
+						graficos.drawImage(alerta, 950, 400,this);
 					}
 					laserDrakthar.drawRaioLaser(graficos);
 
@@ -359,7 +300,18 @@ public class Fase3 extends Fase implements ActionListener {
 			drawTelaVitoria(graficos, nomeJogador1, nomeJogador1);
 		}
 		if (pausado) {
+			stopSoundBatalha();
+			if (contador == robos.size()){
+				stopSoundBoss();
+			}
 			drawTelaPausa(graficos, opcaoMenuPausa);
+		}
+		if (!pausado && !gameOver && !vitoria){
+			if (contador == robos.size()){
+				startSoundBoss();
+			} else {
+				startSoundBatalha();
+			}
 		}
 
 		g.dispose();
@@ -367,7 +319,12 @@ public class Fase3 extends Fase implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		jogador1.update();
+		if (!segundoEstagio){
+			jogador1.update();
+		} else {
+			jogador1.updateBatalhaBoss();
+		}
+		
 		jogador1.atirar();
 
 		if (doisJogadores) {
@@ -530,15 +487,15 @@ public class Fase3 extends Fase implements ActionListener {
 
 		if (!alien1.isVisivel() && !alien2.isVisivel() && !drakthar.isVisivel()) {
 			vitoria = true;
-			stopSound(musicaBoss);
-			startSound2(musicaVitoria);
+			stopSoundBatalha();
+			startSoundVitoria();
 		}
 
 		gameOver = fase.checarJogadores(jogador1, jogador2, doisJogadores);
 
 		if (gameOver) {
-			startSound2(musicaDerrota);
-			stopSound(musicaBoss);
+			startSoundGameOver();
+			stopSoundBoss();
 		}
 	}
 
@@ -628,7 +585,7 @@ public class Fase3 extends Fase implements ActionListener {
 				break;
 			case 1:
 				container.voltarMenuPrincipal();
-				stopSound(musicaBoss);
+				stopSoundBoss();
 				break;
 			case 2:
 				System.exit(0);

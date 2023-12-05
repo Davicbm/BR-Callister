@@ -24,7 +24,7 @@ public class TiroRobo {
 	}
 
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//robo_tiro2.png");
+		ImageIcon referencia = new ImageIcon("assets//robo_tiro.png");
 		imagem = referencia.getImage();
 
 		this.largura = imagem.getWidth(null);

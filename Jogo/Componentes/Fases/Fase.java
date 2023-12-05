@@ -8,6 +8,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -27,9 +32,41 @@ public class Fase extends JPanel {
 	private boolean vitoria;
 	private boolean gameOver;
 
+	private Clip temaBatalha;
+	private Clip musicaDerrota;
+	private Clip musicaVitoria;
+	private Clip musicaBoss;
+
 	public Fase(Container container) {
 		this.vitoria = false;
 		this.gameOver = false;
+
+		try {
+			File audioFile = new File("assets//musica-batalha.wav");
+			File audioFile2 = new File("assets//vitoria.wav");
+			File audioFile3 = new File("assets//gameover.wav");
+			File audioFile4 = new File("assets//DraktharTema.wav");
+
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(audioFile2);
+			AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(audioFile3);
+			AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(audioFile4);
+
+			temaBatalha = AudioSystem.getClip();
+			temaBatalha.open(audioStream);
+
+			musicaVitoria = AudioSystem.getClip();
+			musicaVitoria.open(audioStream2);
+
+			musicaDerrota = AudioSystem.getClip();
+			musicaDerrota.open(audioStream3);
+
+			musicaBoss = AudioSystem.getClip();
+			musicaBoss.open(audioStream4);
+
+		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// Desenha os componentes iniciais da fase(Jogadores):
@@ -122,7 +159,7 @@ public class Fase extends JPanel {
 		graficos.drawImage(fimJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
-		
+
 		graficos.drawString("Reiniciar a fase!", 600, 700);
 		graficos.drawString("Voltar ao menu principal!", 600, 750);
 		graficos.drawString(">", 575 + (opcaoGameOver / 15), 700 + opcaoGameOver * 50);
@@ -138,6 +175,43 @@ public class Fase extends JPanel {
 		} catch (IOException | FontFormatException e) {
 			e.printStackTrace();
 			return new Font("Arial", Font.PLAIN, (int) size);
+		}
+	}
+
+	public void startSoundBatalha() {
+		if (temaBatalha != null) {
+			temaBatalha.start();
+			temaBatalha.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+	}
+
+	public void stopSoundBatalha() {
+		if (temaBatalha != null) {
+			temaBatalha.stop();
+		}
+	}
+
+	public void startSoundVitoria() {
+		if (musicaVitoria != null) {
+			musicaVitoria.start();
+		}
+	}
+
+	public void startSoundGameOver() {
+		if (musicaDerrota != null) {
+			musicaDerrota.start();
+		}
+	}
+
+	public void startSoundBoss() {
+		if (musicaBoss != null) {
+			musicaBoss.start();
+			musicaBoss.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+	}
+	public void stopSoundBoss() {
+		if (musicaBoss != null) {
+			musicaBoss.stop();
 		}
 	}
 

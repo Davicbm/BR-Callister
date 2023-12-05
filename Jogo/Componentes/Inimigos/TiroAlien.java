@@ -26,7 +26,7 @@ public class TiroAlien {
 	}
 
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//alien_tiro2.png");
+		ImageIcon referencia = new ImageIcon("assets//alien_tiro.png");
 		imagem = referencia.getImage();
 
 		this.largura = imagem.getWidth(null);

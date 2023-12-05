@@ -13,8 +13,16 @@ public class RaioLaser extends JPanel {
     private boolean danoLaser = true;
     private boolean alerta = false;
 
-    public RaioLaser() {
+    private int largura;
+    private int altura;
+    private Image raio;
 
+    public RaioLaser() {
+        ImageIcon referencia = new ImageIcon("raiolaser.png");
+        raio = referencia.getImage();
+
+        this.largura = raio.getWidth(null);
+		this.altura = raio.getHeight(null);
     }
 
     public void update() {
@@ -22,13 +30,13 @@ public class RaioLaser extends JPanel {
             if (System.currentTimeMillis() - startTime > 13000) {
                 if (System.currentTimeMillis() - startTime > 10000) {
                     alerta = true;
-                    startTime = System.currentTimeMillis();
                 }
                 disparaLaser = true;
                 startTime = System.currentTimeMillis();
             }
         } else {
             if (System.currentTimeMillis() - startTime > 5000) {
+                alerta = false;
                 disparaLaser = false;
                 startTime = System.currentTimeMillis();
             }
@@ -37,12 +45,7 @@ public class RaioLaser extends JPanel {
 
     public void drawRaioLaser(Graphics2D graficos) {
         if (disparaLaser) {
-            graficos.setColor(Color.RED);
-
-            int larguraLaser = 100;
-            graficos.setStroke(new BasicStroke(larguraLaser));
-
-            graficos.drawLine(1050, 400, 0, 400);
+            graficos.drawImage(raio, 0, 400, null);
         }
     }
 
