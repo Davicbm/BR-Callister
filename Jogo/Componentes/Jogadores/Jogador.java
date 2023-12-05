@@ -38,7 +38,7 @@ public abstract class Jogador {
     public abstract void load();
 
     public void update() {
-        if (x + dx >= 0 && x + dx + largura / 2 <= 600) {
+        if (x + dx >= 0 && x + dx + largura / 2 <= 650) {
             x += dx;
         }
         if (y + dy >= 95 && y + dy + altura <= 850) {

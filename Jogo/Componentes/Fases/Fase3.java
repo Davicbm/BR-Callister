@@ -29,7 +29,6 @@ public class Fase3 extends Fase implements ActionListener {
 	private Image portal;
 	private Image portalA;
 	private Image portalB;
-	private Image barraCima;
 
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
@@ -99,9 +98,6 @@ public class Fase3 extends Fase implements ActionListener {
 		referencia = new ImageIcon("assets//portal-ladoB.gif");
 		portalB = referencia.getImage();
 
-		referencia = new ImageIcon("assets//barraCima.gif");
-		barraCima = referencia.getImage();
-
 		jogador1 = new Jogador1();
 		jogador2 = new Jogador2();
 
@@ -123,9 +119,7 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 
 		laserDrakthar = new RaioLaser();
-		add(laserDrakthar);
-		laserDrakthar.setVisible(false);
-
+		laserDrakthar.setDisparaLaser(false);
 		this.requestFocusInWindow();
 
 		startSoundBatalha();
@@ -135,7 +129,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -266,10 +260,6 @@ public class Fase3 extends Fase implements ActionListener {
 					drakthar.drawTiroDrakthar(graficos);
 				}
 				if (drakthar.isVisivel() && terceiroEstagio) {
-
-					if (laserDrakthar.isAlerta()){
-						graficos.drawImage(alerta, 950, 400,this);
-					}
 					laserDrakthar.drawRaioLaser(graficos);
 
 					graficos.drawImage(portal, 1100, tiroTriplo1.getY() - 40, this);
@@ -290,8 +280,6 @@ public class Fase3 extends Fase implements ActionListener {
 			robo.load2(graficos);
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 		}
-
-		graficos.drawImage(barraCima, 0, 0, this);
 
 		if (gameOver == true) {
 			drawTelaDerrota(graficos, opcaoGameOver);
@@ -377,18 +365,18 @@ public class Fase3 extends Fase implements ActionListener {
 				tiroTriplo2.atirar();
 				tiroTriplo3.atirar();
 
-				if (!laserDrakthar.isVisible()) {
+				if (!laserDrakthar.isDisparaLaser()) {
 					laserDrakthar.startLaser();
-					laserDrakthar.setVisible(true);
+					laserDrakthar.setDisparaLaser(true);
 				}
 				laserDrakthar.update();
 			}
 
-			if (!laserDrakthar.isVisible()) {
+			if (!laserDrakthar.isDisparaLaser()) {
 				laserDrakthar.stopLaser();
 			}
 		} else {
-			laserDrakthar.setVisible(false);
+			laserDrakthar.setDisparaLaser(false);
 		}
 
 		if (alien1.getX() == 1000) {

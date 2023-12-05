@@ -7,18 +7,17 @@ import Jogo.Componentes.Jogadores.Jogador2;
 
 import java.awt.*;
 
-public class RaioLaser extends JPanel {
+public class RaioLaser {
     private boolean disparaLaser = false;
     private long startTime;
     private boolean danoLaser = true;
-    private boolean alerta = false;
 
     private int largura;
     private int altura;
     private Image raio;
 
     public RaioLaser() {
-        ImageIcon referencia = new ImageIcon("raiolaser.png");
+        ImageIcon referencia = new ImageIcon("assets//raiolaser.png");
         raio = referencia.getImage();
 
         this.largura = raio.getWidth(null);
@@ -28,15 +27,11 @@ public class RaioLaser extends JPanel {
     public void update() {
         if (!disparaLaser) {
             if (System.currentTimeMillis() - startTime > 13000) {
-                if (System.currentTimeMillis() - startTime > 10000) {
-                    alerta = true;
-                }
                 disparaLaser = true;
                 startTime = System.currentTimeMillis();
             }
         } else {
             if (System.currentTimeMillis() - startTime > 5000) {
-                alerta = false;
                 disparaLaser = false;
                 startTime = System.currentTimeMillis();
             }
@@ -102,9 +97,5 @@ public class RaioLaser extends JPanel {
 
     public boolean isDisparaLaser() {
         return disparaLaser;
-    }
-
-    public boolean isAlerta() {
-        return alerta;
     }
 }
