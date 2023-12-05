@@ -38,7 +38,15 @@ public abstract class Jogador {
     public abstract void load();
 
     public void update() {
-        if (x + dx >= 0 && x + dx + largura / 2 <= 1000) {
+        if (x + dx >= 0 && x + dx + largura / 2 <= 600) {
+            x += dx;
+        }
+        if (y + dy >= 95 && y + dy + altura <= 850) {
+            y += dy;
+        }
+    }
+    public void updateBatalhaBoss() {
+        if (x + dx >= 0 && x + dx + largura / 2 <= 1450) {
             x += dx;
         }
         if (y + dy >= 95 && y + dy + altura <= 850) {
