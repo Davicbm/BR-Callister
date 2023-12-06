@@ -26,7 +26,7 @@ public class RaioLaser {
 
     public void update() {
         if (!disparaLaser) {
-            if (System.currentTimeMillis() - startTime > 13000) {
+            if (System.currentTimeMillis() - startTime > 7000) {
                 disparaLaser = true;
                 startTime = System.currentTimeMillis();
             }

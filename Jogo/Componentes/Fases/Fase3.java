@@ -129,7 +129,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 20; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -500,6 +500,8 @@ public class Fase3 extends Fase implements ActionListener {
 
 			if (vitoria) {
 				if (codigo == KeyEvent.VK_ENTER) {
+					Jogador1.pontuacaoJogador1 = 0;
+					Jogador2.pontuacaoJogador2 = 0;
 					container.reiniciarJogo();
 				}
 			}
