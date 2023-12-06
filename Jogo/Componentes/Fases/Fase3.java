@@ -475,7 +475,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		if (!alien1.isVisivel() && !alien2.isVisivel() && !drakthar.isVisivel()) {
 			vitoria = true;
-			stopSoundBatalha();
+			stopSoundBoss();
 			startSoundVitoria();
 		}
 

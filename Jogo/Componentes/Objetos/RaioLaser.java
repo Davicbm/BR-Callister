@@ -88,7 +88,7 @@ public class RaioLaser {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(0, 350, 1100, 100);
+        return new Rectangle(0, 400, largura, altura);
     }
 
     public void setDisparaLaser(boolean disparaLaser) {

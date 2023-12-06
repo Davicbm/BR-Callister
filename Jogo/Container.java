@@ -25,7 +25,7 @@ public class Container extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
 
-        faseAtual = 3;
+        faseAtual = 0;
         faseReinicio = 0;
         switchFase();
     }
