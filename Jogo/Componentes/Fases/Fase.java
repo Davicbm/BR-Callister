@@ -6,6 +6,7 @@ import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sound.sampled.AudioInputStream;
@@ -25,6 +26,7 @@ import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
 import Jogo.Componentes.Objetos.BarraVida;
+import Jogo.Componentes.Objetos.Explosao;
 import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase extends JPanel {
@@ -36,10 +38,12 @@ public class Fase extends JPanel {
 	private Clip musicaDerrota;
 	private Clip musicaVitoria;
 	private Clip musicaBoss;
+	private List<Explosao> explosoes;
 
 	public Fase(Container container) {
 		this.vitoria = false;
 		this.gameOver = false;
+		explosoes = new ArrayList<>();
 
 		try {
 			File audioFile = new File("assets//musica-batalha.wav");
@@ -72,7 +76,7 @@ public class Fase extends JPanel {
 	// Desenha os componentes iniciais da fase(Jogadores):
 	public void drawComponentesIniciais(Graphics2D graficos, Jogador1 jogador1, Jogador2 jogador2, String nomeJogador1,
 			String nomeJogador2, BarraVida barra, String faseAtual) {
-
+			
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
 
@@ -115,6 +119,10 @@ public class Fase extends JPanel {
 				graficos.drawString(nomeJogador2, 305, 40);
 				barra.paintBarraVida(graficos, jogador2);
 			}
+		}
+
+		if (!explosoes.isEmpty()) {
+			desenharExplosoes(graficos);
 		}
 	}
 
@@ -214,7 +222,22 @@ public class Fase extends JPanel {
 			musicaBoss.stop();
 		}
 	}
-
+    
+	// Explosões:
+	public void adicionarExplosao(int x, int y) {
+		Explosao explosao = new Explosao(x, y);
+		if (!explosoes.contains(explosao)) {
+			explosoes.add(explosao);
+		}
+	}
+	public void desenharExplosoes(Graphics2D graficos) {
+		explosoes.removeIf(Explosao::isConcluida); 
+	
+		for (Explosao explosao : explosoes) {
+			explosao.renderizar(graficos);
+		}
+	}
+	
 	// Checa o estado do Robô:
 	public void checarRobo(Robo robo) {
 		if (robo.getVida() == 0) {
@@ -242,6 +265,7 @@ public class Fase extends JPanel {
 			Robo tempRobo = robos.get(i);
 			if (tempRobo.getVida() == 0) {
 				tempRobo.setVisivel(false);
+				adicionarExplosao(tempRobo.getX(), tempRobo.getY());
 			}
 		}
 	}
