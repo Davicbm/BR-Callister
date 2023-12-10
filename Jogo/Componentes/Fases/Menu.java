@@ -12,6 +12,8 @@ import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.sound.sampled.AudioInputStream;
@@ -154,7 +156,7 @@ public class Menu extends JPanel implements ActionListener {
         textField1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         textField1.setForeground(Color.WHITE);
 
-        JLabel label1 = new JLabel("Digite o nome do Jogador 1:");
+        JLabel label1 = new JLabel("Player 1:");
         label1.setForeground(Color.WHITE);
         label1.setFont(pressStartFont);
 
@@ -163,12 +165,39 @@ public class Menu extends JPanel implements ActionListener {
         panel.add(textField1, gbc);
         gbc.gridy++;
 
+        textField1.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                textField1.setBorder(BorderFactory.createLineBorder(Color.YELLOW)); 
+            }
+    
+            @Override
+            public void focusLost(FocusEvent e) {
+                textField1.setBorder(BorderFactory.createLineBorder(Color.WHITE)); 
+            }
+        });
+    
+        if (doisJogadores) {
+
+            textField2.addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    textField2.setBorder(BorderFactory.createLineBorder(Color.YELLOW)); 
+                }
+    
+                @Override
+                public void focusLost(FocusEvent e) {
+                    textField2.setBorder(BorderFactory.createLineBorder(Color.WHITE)); 
+                }
+            });
+        }
+
         if (doisJogadores) {
             textField2.setOpaque(false);
             textField2.setBorder(BorderFactory.createLineBorder(Color.WHITE));
             textField2.setForeground(Color.WHITE);
 
-            JLabel label2 = new JLabel("Digite o nome do Jogador 2:");
+            JLabel label2 = new JLabel("Player 2:");
             label2.setForeground(Color.WHITE);
             label2.setFont(pressStartFont);
             panel.add(label2, gbc);
@@ -179,11 +208,47 @@ public class Menu extends JPanel implements ActionListener {
         gbc.gridy++;
 
         JButton okButton = new JButton("OK");
-        JButton cancelButton = new JButton("Voltar");
+        JButton cancelButton = new JButton("Back");
 
         okButton.setFont(pressStartFont);
         cancelButton.setFont(pressStartFont);
         gbc.gridy++;
+        okButton.setForeground(Color.WHITE);
+        okButton.setBackground(Color.BLACK);
+        okButton.setOpaque(true);
+        okButton.setContentAreaFilled(false);
+        okButton.setBorderPainted(false);
+        
+        cancelButton.setForeground(Color.WHITE);
+        cancelButton.setBackground(Color.BLACK);
+        cancelButton.setOpaque(true);
+        cancelButton.setContentAreaFilled(false);
+        cancelButton.setBorderPainted(false);
+        
+        
+    okButton.addFocusListener(new FocusListener() {
+        @Override
+        public void focusGained(FocusEvent e) {
+            okButton.setForeground(Color.YELLOW); 
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            okButton.setForeground(Color.WHITE); 
+        }
+    });
+
+    cancelButton.addFocusListener(new FocusListener() {
+        @Override
+        public void focusGained(FocusEvent e) {
+            cancelButton.setForeground(Color.YELLOW); 
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            cancelButton.setForeground(Color.WHITE); 
+        }
+    });
 
         okButton.addActionListener(e -> {
             nomeJogador1 = textField1.getText().isEmpty() ? "Player 1" : textField1.getText();
