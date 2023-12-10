@@ -1,7 +1,11 @@
 package Jogo;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 
 import Jogo.Componentes.Fases.Fase1;
 import Jogo.Componentes.Fases.Fase2;
@@ -28,6 +32,16 @@ public class Container extends JFrame {
         faseAtual = 0;
         faseReinicio = 0;
         switchFase();
+
+         setVisible(true);
+
+        // Ocultar o cursor
+        Cursor cursorInvisivel = Toolkit.getDefaultToolkit().createCustomCursor(
+                new ImageIcon(new byte[0], "transparente").getImage(),
+                new Point(0, 0),
+                "invisibleCursor"
+        );
+        getContentPane().setCursor(cursorInvisivel);
     }
 
     private void switchFase() {
