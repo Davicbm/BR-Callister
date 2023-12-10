@@ -44,10 +44,24 @@ public class Menu extends JPanel implements ActionListener {
 
     private Clip clip;
     private Image fundoMenu;
+    private Image fundo2;
+    private Image cadeado;
+    private Image esc;
+    private Image space;
+    private Image caixa;
+    private Image caixaSelecionada;
+
     private Timer timer;
 
     private int opcaoSelecionada;
+    private int opcaoStart;
+    private int opcaoFase;
+
     public static boolean doisJogadores;
+    private boolean selecionarFase = false;
+    private boolean startGame = false;
+    private boolean inicializaControles = false;
+    private boolean faseSelecionada = false;
 
     public static String nomeJogador1 = "Jogador 1";
     public static String nomeJogador2 = "Jogador 2";
@@ -62,6 +76,19 @@ public class Menu extends JPanel implements ActionListener {
 
         ImageIcon referencia = new ImageIcon("planosFundo//fundomenu.png");
         fundoMenu = referencia.getImage();
+
+        referencia = new ImageIcon("planosFundo//blackground2.0.png");
+        fundo2 = referencia.getImage();
+        referencia = new ImageIcon("assets//cadeado.png");
+        cadeado = referencia.getImage();
+        referencia = new ImageIcon("assets//esc.png");
+        esc = referencia.getImage();
+        referencia = new ImageIcon("assets//space.png");
+        space = referencia.getImage();
+        referencia = new ImageIcon("assets//caixa.png");
+        caixa = referencia.getImage();
+        referencia = new ImageIcon("assets//caixaSelecionada.png");
+        caixaSelecionada = referencia.getImage();
 
         addKeyListener(teclado);
 
@@ -109,16 +136,81 @@ public class Menu extends JPanel implements ActionListener {
         Graphics2D graficos = (Graphics2D) g;
 
         Font fonte = loadFont("assets//PressStart2P.ttf", 16);
+        Font fonte2 = loadFont("assets//PressStart2P.ttf", 14);
+        Font fonte3 = loadFont("assets//PressStart2P.ttf", 10);
 
         g.setFont(fonte);
         g.setColor(Color.WHITE);
 
         graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
 
-        graficos.drawString("Single-Player", 650, 600);
-        graficos.drawString("Two Players", 660, 650);
-        graficos.drawString("E X I T", 690, 700);
-        graficos.drawString(">", 630 + (opcaoSelecionada * 25) - 20, 600 + opcaoSelecionada * 50);
+        if (!inicializaControles && !startGame) {
+            graficos.drawString("S T A R T", 690, 700);
+            graficos.drawString("E X I T", 700, 750);
+
+            graficos.drawString(">", 660 + (opcaoStart * 25) - 20, 700 + opcaoStart * 50);
+        }
+
+        if (inicializaControles || startGame) {
+            graficos.drawString("Levels", 695, 600);
+            graficos.drawString("Single-Player", 650, 650);
+            graficos.drawString("Two Players", 660, 700);
+            graficos.drawString("B A C K", 690, 750);
+
+            if (!inicializaControles) {
+                graficos.drawString(">", 600 + (opcaoSelecionada * 25) - 20, 600 + opcaoSelecionada * 50);
+            }
+        }
+
+        if (selecionarFase) {
+            graficos.drawImage(fundo2, 470, 260, this);
+
+            graficos.drawString("Selecione a Fase", 630, 300);
+
+            g.setFont(fonte2);
+            g.setColor(Color.WHITE);
+
+            graficos.drawString("Level 1: Terra", 660, 365);
+            graficos.drawImage(caixa, 890, 350, this);
+            graficos.drawString("Level 2: Marte", 660, 440);
+            if (Fase1.faseCompleta1){
+                graficos.drawImage(caixa, 890, 425, this);
+            }
+            graficos.drawString("Level 3: Europa", 660, 515);
+            if (Fase2.faseCompleta2){
+                graficos.drawImage(caixa, 890, 500, this);
+            }
+
+            if (faseSelecionada) {
+                if (container.getFaseAtual() == 1) {
+                    graficos.drawImage(caixaSelecionada, 890, 350, container);
+                }
+                if (container.getFaseAtual() == 2){
+                    graficos.drawImage(caixaSelecionada, 890, 425, container);
+                }
+                if (container.getFaseAtual() == 3){
+                    graficos.drawImage(caixaSelecionada, 890, 500, container);
+                }
+            }
+
+            if (!Fase1.faseCompleta1){
+                graficos.drawImage(cadeado, 875, 415, this);
+            }
+            if (!Fase2.faseCompleta2){
+                graficos.drawImage(cadeado, 890, 490, this);
+            }
+
+            graficos.drawString(">", 630, 365 + opcaoFase * 75);
+
+            graficos.drawImage(esc, 500, 300, this);
+            graficos.drawImage(space, 970, 300, this);
+
+            g.setFont(fonte3);
+            g.setColor(Color.WHITE);
+
+            graficos.drawString("Return", 490, 345);
+            graficos.drawString("Select", 980, 345);
+        }
     }
 
     public void capturarNomes() {
@@ -168,26 +260,26 @@ public class Menu extends JPanel implements ActionListener {
         textField1.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                textField1.setBorder(BorderFactory.createLineBorder(Color.YELLOW)); 
+                textField1.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
             }
-    
+
             @Override
             public void focusLost(FocusEvent e) {
-                textField1.setBorder(BorderFactory.createLineBorder(Color.WHITE)); 
+                textField1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
             }
         });
-    
+
         if (doisJogadores) {
 
             textField2.addFocusListener(new FocusListener() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    textField2.setBorder(BorderFactory.createLineBorder(Color.YELLOW)); 
+                    textField2.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
                 }
-    
+
                 @Override
                 public void focusLost(FocusEvent e) {
-                    textField2.setBorder(BorderFactory.createLineBorder(Color.WHITE)); 
+                    textField2.setBorder(BorderFactory.createLineBorder(Color.WHITE));
                 }
             });
         }
@@ -218,37 +310,36 @@ public class Menu extends JPanel implements ActionListener {
         okButton.setOpaque(true);
         okButton.setContentAreaFilled(false);
         okButton.setBorderPainted(false);
-        
+
         cancelButton.setForeground(Color.WHITE);
         cancelButton.setBackground(Color.BLACK);
         cancelButton.setOpaque(true);
         cancelButton.setContentAreaFilled(false);
         cancelButton.setBorderPainted(false);
-        
-        
-    okButton.addFocusListener(new FocusListener() {
-        @Override
-        public void focusGained(FocusEvent e) {
-            okButton.setForeground(Color.YELLOW); 
-        }
 
-        @Override
-        public void focusLost(FocusEvent e) {
-            okButton.setForeground(Color.WHITE); 
-        }
-    });
+        okButton.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                okButton.setForeground(Color.YELLOW);
+            }
 
-    cancelButton.addFocusListener(new FocusListener() {
-        @Override
-        public void focusGained(FocusEvent e) {
-            cancelButton.setForeground(Color.YELLOW); 
-        }
+            @Override
+            public void focusLost(FocusEvent e) {
+                okButton.setForeground(Color.WHITE);
+            }
+        });
 
-        @Override
-        public void focusLost(FocusEvent e) {
-            cancelButton.setForeground(Color.WHITE); 
-        }
-    });
+        cancelButton.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                cancelButton.setForeground(Color.YELLOW);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                cancelButton.setForeground(Color.WHITE);
+            }
+        });
 
         okButton.addActionListener(e -> {
             nomeJogador1 = textField1.getText().isEmpty() ? "Player 1" : textField1.getText();
@@ -256,7 +347,7 @@ public class Menu extends JPanel implements ActionListener {
                 nomeJogador2 = textField2.getText().isEmpty() ? "Player 2" : textField2.getText();
             }
             stopSound();
-            container.avancarFase();
+            container.iniciarJogo();
             dialog.dispose();
         });
 
@@ -319,20 +410,75 @@ public class Menu extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             int codigo = e.getKeyCode();
 
-            switch (codigo) {
-                case KeyEvent.VK_UP:
-                    if (opcaoSelecionada > 0) {
-                        opcaoSelecionada--;
+            if (!startGame) {
+                switch (codigo) {
+                    case KeyEvent.VK_UP:
+                        if (opcaoStart > 0) {
+                            opcaoStart--;
+                        }
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        if (opcaoStart < 1) {
+                            opcaoStart++;
+                        }
+                        break;
+                    case KeyEvent.VK_ENTER:
+                        opcaoStart();
+                        break;
+                }
+                if (inicializaControles) {
+                    switch (codigo) {
+                        case KeyEvent.VK_UP:
+                            startGame = true;
+                            inicializaControles = false;
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            startGame = true;
+                            inicializaControles = false;
+                            break;
                     }
-                    break;
-                case KeyEvent.VK_DOWN:
-                    if (opcaoSelecionada < 2) {
-                        opcaoSelecionada++;
+                }
+            }
+            if (startGame) {
+                if (!selecionarFase) {
+                    switch (codigo) {
+                        case KeyEvent.VK_UP:
+                            if (opcaoSelecionada > 0) {
+                                opcaoSelecionada--;
+                            }
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            if (opcaoSelecionada < 3) {
+                                opcaoSelecionada++;
+                            }
+                            break;
+                        case KeyEvent.VK_ENTER:
+                            selecionarOpcao();
+                            break;
                     }
-                    break;
-                case KeyEvent.VK_ENTER:
-                    selecionarOpcao();
-                    break;
+                }
+
+                if (selecionarFase) {
+                    switch (codigo) {
+                        case KeyEvent.VK_UP:
+                            if (opcaoFase > 0) {
+                                opcaoFase--;
+                            }
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            if (opcaoFase < 2) {
+                                opcaoFase++;
+                            }
+                            break;
+                        case KeyEvent.VK_SPACE:
+                            selecionarFase();
+                            faseSelecionada = true;
+                            break;
+                        case KeyEvent.VK_ESCAPE:
+                            selecionarFase = false;
+                            break;
+                    }
+                }
             }
             repaint();
         }
@@ -348,18 +494,52 @@ public class Menu extends JPanel implements ActionListener {
         }
     }
 
+    private void opcaoStart() {
+        switch (opcaoStart) {
+            case 0:
+                inicializaControles = true;
+                break;
+            case 1:
+                System.exit(0);
+                break;
+        }
+
+    }
+
     private void selecionarOpcao() {
         switch (opcaoSelecionada) {
             case 0:
+                selecionarFase = true;
+                break;
+            case 1:
                 doisJogadores = false;
                 capturarNomes();
                 break;
-            case 1:
+            case 2:
                 doisJogadores = true;
                 capturarNomes();
                 break;
+            case 3:
+                startGame = false;
+                break;
+        }
+
+    }
+
+    private void selecionarFase() {
+        switch (opcaoFase) {
+            case 0:
+                container.selecionarFase(opcaoFase);
+                break;
+            case 1:
+                if (Fase1.faseCompleta1){
+                    container.selecionarFase(opcaoFase);
+                }
+                break;
             case 2:
-                System.exit(0);
+                if (Fase2.faseCompleta2){
+                    container.selecionarFase(opcaoFase);
+                }
                 break;
         }
     }

@@ -25,6 +25,7 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase1 extends Fase implements ActionListener {
 
+	public static boolean faseCompleta1 = false;
 	private boolean doisJogadores;
 	private String nomeJogador1 = Menu.nomeJogador1;
 	private String nomeJogador2 = Menu.nomeJogador2;
@@ -467,6 +468,7 @@ public class Fase1 extends Fase implements ActionListener {
 			vitoria = true;
 			stopSoundBatalha();
 			startSoundVitoria();
+			faseCompleta1 = true;
 		}
 		gameOver = checarJogadores(jogador1, jogador2, doisJogadores);
 		if (gameOver){
@@ -560,6 +562,8 @@ public class Fase1 extends Fase implements ActionListener {
 				break;
 			case 1:
 				container.voltarMenuPrincipal();
+				Jogador1.pontuacaoJogador1 = 0;
+				Jogador2.pontuacaoJogador2 = 0;
 				break;
 			case 2:
 				System.exit(0);

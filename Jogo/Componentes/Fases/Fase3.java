@@ -24,6 +24,7 @@ import Jogo.Componentes.Objetos.PowerUp;
 import Jogo.Componentes.Objetos.RaioLaser;
 
 public class Fase3 extends Fase implements ActionListener {
+
 	private Image fundo;
 	private Image alerta;
 	private Image portal;
@@ -119,7 +120,7 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 
 		laserDrakthar = new RaioLaser();
-		laserDrakthar.setDisparaLaser(false);
+		laserDrakthar.setVisivel(false);
 		this.requestFocusInWindow();
 
 		startSoundBatalha();
@@ -265,7 +266,7 @@ public class Fase3 extends Fase implements ActionListener {
 					graficos.drawImage(portal, 1100, tiroTriplo1.getY() - 40, this);
 					tiroTriplo1.drawTiroDrakthar(graficos, 1100);
 
-					if (!laserDrakthar.isDisparaLaser()) {
+					if (!laserDrakthar.isVisivel()) {
 						tiroTriplo2.drawTiroDrakthar(graficos, 1100);
 					}
 					graficos.drawImage(portal, 1100, tiroTriplo3.getY() - 40, this);
@@ -289,13 +290,13 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 		if (pausado) {
 			stopSoundBatalha();
-			if (contador == robos.size()){
+			if (contador == robos.size()) {
 				stopSoundBoss();
 			}
 			drawTelaPausa(graficos, opcaoMenuPausa);
 		}
-		if (!pausado && !gameOver && !vitoria){
-			if (contador == robos.size()){
+		if (!pausado && !gameOver && !vitoria) {
+			if (contador == robos.size()) {
 				startSoundBoss();
 			} else {
 				startSoundBatalha();
@@ -307,22 +308,20 @@ public class Fase3 extends Fase implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (!segundoEstagio){
+		if (!segundoEstagio) {
 			jogador1.update();
 		} else {
 			jogador1.updateBatalhaBoss();
 		}
 
-		if (!segundoEstagio){
-			jogador2.update();
-		} else {
-			jogador2.updateBatalhaBoss();
-		}
-		
 		jogador1.atirar();
 
 		if (doisJogadores) {
-			jogador2.update();
+			if (!segundoEstagio) {
+				jogador2.update();
+			} else {
+				jogador2.updateBatalhaBoss();
+			}
 			jogador2.atirar();
 		}
 
@@ -371,18 +370,18 @@ public class Fase3 extends Fase implements ActionListener {
 				tiroTriplo2.atirar();
 				tiroTriplo3.atirar();
 
-				if (!laserDrakthar.isDisparaLaser()) {
+				if (!laserDrakthar.isVisivel()) {
 					laserDrakthar.startLaser();
-					laserDrakthar.setDisparaLaser(true);
+					laserDrakthar.setVisivel(true);
 				}
 				laserDrakthar.update();
 			}
 
-			if (!laserDrakthar.isDisparaLaser()) {
+			if (!laserDrakthar.isVisivel()) {
 				laserDrakthar.stopLaser();
 			}
 		} else {
-			laserDrakthar.setDisparaLaser(false);
+			laserDrakthar.setVisivel(false);
 		}
 
 		if (alien1.getX() == 1000) {
@@ -451,13 +450,13 @@ public class Fase3 extends Fase implements ActionListener {
 		investida2.colisaoNaveDrakthar(jogador2);
 
 		// Colisões de tiro do Drakthar com a Nave:
-		if (drakthar.getX() == 1100){
+		if (drakthar.getX() == 1100) {
 			drakthar.colisaoNaveTiro(jogador1, jogador2);
 		}
 
 		if (terceiroEstagio) {
 			tiroTriplo1.colisaoNaveTiro(jogador1, jogador2);
-			if (!laserDrakthar.isDisparaLaser()) {
+			if (!laserDrakthar.isVisivel()) {
 				tiroTriplo2.colisaoNaveTiro(jogador1, jogador2);
 			}
 			tiroTriplo3.colisaoNaveTiro(jogador1, jogador2);
@@ -581,6 +580,8 @@ public class Fase3 extends Fase implements ActionListener {
 				break;
 			case 1:
 				container.voltarMenuPrincipal();
+				Jogador1.pontuacaoJogador1 = 0;
+				Jogador2.pontuacaoJogador2 = 0;
 				stopSoundBoss();
 				break;
 			case 2:

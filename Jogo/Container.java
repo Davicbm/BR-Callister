@@ -33,9 +33,8 @@ public class Container extends JFrame {
         faseReinicio = 0;
         switchFase();
 
-         setVisible(true);
+        setVisible(true);
 
-        // Ocultar o cursor
         Cursor cursorInvisivel = Toolkit.getDefaultToolkit().createCustomCursor(
                 new ImageIcon(new byte[0], "transparente").getImage(),
                 new Point(0, 0),
@@ -80,8 +79,14 @@ public class Container extends JFrame {
         repaint();
     }
 
+    public void selecionarFase(int fase) {
+        faseAtual = fase + 1;
+    }
     public void avancarFase() {
         faseAtual++;
+        switchFase();
+    }
+    public void iniciarJogo() {
         switchFase();
     }
     public void voltarMenuPrincipal(){
@@ -98,6 +103,9 @@ public class Container extends JFrame {
     }
     public Boolean getReiniciaJogo(){
         return reiniciaJogo;
+    }
+    public int getFaseAtual() {
+        return faseAtual;
     }
     public static void main(String[] args) {
         new Container();

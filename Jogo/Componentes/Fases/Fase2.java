@@ -24,6 +24,7 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase2 extends Fase implements ActionListener {
 
+	public static boolean faseCompleta2 = false;
 	private Image fundo;
 	private Image alerta;
 
@@ -482,6 +483,7 @@ public class Fase2 extends Fase implements ActionListener {
 			vitoria = true;
 			stopSoundBatalha();
 			startSoundVitoria();
+			Fase2.faseCompleta2 = true;
 		}
 
 		gameOver = checarJogadores(jogador1, jogador2, doisJogadores);
@@ -578,6 +580,8 @@ public class Fase2 extends Fase implements ActionListener {
 				break;
 			case 1:
 				container.voltarMenuPrincipal();
+				Jogador1.pontuacaoJogador1 = 0;
+				Jogador2.pontuacaoJogador2 = 0;
 				break;
 			case 2:
 				System.exit(0);

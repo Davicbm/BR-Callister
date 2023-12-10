@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -29,6 +30,7 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase extends JPanel {
 
+	private Image fundoPausa;
 	private boolean vitoria;
 	private boolean gameOver;
 
@@ -40,6 +42,9 @@ public class Fase extends JPanel {
 	public Fase(Container container) {
 		this.vitoria = false;
 		this.gameOver = false;
+
+		ImageIcon referencia = new ImageIcon("planosFundo//blackground2.0.png");
+        fundoPausa = referencia.getImage();
 
 		try {
 			File audioFile = new File("assets//musica-batalha.wav");
@@ -119,8 +124,11 @@ public class Fase extends JPanel {
 	}
 
 	public void drawTelaPausa(Graphics2D graficos, int opcaoMenuPausa) {
+		graficos.drawImage(fundoPausa, 470, 270, this);
+
 		Font fonteMenu = loadFont("assets//PressStart2P.ttf", 24);
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
+
 		graficos.setFont(fonteMenu);
 		graficos.setColor(Color.WHITE);
 		graficos.drawString("Jogo Pausado", 620, 300);
@@ -147,7 +155,27 @@ public class Fase extends JPanel {
 		if (Menu.doisJogadores) {
 			graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
 			graficos.drawString("Pontuação " + nomeJogador2 + " = " + Jogador2.pontuacaoJogador2, 1125, 40);
-		} else if (Menu.doisJogadores == false) {
+		} else if (!Menu.doisJogadores) {
+			graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
+		}
+	}
+
+	public void drawVitoriaJogo(Graphics2D graficos, String nomeJogador1, String nomeJogador2) {
+		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
+
+		graficos.setFont(fonte);
+		graficos.setColor(Color.WHITE);
+		ImageIcon vitoriaJogo = new ImageIcon("planosFundo//victory.png");
+		graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+		graficos.setFont(fonte);
+		graficos.setColor(Color.WHITE);
+		graficos.drawString("Parabéns você completou o jogo!", 400, 800);
+		graficos.drawString("Aperte enter para retornar ao menu!", 500, 800);
+
+		if (Menu.doisJogadores) {
+			graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
+			graficos.drawString("Pontuação " + nomeJogador2 + " = " + Jogador2.pontuacaoJogador2, 1125, 40);
+		} else if (!Menu.doisJogadores) {
 			graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
 		}
 	}
