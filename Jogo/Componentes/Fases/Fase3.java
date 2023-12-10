@@ -312,6 +312,12 @@ public class Fase3 extends Fase implements ActionListener {
 		} else {
 			jogador1.updateBatalhaBoss();
 		}
+
+		if (!segundoEstagio){
+			jogador2.update();
+		} else {
+			jogador2.updateBatalhaBoss();
+		}
 		
 		jogador1.atirar();
 
