@@ -50,6 +50,7 @@ public class Menu extends JPanel implements ActionListener {
     private Image space;
     private Image caixa;
     private Image caixaSelecionada;
+    private Image fundoControles;
 
     private Timer timer;
 
@@ -62,6 +63,7 @@ public class Menu extends JPanel implements ActionListener {
     private boolean startGame = false;
     private boolean inicializaControles = false;
     private boolean faseSelecionada = false;
+    private boolean menuControles = false;
 
     public static String nomeJogador1 = "Jogador 1";
     public static String nomeJogador2 = "Jogador 2";
@@ -79,6 +81,8 @@ public class Menu extends JPanel implements ActionListener {
 
         referencia = new ImageIcon("planosFundo//blackground2.0.png");
         fundo2 = referencia.getImage();
+        referencia = new ImageIcon("planosFundo//menuControles.png");
+        fundoControles = referencia.getImage();
         referencia = new ImageIcon("assets//cadeado.png");
         cadeado = referencia.getImage();
         referencia = new ImageIcon("assets//esc.png");
@@ -146,9 +150,14 @@ public class Menu extends JPanel implements ActionListener {
 
         if (!inicializaControles && !startGame) {
             graficos.drawString("S T A R T", 690, 700);
-            graficos.drawString("E X I T", 700, 750);
+            graficos.drawString("Controls", 700, 750);
+            graficos.drawString("E X I T", 700, 800);
 
-            graficos.drawString(">", 660 + (opcaoStart * 25) - 20, 700 + opcaoStart * 50);
+            graficos.drawString(">", 660, 700 + opcaoStart * 50);
+        }
+
+        if (menuControles){
+            graficos.drawImage(fundoControles, 0, 0, this);
         }
 
         if (inicializaControles || startGame) {
@@ -173,11 +182,11 @@ public class Menu extends JPanel implements ActionListener {
             graficos.drawString("Level 1: Terra", 660, 365);
             graficos.drawImage(caixa, 890, 350, this);
             graficos.drawString("Level 2: Marte", 660, 440);
-            if (Fase1.faseCompleta1){
+            if (Fase1.faseCompleta1) {
                 graficos.drawImage(caixa, 890, 425, this);
             }
             graficos.drawString("Level 3: Europa", 660, 515);
-            if (Fase2.faseCompleta2){
+            if (Fase2.faseCompleta2) {
                 graficos.drawImage(caixa, 890, 500, this);
             }
 
@@ -185,18 +194,18 @@ public class Menu extends JPanel implements ActionListener {
                 if (container.getFaseAtual() == 1) {
                     graficos.drawImage(caixaSelecionada, 890, 350, container);
                 }
-                if (container.getFaseAtual() == 2){
+                if (container.getFaseAtual() == 2) {
                     graficos.drawImage(caixaSelecionada, 890, 425, container);
                 }
-                if (container.getFaseAtual() == 3){
+                if (container.getFaseAtual() == 3) {
                     graficos.drawImage(caixaSelecionada, 890, 500, container);
                 }
             }
 
-            if (!Fase1.faseCompleta1){
+            if (!Fase1.faseCompleta1) {
                 graficos.drawImage(cadeado, 875, 415, this);
             }
-            if (!Fase2.faseCompleta2){
+            if (!Fase2.faseCompleta2) {
                 graficos.drawImage(cadeado, 890, 490, this);
             }
 
@@ -347,7 +356,11 @@ public class Menu extends JPanel implements ActionListener {
                 nomeJogador2 = textField2.getText().isEmpty() ? "Player 2" : textField2.getText();
             }
             stopSound();
-            container.iniciarJogo();
+            if (faseSelecionada) {
+                container.iniciarJogo();
+            } else {
+                container.avancarFase();
+            }
             dialog.dispose();
         });
 
@@ -418,7 +431,7 @@ public class Menu extends JPanel implements ActionListener {
                         }
                         break;
                     case KeyEvent.VK_DOWN:
-                        if (opcaoStart < 1) {
+                        if (opcaoStart < 2) {
                             opcaoStart++;
                         }
                         break;
@@ -437,6 +450,13 @@ public class Menu extends JPanel implements ActionListener {
                             inicializaControles = false;
                             break;
                     }
+                }
+            }
+            if (menuControles){
+                switch (codigo) {
+                    case KeyEvent.VK_ESCAPE:
+                        menuControles = false;
+                        break;
                 }
             }
             if (startGame) {
@@ -500,6 +520,9 @@ public class Menu extends JPanel implements ActionListener {
                 inicializaControles = true;
                 break;
             case 1:
+                menuControles = true;
+                break;
+            case 2:
                 System.exit(0);
                 break;
         }
@@ -532,12 +555,12 @@ public class Menu extends JPanel implements ActionListener {
                 container.selecionarFase(opcaoFase);
                 break;
             case 1:
-                if (Fase1.faseCompleta1){
+                if (Fase1.faseCompleta1) {
                     container.selecionarFase(opcaoFase);
                 }
                 break;
             case 2:
-                if (Fase2.faseCompleta2){
+                if (Fase2.faseCompleta2) {
                     container.selecionarFase(opcaoFase);
                 }
                 break;

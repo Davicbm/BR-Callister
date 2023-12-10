@@ -139,14 +139,14 @@ public class Fase extends JPanel {
 
 		graficos.setFont(fonteMenu);
 		graficos.setColor(Color.WHITE);
-		graficos.drawString("Jogo Pausado", 620, 300);
+		graficos.drawString("Jogo Pausado", 620, 350);
 
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
-		graficos.drawString("Continuar", 690, 350);
-		graficos.drawString("Menu", 720, 400);
-		graficos.drawString("Sair", 720, 450);
-		graficos.drawString(">", 670 + (opcaoMenuPausa * 15) - 20, 350 + opcaoMenuPausa * 50);
+		graficos.drawString("Continuar", 690, 400);
+		graficos.drawString("Menu", 720, 450);
+		graficos.drawString("Sair", 720, 500);
+		graficos.drawString(">", 670 + (opcaoMenuPausa * 15) - 20, 400 + opcaoMenuPausa * 50);
 	}
 
 	public void drawTelaVitoria(Graphics2D graficos, String nomeJogador1, String nomeJogador2) {
@@ -201,7 +201,6 @@ public class Fase extends JPanel {
 		graficos.drawString(">", 575 + (opcaoGameOver / 15), 700 + opcaoGameOver * 50);
 	}
 
-	// Inicializa a fonte a ser utilizada:
 	public Font loadFont(String path, float size) {
 		try {
 			File fontFile = new File(path);
