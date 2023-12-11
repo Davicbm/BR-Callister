@@ -6,7 +6,7 @@
 Nave & Invasão Alienígena
 
 ### Kanban 📋
-[https://github.com/Davicbm/BR-Callister](https://github.com/users/cauanlgaldino/projects/1/views/1)
+[Link](https://github.com/users/cauanlgaldino/projects/1/views/1)
 
 ## Enredo 🌌
 
