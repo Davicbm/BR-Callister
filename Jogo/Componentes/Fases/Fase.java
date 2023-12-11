@@ -251,18 +251,24 @@ public class Fase extends JPanel {
 	}
     
 	// Explosões:
-	public void adicionarExplosao(int x, int y) {
+	public Explosao adicionarExplosao(int x, int y) {
 		Explosao explosao = new Explosao(x, y);
-		if (!explosoes.contains(explosao)) {
-			explosoes.add(explosao);
-		}
+		explosoes.add(explosao);
+		explosoes.removeIf(Explosao::isConcluida);
+		return explosao;
 	}
+	
 	public void desenharExplosoes(Graphics2D graficos) {
-		explosoes.removeIf(Explosao::isConcluida); 
+		List<Explosao> explosaoAtiva = new ArrayList<>();
 	
 		for (Explosao explosao : explosoes) {
-			explosao.renderizar(graficos);
+			if (!explosao.isConcluida()) {
+				explosao.renderizar(graficos);
+				explosaoAtiva.add(explosao);
+			}
 		}
+	
+		explosoes = explosaoAtiva;
 	}
 	
 	// Checa o estado do Robô:
@@ -271,6 +277,7 @@ public class Fase extends JPanel {
 			robo.setVisivel(false);
 		}
 	}
+	
 
 	// Checa o estado do Alien:
 	public void checarAlien(Alien alien) {
@@ -292,7 +299,8 @@ public class Fase extends JPanel {
 			Robo tempRobo = robos.get(i);
 			if (tempRobo.getVida() == 0) {
 				tempRobo.setVisivel(false);
-				adicionarExplosao(tempRobo.getX(), tempRobo.getY());
+				Explosao explosao = adicionarExplosao(tempRobo.getX(), tempRobo.getY());
+				explosao.tocarSomExplosao();
 			}
 		}
 	}
@@ -339,8 +347,8 @@ public class Fase extends JPanel {
 		for (int j = 0; j < tiros1.size(); j++) {
 			if (robo.getX() == x) {
 				robo.colisaoRoboTiro(jogador1, j);
-			}
 		}
+	}
 		for (int j = 0; j < tiros2.size(); j++) {
 			if (robo.getX() == x) {
 				robo.colisaoRoboTiro(jogador2, j);
