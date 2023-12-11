@@ -1,7 +1,8 @@
 # BR Callister: A Revolta dos Robôs 🚀🤖
 
-## Descrição do Jogo
 ![Imagem do Jogo](https://github.com/Davicbm/BR-Callister/blob/development/planosFundo/fundomenu.png)
+
+## Descrição do Jogo
 ### Categoria 🎮
 Nave & Invasão Alienígena
 
