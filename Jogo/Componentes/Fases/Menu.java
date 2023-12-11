@@ -48,9 +48,14 @@ public class Menu extends JPanel implements ActionListener {
     private Image cadeado;
     private Image esc;
     private Image space;
+    private Image fundoStart;
+    private Image fundoStart2;
+    private Image back;
     private Image caixa;
     private Image caixaSelecionada;
     private Image fundoControles;
+    private Image controles1;
+    private Image controles2;
 
     private Timer timer;
 
@@ -79,16 +84,27 @@ public class Menu extends JPanel implements ActionListener {
         ImageIcon referencia = new ImageIcon("planosFundo//fundomenu.png");
         fundoMenu = referencia.getImage();
 
-        referencia = new ImageIcon("planosFundo//blackground2.0.png");
+        referencia = new ImageIcon("planosFundo//blackground.png");
         fundo2 = referencia.getImage();
-        referencia = new ImageIcon("planosFundo//menuControles.png");
+        referencia = new ImageIcon("planosFundo//fundoControles.png");
         fundoControles = referencia.getImage();
+        referencia = new ImageIcon("assets//fundoStart.png");
+        fundoStart = referencia.getImage();
+        referencia = new ImageIcon("assets//fundoStart2.png");
+        fundoStart2 = referencia.getImage();
+
+        referencia = new ImageIcon("assets//controlesJogador1_1.0.png");
+        controles1 = referencia.getImage();
+        referencia = new ImageIcon("assets//controlesJogador2_1.0.png");
+        controles2 = referencia.getImage();
         referencia = new ImageIcon("assets//cadeado.png");
         cadeado = referencia.getImage();
         referencia = new ImageIcon("assets//esc.png");
         esc = referencia.getImage();
         referencia = new ImageIcon("assets//space.png");
         space = referencia.getImage();
+        referencia = new ImageIcon("assets//back.png");
+        back = referencia.getImage();
         referencia = new ImageIcon("assets//caixa.png");
         caixa = referencia.getImage();
         referencia = new ImageIcon("assets//caixaSelecionada.png");
@@ -148,19 +164,43 @@ public class Menu extends JPanel implements ActionListener {
 
         graficos.drawImage(fundoMenu, 0, 0, getWidth(), getHeight(), this);
 
-        if (!inicializaControles && !startGame) {
+        if (!inicializaControles && !startGame && !menuControles) {
+            graficos.drawImage(fundoStart, 610, 665, this);
             graficos.drawString("S T A R T", 690, 700);
-            graficos.drawString("Controls", 700, 750);
-            graficos.drawString("E X I T", 700, 800);
+            graficos.drawString("C O N T R O L S", 650, 750);
+            graficos.drawString("E X I T", 710, 800);
 
-            graficos.drawString(">", 660, 700 + opcaoStart * 50);
+            graficos.drawString(">", 620, 700 + opcaoStart * 50);
         }
 
-        if (menuControles){
-            graficos.drawImage(fundoControles, 0, 0, this);
+        if (menuControles) {
+            graficos.drawImage(fundoControles, 150, 100, this);
+
+            graficos.drawString("C O N T R O L S", 600, 150);
+            graficos.drawImage(esc, 200, 150, this);
+            graficos.drawImage(controles1, 225, 200, this);
+            graficos.drawImage(controles2, 225, 500, this);
+
+            graficos.drawImage(space, 850, 250, this);
+            graficos.drawImage(back, 900, 550, this);
+
+            g.setFont(fonte2);
+
+            graficos.drawString("-> Controlam a movimentação", 375, 275);
+            graficos.drawString("do Jogador 1", 475, 300);
+            graficos.drawString("-> Controlam a movimentação", 375, 575);
+            graficos.drawString("do Jogador 2", 475, 600);
+
+            graficos.drawString("-> Tiro do Jogador 1", 1000, 275);
+            graficos.drawString("-> Tiro do Jogador 2", 1000, 575);
+
+            g.setFont(fonte3);
+            g.setColor(Color.WHITE);
+            graficos.drawString("Return", 200, 150);
         }
 
-        if (inicializaControles || startGame) {
+        if ((inicializaControles || startGame) && !selecionarFase) {
+            graficos.drawImage(fundoStart2, 525, 550, this);
             graficos.drawString("Levels", 695, 600);
             graficos.drawString("Single-Player", 650, 650);
             graficos.drawString("Two Players", 660, 700);
@@ -212,13 +252,13 @@ public class Menu extends JPanel implements ActionListener {
             graficos.drawString(">", 630, 365 + opcaoFase * 75);
 
             graficos.drawImage(esc, 500, 300, this);
-            graficos.drawImage(space, 970, 300, this);
+            graficos.drawImage(space, 925, 300, this);
 
             g.setFont(fonte3);
             g.setColor(Color.WHITE);
 
-            graficos.drawString("Return", 490, 345);
-            graficos.drawString("Select", 980, 345);
+            graficos.drawString("Return", 500, 350);
+            graficos.drawString("Select", 960, 350);
         }
     }
 
@@ -230,7 +270,7 @@ public class Menu extends JPanel implements ActionListener {
         dialog.setUndecorated(true);
         dialog.setLocationRelativeTo(null);
 
-        ImageIcon backgroundImage = new ImageIcon("planosFundo//blackground2.0.png");
+        ImageIcon backgroundImage = new ImageIcon("planosFundo//blackground.png");
 
         JLabel backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setLayout(new GridBagLayout());
@@ -452,7 +492,7 @@ public class Menu extends JPanel implements ActionListener {
                     }
                 }
             }
-            if (menuControles){
+            if (menuControles) {
                 switch (codigo) {
                     case KeyEvent.VK_ESCAPE:
                         menuControles = false;

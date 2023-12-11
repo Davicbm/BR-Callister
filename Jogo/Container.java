@@ -108,6 +108,6 @@ public class Container extends JFrame {
         return faseAtual;
     }
     public static void main(String[] args) {
-        new Container();
+       new Container();
     }
 }

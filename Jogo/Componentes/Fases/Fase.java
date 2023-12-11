@@ -47,7 +47,7 @@ public class Fase extends JPanel {
 		this.gameOver = false;
 		explosoes = new ArrayList<>();
 
-		ImageIcon referencia = new ImageIcon("planosFundo//blackground2.0.png");
+		ImageIcon referencia = new ImageIcon("planosFundo//blackground.png");
         fundoPausa = referencia.getImage();
 
 		try {
