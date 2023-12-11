@@ -178,7 +178,7 @@ public class Fase extends JPanel {
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
 		graficos.drawString("Parabéns você completou o jogo!", 400, 800);
-		graficos.drawString("Aperte enter para retornar ao menu!", 500, 800);
+		graficos.drawString("Aperte enter para retornar ao menu!", 350, 900);
 
 		if (Menu.doisJogadores) {
 			graficos.drawString("Pontuação " + nomeJogador1 + " = " + Jogador1.pontuacaoJogador1, 20, 40);
