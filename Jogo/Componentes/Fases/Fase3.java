@@ -120,7 +120,8 @@ public class Fase3 extends Fase implements ActionListener {
 		}
 
 		laserDrakthar = new RaioLaser();
-		laserDrakthar.setVisivel(false);
+		add(laserDrakthar);
+		laserDrakthar.setVisible(false);
 		this.requestFocusInWindow();
 
 		startSoundBatalha();
@@ -266,7 +267,7 @@ public class Fase3 extends Fase implements ActionListener {
 					graficos.drawImage(portal, 1100, tiroTriplo1.getY() - 40, this);
 					tiroTriplo1.drawTiroDrakthar(graficos, 1100);
 
-					if (!laserDrakthar.isVisivel()) {
+					if (!laserDrakthar.isVisible()) {
 						tiroTriplo2.drawTiroDrakthar(graficos, 1100);
 					}
 					graficos.drawImage(portal, 1100, tiroTriplo3.getY() - 40, this);
@@ -286,7 +287,7 @@ public class Fase3 extends Fase implements ActionListener {
 			drawTelaDerrota(graficos, opcaoGameOver);
 		}
 		if (vitoria == true) {
-			drawTelaVitoria(graficos, nomeJogador1, nomeJogador1);
+			drawVitoriaJogo(graficos, nomeJogador1, nomeJogador1);
 		}
 		if (pausado) {
 			stopSoundBatalha();
@@ -370,18 +371,18 @@ public class Fase3 extends Fase implements ActionListener {
 				tiroTriplo2.atirar();
 				tiroTriplo3.atirar();
 
-				if (!laserDrakthar.isVisivel()) {
+				if (!laserDrakthar.isVisible()) {
 					laserDrakthar.startLaser();
-					laserDrakthar.setVisivel(true);
+					laserDrakthar.setVisible(true);
 				}
 				laserDrakthar.update();
 			}
 
-			if (!laserDrakthar.isVisivel()) {
+			if (!laserDrakthar.isVisible()) {
 				laserDrakthar.stopLaser();
 			}
 		} else {
-			laserDrakthar.setVisivel(false);
+			laserDrakthar.setVisible(false);
 		}
 
 		if (alien1.getX() == 1000) {
@@ -456,7 +457,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		if (terceiroEstagio) {
 			tiroTriplo1.colisaoNaveTiro(jogador1, jogador2);
-			if (!laserDrakthar.isVisivel()) {
+			if (laserDrakthar.isVisible() == false) {
 				tiroTriplo2.colisaoNaveTiro(jogador1, jogador2);
 			}
 			tiroTriplo3.colisaoNaveTiro(jogador1, jogador2);

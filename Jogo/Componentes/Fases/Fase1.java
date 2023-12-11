@@ -426,7 +426,6 @@ public class Fase1 extends Fase implements ActionListener {
 
 		// Colisões de tiro da Nave com Robo de colisão:
 		colisoesTiroEmRobo2(jogador1, jogador2, robos);
-
 		colisoesTiroEmRobo2(jogador1, jogador2, robos2);
 
 		// Colisões de tiro do Robo com a Nave:

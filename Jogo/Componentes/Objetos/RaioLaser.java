@@ -7,11 +7,10 @@ import Jogo.Componentes.Jogadores.Jogador2;
 
 import java.awt.*;
 
-public class RaioLaser {
+public class RaioLaser extends JPanel{
     private boolean disparaLaser = false;
     private long startTime;
     private boolean danoLaser = true;
-    private boolean isVisivel;
 
     private int largura;
     private int altura;
@@ -21,7 +20,6 @@ public class RaioLaser {
         ImageIcon referencia = new ImageIcon("assets//raiolaser.png");
         raio = referencia.getImage();
 
-        this.isVisivel = true;
         this.largura = raio.getWidth(null);
 		this.altura = raio.getHeight(null);
     }
@@ -91,12 +89,5 @@ public class RaioLaser {
 
     public Rectangle getBounds() {
         return new Rectangle(0, 400, largura, altura);
-    }
-
-    public boolean isVisivel() {
-        return isVisivel;
-    }
-    public void setVisivel(boolean isVisivel) {
-        this.isVisivel = isVisivel;
     }
 }
