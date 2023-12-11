@@ -50,8 +50,6 @@ public class Explosao {
             }
 
             tempoExplosao--;
-
-            // Reproduzir o som quando a explosão começa
             if (tempoExplosao == 60) {
                 reproduzirSomExplosao();
             }
@@ -75,8 +73,6 @@ public class Explosao {
     public void setTempoExplosao(int tempoExplosao) {
         this.tempoExplosao = tempoExplosao;
     }
-
-    // Adicionado método para tocar o som de explosão
     public void tocarSomExplosao() {
         reproduzirSomExplosao();
     }
