@@ -24,7 +24,7 @@ import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase2 extends Fase implements ActionListener {
 
-	public static boolean faseCompleta2 = false;
+	public static boolean faseCompleta2 = true;
 	private Image fundo;
 	private Image alerta;
 

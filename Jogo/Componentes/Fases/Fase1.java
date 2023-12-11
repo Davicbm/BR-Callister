@@ -21,10 +21,12 @@ import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Objetos.BarraVida;
+import Jogo.Componentes.Objetos.BarraVidaDrakthar;
 import Jogo.Componentes.Objetos.PowerUp;
 
 public class Fase1 extends Fase implements ActionListener {
 
+	private BarraVidaDrakthar barraDrakthar;
 	public static boolean faseCompleta1 = false;
 	private boolean doisJogadores;
 	private String nomeJogador1 = Menu.nomeJogador1;
@@ -168,6 +170,7 @@ public class Fase1 extends Fase implements ActionListener {
 		Graphics2D graficos = (Graphics2D) g;
 
 		barra = new BarraVida();
+		barraDrakthar = new BarraVidaDrakthar();
 
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
 

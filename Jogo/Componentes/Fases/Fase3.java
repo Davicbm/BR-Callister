@@ -20,6 +20,7 @@ import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Objetos.BarraVida;
+import Jogo.Componentes.Objetos.BarraVidaDrakthar;
 import Jogo.Componentes.Objetos.PowerUp;
 import Jogo.Componentes.Objetos.RaioLaser;
 
@@ -34,6 +35,7 @@ public class Fase3 extends Fase implements ActionListener {
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
 	private BarraVida barra;
+	private BarraVidaDrakthar draktharBarra;
 	private List<PowerUp> powerUps;
 	private PowerUp powerUp;
 
@@ -131,7 +133,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 0; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 10;
 
@@ -174,6 +176,8 @@ public class Fase3 extends Fase implements ActionListener {
 
 	public void paint(Graphics g) {
 		barra = new BarraVida();
+		draktharBarra = new BarraVidaDrakthar();
+
 		Graphics2D graficos = (Graphics2D) g;
 
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);
@@ -214,6 +218,9 @@ public class Fase3 extends Fase implements ActionListener {
 				}
 			}
 			if (drakthar.isVisivel()) {
+				if (drakthar.getX() == 1100){
+					draktharBarra.paintBarraVida(graficos, drakthar);
+				}
 				if (drakthar.getX() != 1100 && drakthar.getX() < 1700) {
 					graficos.drawImage(portalB, 1301, 90, this);
 				}
@@ -230,7 +237,7 @@ public class Fase3 extends Fase implements ActionListener {
 				}
 				graficos.drawImage(investida2.getImagem(), investida2.getX(), investida2.getY(), this);
 				if (investida2.getX() < 0 && segundoEstagio && investida1.getY() <= -500) {
-					graficos.drawImage(alerta, 0, 600, this);
+					graficos.drawImage(alerta, 100, 700, this);
 				}
 			}
 
@@ -267,7 +274,7 @@ public class Fase3 extends Fase implements ActionListener {
 					graficos.drawImage(portal, 1100, tiroTriplo1.getY() - 40, this);
 					tiroTriplo1.drawTiroDrakthar(graficos, 1100);
 
-					if (!laserDrakthar.isVisible()) {
+					if (!laserDrakthar.isDisparaLaser()) {
 						tiroTriplo2.drawTiroDrakthar(graficos, 1100);
 					}
 					graficos.drawImage(portal, 1100, tiroTriplo3.getY() - 40, this);
@@ -337,10 +344,10 @@ public class Fase3 extends Fase implements ActionListener {
 			alien1.updateAlien(1000);
 			alien2.updateAlien(1000);
 
-			if (drakthar.getVida() > 35) {
+			if (drakthar.getVida() > 50) {
 				drakthar.updateDrakthar(1100);
 			}
-			if (drakthar.getVida() == 35 && !terceiroEstagio) {
+			if (drakthar.getVida() == 50 && !terceiroEstagio) {
 				drakthar.updateDrakthar2(1700);
 				if (drakthar.getX() != 1100 && !alien1.isVisivel() && !alien2.isVisivel()) {
 					segundoEstagio = true;

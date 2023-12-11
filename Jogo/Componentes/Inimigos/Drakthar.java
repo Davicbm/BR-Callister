@@ -21,6 +21,7 @@ public class Drakthar {
 	private int altura;
 	private boolean isVisivel;
 	private int vida;
+	private int dano = 0;
 
 	private int contador1 = 0;
 	private int contador2 = 0;
@@ -36,7 +37,7 @@ public class Drakthar {
 		this.x = x;
 		this.y = y;
 		this.isVisivel = true;
-		this.vida = 70;
+		this.vida = 100;
 		this.velocidade = velocidade;
 		this.intervaloTiros = intervaloTiros;
 
@@ -178,9 +179,11 @@ public class Drakthar {
 		Rectangle formaDrakthar = getBounds();
 		if (formaTiro.intersects(formaDrakthar) && isVisivel()) {
 			perdeVida(1);
+			dano++;
 			tempTiro.setVisivel(false);
 			if (vida == 0) {
-				Jogador1.pontuacaoJogador1 += 500;
+				Jogador1.pontuacaoJogador1 += 250;
+				Jogador2.pontuacaoJogador2 += 250;
 			}
 		}
 	}
@@ -193,9 +196,11 @@ public class Drakthar {
 
 		if (formaTiro.intersects(formaDrakthar) && isVisivel()) {
 			perdeVida(1);
+			dano++;
 			tempTiro.setVisivel(false);
 			if (vida == 0) {
-				Jogador2.pontuacaoJogador2 += 500;
+				Jogador1.pontuacaoJogador1 += 250;
+				Jogador2.pontuacaoJogador2 += 250;
 			}
 		}
 	}
@@ -290,5 +295,8 @@ public class Drakthar {
 
 	public int getVida() {
 		return this.vida;
+	}
+	public int getDano(){
+		return this.dano;
 	}
 }

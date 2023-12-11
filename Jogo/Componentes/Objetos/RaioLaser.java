@@ -90,4 +90,7 @@ public class RaioLaser extends JPanel{
     public Rectangle getBounds() {
         return new Rectangle(0, 400, largura, altura);
     }
+    public boolean isDisparaLaser(){
+        return this.disparaLaser;
+    }
 }
