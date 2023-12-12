@@ -120,7 +120,7 @@ public class Fase2 extends Fase implements ActionListener {
 
 		robos2 = new ArrayList<Robo>();
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 30; i++) {
 			int x = (int) (Math.random() * 6000) + 1980;
 			int y = (int) (Math.random() * 650) + 100;
 

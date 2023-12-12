@@ -13,11 +13,11 @@ public class Brilho {
     public Brilho(int x, int y) {
         this.x = x;
         this.y = y;
-        
-        brilhoFrames = new ImageIcon[7];
+
+        brilhoFrames = new ImageIcon[8];
         carregarFrames();
         frameAtual = 0;
-        tempoBrilho = 60;
+        tempoBrilho = 100;
     }
 
     private void carregarFrames() {
@@ -27,14 +27,11 @@ public class Brilho {
     }
 
     public void renderizar(Graphics g) {
-        if (tempoBrilho > 0) {
-            brilhoFrames[frameAtual].paintIcon(null, g, x, y);
-            if (tempoBrilho % 5 == 0) {
-                frameAtual = (frameAtual + 1) % brilhoFrames.length;
-            }
-
-            tempoBrilho--;
+        brilhoFrames[frameAtual].paintIcon(null, g, x, y);
+        if (tempoBrilho % 4 == 0) {
+            frameAtual = (frameAtual + 1) % brilhoFrames.length;
         }
+        tempoBrilho--;
     }
 
     public boolean isConcluida() {

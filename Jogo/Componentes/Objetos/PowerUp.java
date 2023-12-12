@@ -78,7 +78,7 @@ public class PowerUp {
     public void desenharBrilhos(Graphics2D graficos) {
         List<Brilho> brilhoAtivo = new ArrayList<>();
 
-        //if (!brilhos.isEmpty()) {
+        if (!brilhos.isEmpty()) {
             for (Brilho brilho : brilhos) {
                 if (!brilho.isConcluida()) {
                     brilho.renderizar(graficos);
@@ -87,7 +87,7 @@ public class PowerUp {
             }
 
             brilhos = brilhoAtivo;
-        //}
+        }
     }
 
     public void colisaoPowerUp(Jogador1 jogador) {

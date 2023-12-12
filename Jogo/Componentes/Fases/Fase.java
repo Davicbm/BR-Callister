@@ -27,7 +27,6 @@ import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
 import Jogo.Componentes.Objetos.BarraVidaJogador;
-import Jogo.Componentes.Objetos.Brilho;
 import Jogo.Componentes.Objetos.Explosao;
 import Jogo.Componentes.Objetos.PowerUp;
 

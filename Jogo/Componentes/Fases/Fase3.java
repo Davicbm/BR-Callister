@@ -135,7 +135,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 30; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 100;
 
@@ -145,7 +145,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		robos2 = new ArrayList<Robo>();
 
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 40; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 100;
 
@@ -225,6 +225,7 @@ public class Fase3 extends Fase implements ActionListener {
 				powerUp.load();
 
 				graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
+				powerUp.desenharBrilhos(graficos);
 			}
 
 			graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
@@ -268,7 +269,7 @@ public class Fase3 extends Fase implements ActionListener {
 					graficos.drawImage(alerta, 1400, 150, this);
 				}
 				graficos.drawImage(investida2.getImagem(), investida2.getX(), investida2.getY(), this);
-				if (investida2.getX() < 0 && segundoEstagio && investida1.getY() <= -500) {
+				if (investida2.getX() < 0 && segundoEstagio && investida1.getX() <= -500) {
 					graficos.drawImage(alerta, 100, 700, this);
 				}
 			}
@@ -438,6 +439,15 @@ public class Fase3 extends Fase implements ActionListener {
 			if (!laserDrakthar.isVisible()) {
 				laserDrakthar.stopLaser();
 			}
+			for (int j = 0; j < robos2.size(); j++) {
+				Robo robo = robos2.get(j);
+
+				if (robo.isVisivel()) {
+					robo.updateRoboDeColisao();
+				} else {
+					robos2.remove(j);
+				}
+			}
 		} else {
 			laserDrakthar.setVisible(false);
 		}
@@ -474,9 +484,11 @@ public class Fase3 extends Fase implements ActionListener {
 
 		// Colisões de Nave com Robô:
 		fase.colisoesNavesRobos(robos, jogador1, jogador2);
+		fase.colisoesNavesRobos(robos2, jogador1, jogador2);
 
 		// Colisões de tiro de Nave em Robos:
 		fase.colisoesTiroEmRobo2(jogador1, jogador2, robos);
+		fase.colisoesTiroEmRobo2(jogador1, jogador2, robos2);
 
 		// Colisões de tiro de Nave em Aliens:
 		fase.colisoesTiroEmAlien(alien1, jogador1, jogador2, 1000);
@@ -506,7 +518,7 @@ public class Fase3 extends Fase implements ActionListener {
 
 		if (terceiroEstagio) {
 			tiroTriplo1.colisaoNaveTiro(jogador1, jogador2);
-			if (laserDrakthar.isVisible() == false) {
+			if (!laserDrakthar.isDisparaLaser()) {
 				tiroTriplo2.colisaoNaveTiro(jogador1, jogador2);
 			}
 			tiroTriplo3.colisaoNaveTiro(jogador1, jogador2);
@@ -525,6 +537,7 @@ public class Fase3 extends Fase implements ActionListener {
 		fase.checarAlien(alien2, 620);
 
 		fase.checarRobos(robos);
+		fase.checarRobos(robos2);
 
 		fase.checarDrakthar(drakthar);
 
