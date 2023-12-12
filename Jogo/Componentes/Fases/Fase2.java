@@ -349,7 +349,7 @@ public class Fase2 extends Fase implements ActionListener {
 					robo1.updateDerrota();
 				}
 				if (robo2.isDerrotado()) {
-					robo1.updateDerrota();
+					robo2.updateDerrota();
 				}
 
 				alien1.updateAlien(1200);
