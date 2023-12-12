@@ -8,7 +8,7 @@ import Jogo.Componentes.Jogadores.Jogador2;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
-public class BarraVida {
+public class BarraVidaJogador {
 
 	private Image barraVida10;
 	private Image barraVida9;
@@ -21,6 +21,10 @@ public class BarraVida {
 	private Image barraVida2;
 	private Image barraVida1;
 	private Image barraVida0;
+
+	private Image barraEscudoCompleto;
+	private Image barraEscudoMetade;
+	private Image morte;
 
 	public void paintBarraVida(Graphics2D graficos, Jogador1 jogador) {
 
@@ -57,6 +61,15 @@ public class BarraVida {
 		referencia = new ImageIcon("barrasVida//barravida_0.png");
 		barraVida0 = referencia.getImage();
 
+		referencia = new ImageIcon("barrasVida//escudoCompleto.png");
+		barraEscudoCompleto = referencia.getImage();
+
+		referencia = new ImageIcon("barrasVida//escudoMetade.png");
+		barraEscudoMetade = referencia.getImage();
+
+		referencia = new ImageIcon("barrasVida//caveira.png");
+		morte = referencia.getImage();
+
 		graficos.drawImage(barraVida10, 70, 40, null);
 		if (jogador.getVida() == 9) {
 			graficos.drawImage(barraVida9, 70, 40, null);
@@ -79,6 +92,16 @@ public class BarraVida {
 		} else if (jogador.getVida() <= 0) {
 			graficos.drawImage(barraVida0, 70, 40, null);
 			jogador.setVisivel(false);
+		}
+
+		if (jogador.getEscudo() == 2){
+			graficos.drawImage(barraEscudoCompleto, 70, 40, null);
+		}
+		if (jogador.getEscudo() == 1){
+			graficos.drawImage(barraEscudoMetade, 70, 40, null);
+		}
+		if (jogador.getVida() <= 0){
+			graficos.drawImage(morte, 70, 40, null);
 		}
 	}
 
@@ -117,6 +140,15 @@ public class BarraVida {
 		referencia = new ImageIcon("barrasVida//barravida_0.png");
 		barraVida0 = referencia.getImage();
 
+		referencia = new ImageIcon("barrasVida//escudoCompleto.png");
+		barraEscudoCompleto = referencia.getImage();
+
+		referencia = new ImageIcon("barrasVida//escudoMetade.png");
+		barraEscudoMetade = referencia.getImage();
+
+		referencia = new ImageIcon("barrasVida//caveira.png");
+		morte = referencia.getImage();
+
 		graficos.drawImage(barraVida10, 295, 40, null);
 		if (jogador.getVida() == 9) {
 			graficos.drawImage(barraVida9, 295, 40, null);
@@ -139,6 +171,16 @@ public class BarraVida {
 		} else if (jogador.getVida() <= 0) {
 			graficos.drawImage(barraVida0, 295, 40, null);
 			jogador.setVisivel(false);
+		}
+
+		if (jogador.getEscudo() == 2){
+			graficos.drawImage(barraEscudoCompleto, 295, 40, null);
+		}
+		if (jogador.getEscudo() == 1){
+			graficos.drawImage(barraEscudoMetade, 295, 40, null);
+		}
+		if (jogador.getVida() <= 0){
+			graficos.drawImage(morte, 295, 40, null);
 		}
 	}
 

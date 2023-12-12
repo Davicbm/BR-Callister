@@ -26,7 +26,7 @@ import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
-import Jogo.Componentes.Objetos.BarraVida;
+import Jogo.Componentes.Objetos.BarraVidaJogador;
 import Jogo.Componentes.Objetos.Explosao;
 import Jogo.Componentes.Objetos.PowerUp;
 
@@ -80,7 +80,7 @@ public class Fase extends JPanel {
 
 	// Desenha os componentes iniciais da fase(Jogadores):
 	public void drawComponentesIniciais(Graphics2D graficos, Jogador1 jogador1, Jogador2 jogador2, String nomeJogador1,
-			String nomeJogador2, BarraVida barra, String faseAtual) {
+			String nomeJogador2, BarraVidaJogador barra, String faseAtual) {
 			
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
@@ -177,7 +177,7 @@ public class Fase extends JPanel {
 		graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
-		graficos.drawString("Parabéns você completou o jogo!", 400, 800);
+		graficos.drawString("Parabéns você completou o jogo!", 450, 800);
 		graficos.drawString("Aperte enter para retornar ao menu!", 350, 900);
 
 		if (Menu.doisJogadores) {

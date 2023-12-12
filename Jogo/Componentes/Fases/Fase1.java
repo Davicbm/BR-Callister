@@ -20,7 +20,7 @@ import Jogo.Componentes.Inimigos.Robo;
 
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
-import Jogo.Componentes.Objetos.BarraVida;
+import Jogo.Componentes.Objetos.BarraVidaJogador;
 import Jogo.Componentes.Objetos.BarraVidaDrakthar;
 import Jogo.Componentes.Objetos.PowerUp;
 
@@ -38,7 +38,7 @@ public class Fase1 extends Fase implements ActionListener {
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
 
-	private BarraVida barra;
+	private BarraVidaJogador barra;
 	private PowerUp powerUp;
 	private List<PowerUp> powerUps;
 
@@ -169,7 +169,7 @@ public class Fase1 extends Fase implements ActionListener {
 
 		Graphics2D graficos = (Graphics2D) g;
 
-		barra = new BarraVida();
+		barra = new BarraVidaJogador();
 		barraDrakthar = new BarraVidaDrakthar();
 
 		graficos.drawImage(fundo, 0, 0, getWidth(), getHeight(), this);

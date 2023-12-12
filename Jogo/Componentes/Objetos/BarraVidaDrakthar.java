@@ -41,7 +41,7 @@ public class BarraVidaDrakthar {
 
         graficos.drawLine(300, 750, 1300 - drakthar.getDano() * 10, 750);
 
-        Font fonte = loadFont("assets//PressStart2P.ttf", 16);
+        Font fonte = loadFont("assets//PressStart2P.ttf", 18);
 
         graficos.setFont(fonte);
         graficos.setColor(Color.YELLOW);

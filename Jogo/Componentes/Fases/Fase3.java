@@ -19,7 +19,7 @@ import Jogo.Componentes.Inimigos.Drakthar;
 import Jogo.Componentes.Inimigos.Robo;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
-import Jogo.Componentes.Objetos.BarraVida;
+import Jogo.Componentes.Objetos.BarraVidaJogador;
 import Jogo.Componentes.Objetos.BarraVidaDrakthar;
 import Jogo.Componentes.Objetos.PowerUp;
 import Jogo.Componentes.Objetos.RaioLaser;
@@ -34,14 +34,16 @@ public class Fase3 extends Fase implements ActionListener {
 
 	private Jogador1 jogador1;
 	private Jogador2 jogador2;
-	private BarraVida barra;
+	private BarraVidaJogador barra;
 	private BarraVidaDrakthar draktharBarra;
 	private List<PowerUp> powerUps;
+	private List<PowerUp> powerUps2;
 	private PowerUp powerUp;
 
 	private Timer timer;
 
 	private List<Robo> robos;
+	private List<Robo> robos2;
 
 	private boolean vitoria;
 	private boolean doisJogadores;
@@ -133,12 +135,22 @@ public class Fase3 extends Fase implements ActionListener {
 
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 20; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
-			int y = (int) (Math.random() * 650) + 10;
+			int y = (int) (Math.random() * 650) + 100;
 
 			robos.add(new Robo(x, y));
 			robos.get(i).setVida(2);
+		}
+
+		robos2 = new ArrayList<Robo>();
+
+		for (int i = 0; i < 30; i++) {
+			int x = (int) (Math.random() * 8000) + 1980;
+			int y = (int) (Math.random() * 650) + 100;
+
+			robos2.add(new Robo(x, y));
+			robos2.get(i).setVida(2);
 		}
 
 		alien1 = new Alien(1800, 120);
@@ -146,8 +158,8 @@ public class Fase3 extends Fase implements ActionListener {
 
 		drakthar = new Drakthar(1570, 200, 2, 1800);
 
-		investida1 = new Drakthar(1900, 105, 4, 1300);
-		investida2 = new Drakthar(-800, 480, 4, 1300);
+		investida1 = new Drakthar(1900, 105, 4, 800);
+		investida2 = new Drakthar(-800, 480, 4, 800);
 
 		tiroTriplo1 = new Drakthar(1600, 210, 1, 1800);
 		tiroTriplo2 = new Drakthar(1600, 400, 1, 1800);
@@ -167,15 +179,25 @@ public class Fase3 extends Fase implements ActionListener {
 
 		for (int i = 0; i < 20; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
-			int y = (int) (Math.random() * 650) + 10;
+			int y = (int) (Math.random() * 650) + 100;
 			int codigo = (int) (Math.random() * 3) + 1;
 
 			powerUps.add(new PowerUp(x, y, codigo));
 		}
+
+		powerUps2 = new ArrayList<PowerUp>();
+
+		for (int i = 0; i < 20; i++) {
+			int x = (int) (Math.random() * 8000) + 1980;
+			int y = (int) (Math.random() * 650) + 100;
+			int codigo = (int) (Math.random() * 3) + 1;
+
+			powerUps2.add(new PowerUp(x, y, codigo));
+		}
 	}
 
 	public void paint(Graphics g) {
-		barra = new BarraVida();
+		barra = new BarraVidaJogador();
 		draktharBarra = new BarraVidaDrakthar();
 
 		Graphics2D graficos = (Graphics2D) g;
@@ -218,7 +240,7 @@ public class Fase3 extends Fase implements ActionListener {
 				}
 			}
 			if (drakthar.isVisivel()) {
-				if (drakthar.getX() == 1100){
+				if (drakthar.getX() == 1100) {
 					draktharBarra.paintBarraVida(graficos, drakthar);
 				}
 				if (drakthar.getX() != 1100 && drakthar.getX() < 1700) {
@@ -290,6 +312,22 @@ public class Fase3 extends Fase implements ActionListener {
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 		}
 
+		if (terceiroEstagio) {
+			for (int j = 0; j < robos2.size(); j++) {
+				Robo robo = robos2.get(j);
+
+				robo.load2(graficos);
+				graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
+			}
+
+			for (int j = 0; j < powerUps2.size(); j++) {
+				powerUp = powerUps2.get(j);
+				powerUp.load();
+
+				graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
+			}
+		}
+
 		if (gameOver == true) {
 			drawTelaDerrota(graficos, opcaoGameOver);
 		}
@@ -310,7 +348,6 @@ public class Fase3 extends Fase implements ActionListener {
 				startSoundBatalha();
 			}
 		}
-
 		g.dispose();
 	}
 
