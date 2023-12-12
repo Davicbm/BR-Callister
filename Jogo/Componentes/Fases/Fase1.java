@@ -474,6 +474,8 @@ public class Fase1 extends Fase implements ActionListener {
 		checarAlien(alien, 350);
 
 		checarRobos(robos);
+		checarRobos(robos2);
+		
 
 		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false
 				&& robo4.isVisivel() == false &&
