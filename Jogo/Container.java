@@ -1,7 +1,11 @@
 package Jogo;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 
 import Jogo.Componentes.Fases.Fase1;
 import Jogo.Componentes.Fases.Fase2;
@@ -17,6 +21,7 @@ public class Container extends JFrame {
     private boolean reiniciaJogo = false;
 
     public Container() {
+        setUndecorated(true);
         setTitle("Br-Callister");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -27,6 +32,15 @@ public class Container extends JFrame {
         faseAtual = 0;
         faseReinicio = 0;
         switchFase();
+
+        setVisible(true);
+
+        Cursor cursorInvisivel = Toolkit.getDefaultToolkit().createCustomCursor(
+                new ImageIcon(new byte[0], "transparente").getImage(),
+                new Point(0, 0),
+                "invisibleCursor"
+        );
+        getContentPane().setCursor(cursorInvisivel);
     }
 
     private void switchFase() {
@@ -65,19 +79,35 @@ public class Container extends JFrame {
         repaint();
     }
 
+    public void selecionarFase(int fase) {
+        faseAtual = fase + 1;
+    }
     public void avancarFase() {
         faseAtual++;
         switchFase();
     }
-
+    public void iniciarJogo() {
+        switchFase();
+    }
+    public void voltarMenuPrincipal(){
+        faseAtual = 0;
+        switchFase();
+    }
     public void reiniciarFase() {
         faseAtual = faseReinicio;
+        switchFase();
+    }
+     public void reiniciarJogo() {
+        faseAtual = 0;
         switchFase();
     }
     public Boolean getReiniciaJogo(){
         return reiniciaJogo;
     }
+    public int getFaseAtual() {
+        return faseAtual;
+    }
     public static void main(String[] args) {
-        new Container();
+       new Container();
     }
 }

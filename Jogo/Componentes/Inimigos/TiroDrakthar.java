@@ -14,7 +14,7 @@ public class TiroDrakthar {
 	private int altura;
 	private boolean isVisivel;
 
-	private static int VELOCIDADE = 6;
+	private static int velocidade = 6;
 
 	public TiroDrakthar(int x, int y) {
 		this.x = x;
@@ -23,7 +23,31 @@ public class TiroDrakthar {
 	}
 
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//alien_tiro.png");
+		ImageIcon referencia = new ImageIcon("assets//drakthar_tiro.png");
+		imagem = referencia.getImage();
+
+		this.largura = imagem.getWidth(null);
+		this.altura = imagem.getHeight(null);
+	}
+
+	public void loadCima() {
+		ImageIcon referencia = new ImageIcon("assets//drakthar-tiro-cima.png");
+		imagem = referencia.getImage();
+
+		this.largura = imagem.getWidth(null);
+		this.altura = imagem.getHeight(null);
+	}
+
+	public void loadBaixo() {
+		ImageIcon referencia = new ImageIcon("assets//drakthar-tiro-baixo.png");
+		imagem = referencia.getImage();
+
+		this.largura = imagem.getWidth(null);
+		this.altura = imagem.getHeight(null);
+	}
+
+	public void loadLaser() {
+		ImageIcon referencia = new ImageIcon("assets//raioLaser.png");
 		imagem = referencia.getImage();
 
 		this.largura = imagem.getWidth(null);
@@ -31,13 +55,29 @@ public class TiroDrakthar {
 	}
 
 	public void update() {
-		this.x -= VELOCIDADE;
-		
+		this.x -= velocidade;
+
 		if (this.x < 0) {
 			isVisivel = false;
 		}
 	}
-	
+
+	public void updateCima() {
+		this.y -= velocidade;
+
+		if (this.y < 100) {
+			isVisivel = false;
+		}
+	}
+
+	public void updateBaixo() {
+		this.y += velocidade;
+
+		if (this.y > 900) {
+			isVisivel = false;
+		}
+	}
+
 	public Rectangle getBounds() {
 		return new Rectangle(x - 80, y - 20, largura, altura);
 	}
@@ -50,12 +90,12 @@ public class TiroDrakthar {
 		this.isVisivel = isVisivel;
 	}
 
-	public static int getVELOCIDADE() {
-		return VELOCIDADE;
+	public static int getVelocidade() {
+		return velocidade;
 	}
 
-	public static void setVELOCIDADE(int vELOCIDADE) {
-		VELOCIDADE = vELOCIDADE;
+	public static void setVelocidade(int vELOCIDADE) {
+		velocidade = vELOCIDADE;
 	}
 
 	public int getX() {

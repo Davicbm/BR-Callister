@@ -20,6 +20,7 @@ public class EfeitosSonoros  extends JPanel {
 			URL soundFile = getClass().getResource("SomTiro.wav");
 			AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
 			DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+
 			Clip clip = (Clip) AudioSystem.getLine(info);
 			clip.open(sound);
 			clip.start();
@@ -28,12 +29,12 @@ public class EfeitosSonoros  extends JPanel {
 		}
 	}
 
-
-	public void tocarSomExplosao() {
+	public void tocarSomRugido() {
 		try {
-			URL soundFile = getClass().getResource("SomExplosao.wav");
+			URL soundFile = getClass().getResource("rugido.wav");
 			AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
 			DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+			
 			Clip clip = (Clip) AudioSystem.getLine(info);
 			clip.open(sound);
 			clip.start();
@@ -41,5 +42,4 @@ public class EfeitosSonoros  extends JPanel {
 			JOptionPane.showInputDialog(this, e);
 		}
 	}
-
 }

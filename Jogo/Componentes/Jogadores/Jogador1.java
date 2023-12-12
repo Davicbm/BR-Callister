@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 public class Jogador1 extends Jogador {
 
 	public static int pontuacaoJogador1 = 0;
+	public static int pontuacaoAnteriorJogador1;
 
 	public Jogador1() {
 		super(300, 150);
@@ -15,6 +16,7 @@ public class Jogador1 extends Jogador {
 	public void load() {
 		ImageIcon referencia = new ImageIcon("assets//br-callister.gif");
 		imagem = referencia.getImage();
+
 		altura = imagem.getHeight(null);
 		largura = imagem.getWidth(null);
 	}
@@ -27,9 +29,9 @@ public class Jogador1 extends Jogador {
 		}
 	
 		if (codigo == KeyEvent.VK_W || codigo == KeyEvent.VK_S) {
-			dy = (codigo == KeyEvent.VK_W) ? -3 : 3;
+			dy = (codigo == KeyEvent.VK_W) ? -4 : 4;
 		} else if (codigo == KeyEvent.VK_A || codigo == KeyEvent.VK_D) {
-			dx = (codigo == KeyEvent.VK_A) ? -3 : 3;
+			dx = (codigo == KeyEvent.VK_A) ? -4 : 4;
 		}
 	}
 	

@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
+import Jogo.Componentes.Objetos.BarraVidaAlien;
 
 public class Alien {
 	private Image imagem;
@@ -20,6 +21,8 @@ public class Alien {
 	private int altura;
 	private boolean isVisivel;
 	private int vida;
+
+	private BarraVidaAlien barraVidaAlien;
 
 	private List<TiroAlien> tiros1;
 	private long tempoUltimoTiro = System.currentTimeMillis();
@@ -31,8 +34,9 @@ public class Alien {
 		this.x = x;
 		this.y = y;
 		this.isVisivel = true;
-		this.vida = 6;
+		this.vida = 15;
 
+		barraVidaAlien = new BarraVidaAlien();
 		tiros1 = new ArrayList<TiroAlien>();
 	}
 
@@ -74,6 +78,8 @@ public class Alien {
 	}
 
 	public void drawTiroAlien(Graphics2D graficos) {
+		barraVidaAlien.loadBarraAlien(graficos, this);
+
 		List<TiroAlien> tiros2 = getTiros();
 		for (int j = 0; j < tiros2.size(); j++) {
 			TiroAlien m = tiros2.get(j);
@@ -117,7 +123,7 @@ public class Alien {
 			TiroAlien tempTiroAlien = tiros1.get(j);
 			Rectangle formaTiroAlien = tempTiroAlien.getBounds();
 			Rectangle formaNave = jogador1.getBounds();
-			if (formaTiroAlien.intersects(formaNave) && jogador1.isVisivel()) {
+			if (formaTiroAlien.intersects(formaNave) && jogador1.isVisivel() && isVisivel) {
 				if (jogador1.getEscudo() > 0) {
 					jogador1.perdeEscudo(3);
 				} else {

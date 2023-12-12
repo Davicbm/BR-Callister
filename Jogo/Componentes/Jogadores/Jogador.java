@@ -38,16 +38,25 @@ public abstract class Jogador {
     public abstract void load();
 
     public void update() {
-        if (x + dx >= 0 && x + dx + largura / 2 <= 750) {
+        if (x + dx >= 0 && x + dx + largura / 2 <= 700) {
             x += dx;
         }
-        if (y + dy >= 0 && y + dy + altura <= 850) {
+        if (y + dy >= 95 && y + dy + altura <= 850) {
+            y += dy;
+        }
+    }
+    public void updateBatalhaBoss() {
+        if (x + dx >= 0 && x + dx + largura / 2 <= 1450) {
+            x += dx;
+        }
+        if (y + dy >= 95 && y + dy + altura <= 850) {
             y += dy;
         }
     }
 
     public void tiroSimples() {
         long tempoAtual = System.currentTimeMillis();
+        
         if (tempoAtual - tempoUltimoTiro >= intervaloTiros) {
             this.tiros.add(new TiroNave(x + largura, y + (altura / 2)));
             tempoUltimoTiro = tempoAtual;
@@ -60,6 +69,7 @@ public abstract class Jogador {
 
     public void keyPressed(KeyEvent tecla) {
         int codigo = tecla.getKeyCode();
+        
         if (codigo == KeyEvent.VK_SPACE && podeAtirar) {
             tiroSimples();
             podeAtirar = false;
