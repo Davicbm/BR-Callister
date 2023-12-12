@@ -29,9 +29,9 @@ public class Jogador1 extends Jogador {
 		}
 	
 		if (codigo == KeyEvent.VK_W || codigo == KeyEvent.VK_S) {
-			dy = (codigo == KeyEvent.VK_W) ? -3 : 3;
+			dy = (codigo == KeyEvent.VK_W) ? -4 : 4;
 		} else if (codigo == KeyEvent.VK_A || codigo == KeyEvent.VK_D) {
-			dx = (codigo == KeyEvent.VK_A) ? -3 : 3;
+			dx = (codigo == KeyEvent.VK_A) ? -4 : 4;
 		}
 	}
 	

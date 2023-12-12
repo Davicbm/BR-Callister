@@ -54,13 +54,13 @@ public class Jogador2 extends Jogador {
 	
 	private void definirDirecao(int codigo) {
 		if (codigo == KeyEvent.VK_UP) {
-			dy = -3;
+			dy = -4;
 		} else if (codigo == KeyEvent.VK_DOWN) {
-			dy = 3;
+			dy = 4;
 		} else if (codigo == KeyEvent.VK_LEFT) {
-			dx = -3;
+			dx = -4;
 		} else if (codigo == KeyEvent.VK_RIGHT) {
-			dx = 3;
+			dx = 4;
 		}
 	}
 	
