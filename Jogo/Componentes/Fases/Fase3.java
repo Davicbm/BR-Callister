@@ -227,18 +227,28 @@ public class Fase3 extends Fase implements ActionListener {
 				graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
 			}
 
-			if (alien1.isVisivel()) {
-				graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
-				if (alien1.getX() != 1000) {
-					graficos.drawImage(alerta, 1350, alien1.getY(), this);
-				}
+			graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
+			if (alien1.getX() != 1000 && !alien1.isDerrotado()) {
+				graficos.drawImage(alerta, 1350, alien1.getY(), this);
 			}
-			if (alien2.isVisivel()) {
-				graficos.drawImage(alien2.getImagem(), alien2.getX(), alien2.getY(), this);
-				if (alien2.getX() != 1000) {
-					graficos.drawImage(alerta, 1350, alien2.getY(), this);
-				}
+			if (alien1.getX() == 1000 && !alien1.isDerrotado()) {
+				alien1.drawTiroAlien(graficos);
 			}
+			if (alien1.isDerrotado()) {
+				alien1.loadDerrotado();
+			}
+
+			graficos.drawImage(alien2.getImagem(), alien2.getX(), alien2.getY(), this);
+			if (alien2.getX() != 1000) {
+				graficos.drawImage(alerta, 1350, alien2.getY(), this);
+			}
+			if (alien2.getX() == 1000 && !alien2.isDerrotado()) {
+				alien2.drawTiroAlien(graficos);
+			}
+			if (alien2.isDerrotado()) {
+				alien2.loadDerrotado();
+			}
+
 			if (drakthar.isVisivel()) {
 				if (drakthar.getX() == 1100) {
 					draktharBarra.paintBarraVida(graficos, drakthar);
@@ -272,17 +282,6 @@ public class Fase3 extends Fase implements ActionListener {
 			if (investida2.getY() >= -400 && investida2.getY() <= 900) {
 				if (investida2.isVisivel()) {
 					investida2.drawTiroDraktharCima(graficos);
-				}
-			}
-
-			if (alien1.getX() == 1000) {
-				if (alien1.isVisivel()) {
-					alien1.drawTiroAlien(graficos);
-				}
-			}
-			if (alien2.getX() == 1000) {
-				if (alien2.isVisivel()) {
-					alien2.drawTiroAlien(graficos);
 				}
 			}
 
@@ -381,6 +380,20 @@ public class Fase3 extends Fase implements ActionListener {
 			alien1.updateAlien(1000);
 			alien2.updateAlien(1000);
 
+			if (alien1.isDerrotado()) {
+				alien1.updateDerrota();
+			}
+			if (alien2.isDerrotado()) {
+				alien2.updateDerrota();
+			}
+
+			if (alien1.getX() == 1000) {
+				alien1.atirar();
+			}
+
+			if (alien2.getX() == 1000) {
+				alien2.atirar();
+			}
 			if (drakthar.getVida() > 50) {
 				drakthar.updateDrakthar(1100);
 			}
@@ -427,14 +440,6 @@ public class Fase3 extends Fase implements ActionListener {
 			}
 		} else {
 			laserDrakthar.setVisible(false);
-		}
-
-		if (alien1.getX() == 1000) {
-			alien1.atirar();
-		}
-
-		if (alien2.getX() == 1000) {
-			alien2.atirar();
 		}
 
 		if (drakthar.getX() == 1100) {
@@ -516,8 +521,8 @@ public class Fase3 extends Fase implements ActionListener {
 		// Checagem das Entidades:
 		fase.checarJogadores(jogador1, jogador2, doisJogadores);
 
-		fase.checarAlien(alien1);
-		fase.checarAlien(alien2);
+		fase.checarAlien(alien1, 120);
+		fase.checarAlien(alien2, 620);
 
 		fase.checarRobos(robos);
 

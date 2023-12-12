@@ -186,113 +186,108 @@ public class Fase2 extends Fase implements ActionListener {
 				powerUp.load();
 
 				graficos.drawImage(powerUp.getImagem(), powerUp.getX(), powerUp.getY(), this);
+				powerUp.desenharBrilhos(graficos);
 			}
 
-			if (robo1.isVisivel()) {
-				graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
-				if (robo1.getX() != 1000) {
-					graficos.drawImage(alerta, 1450, robo1.getY(), this);
-				}
+			graficos.drawImage(robo1.getImagem(), robo1.getX(), robo1.getY(), this);
+			if (robo1.getX() != 1000 && !robo1.isDerrotado()) {
+				graficos.drawImage(alerta, 1450, robo1.getY(), this);
 			}
-			if (robo2.isVisivel()) {
-				graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
-				if (robo2.getX() != 1000) {
-					graficos.drawImage(alerta, 1450, robo2.getY(), this);
-				}
+			if (robo1.getX() == 1000 && !robo1.isDerrotado()) {
+				robo1.drawTiroRobo(graficos);
+			}
+			if (robo1.isDerrotado()) {
+				robo1.loadDerrotado();
 			}
 
-			if (alien1.isVisivel()) {
-				graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
-				if (alien1.getX() != 1200) {
-					graficos.drawImage(alerta, 1450, alien1.getY(), this);
-				}
+			graficos.drawImage(robo2.getImagem(), robo2.getX(), robo2.getY(), this);
+			if (robo2.getX() != 1000 && !robo2.isDerrotado()) {
+				graficos.drawImage(alerta, 1450, robo2.getY(), this);
 			}
-			if (alien2.isVisivel()) {
-				graficos.drawImage(alien2.getImagem(), alien2.getX(), alien2.getY(), this);
-				if (alien2.getX() != 1200) {
-					graficos.drawImage(alerta, 1450, alien2.getY(), this);
-				}
+			if (robo2.getX() == 1000 && !robo2.isDerrotado()) {
+				robo2.drawTiroRobo(graficos);
+			}
+			if (robo2.isDerrotado()) {
+				robo2.loadDerrotado();
 			}
 
-			if (robo1.getX() == 1000) {
-				if (robo1.isVisivel()) {
-					robo1.drawTiroRobo(graficos);
-				}
+			graficos.drawImage(alien1.getImagem(), alien1.getX(), alien1.getY(), this);
+			if (alien1.getX() != 1200 && !alien1.isDerrotado()) {
+				graficos.drawImage(alerta, 1450, alien1.getY(), this);
 			}
-			if (robo2.getX() == 1000) {
-				if (robo2.isVisivel()) {
-					robo2.drawTiroRobo(graficos);
-				}
+			if (alien1.getX() == 1200 && !alien1.isDerrotado()) {
+				alien1.drawTiroAlien(graficos);
+			}
+			if (alien1.isDerrotado()) {
+				alien1.loadDerrotado();
 			}
 
-			if (alien1.getX() == 1200) {
-				if (alien1.isVisivel()) {
-					alien1.drawTiroAlien(graficos);
-				}
+			graficos.drawImage(alien2.getImagem(), alien2.getX(), alien2.getY(), this);
+			if (alien2.getX() != 1200 && !alien2.isDerrotado()) {
+				graficos.drawImage(alerta, 1450, alien2.getY(), this);
 			}
-			if (alien2.getX() == 1200) {
-				if (alien2.isVisivel()) {
-					alien2.drawTiroAlien(graficos);
-				}
+			if (alien1.getX() == 1200 && !alien2.isDerrotado()) {
+				alien2.drawTiroAlien(graficos);
+			}
+			if (alien2.isDerrotado()) {
+				alien2.loadDerrotado();
 			}
 		}
 
 		if (proximaOnda) {
-			if (robo3.isVisivel()) {
-				graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
-				if (robo3.getX() != 1000) {
-					graficos.drawImage(alerta, 1450, robo3.getY(), this);
-				}
+			graficos.drawImage(robo3.getImagem(), robo3.getX(), robo3.getY(), this);
+			if (robo3.getX() != 1000 && !robo3.isDerrotado()) {
+				graficos.drawImage(alerta, 1450, robo3.getY(), this);
 			}
-			if (robo4.isVisivel()) {
-				graficos.drawImage(robo4.getImagem(), robo4.getX(), robo4.getY(), this);
-				if (robo4.getX() != 1000) {
-					graficos.drawImage(alerta, 1450, robo4.getY(), this);
-				}
+			if (robo3.getX() == 1000 && !robo3.isDerrotado()) {
+				robo3.drawTiroRobo(graficos);
 			}
-			if (alien3.isVisivel()) {
-				graficos.drawImage(alien3.getImagem(), alien3.getX(), alien3.getY(), this);
-				if (alien3.getX() != 1200) {
-					graficos.drawImage(alerta, 1450, alien3.getY(), this);
-				}
-			}
-			if (alien4.isVisivel()) {
-				graficos.drawImage(alien4.getImagem(), alien4.getX(), alien4.getY(), this);
-				if (alien4.getX() != 1200) {
-					graficos.drawImage(alerta, 1450, alien4.getY(), this);
-				}
-			}
-			if (alien5.isVisivel()) {
-				graficos.drawImage(alien5.getImagem(), alien5.getX(), alien5.getY(), this);
-				if (alien5.getX() != 1200) {
-					graficos.drawImage(alerta, 1450, alien5.getY(), this);
-				}
+			if (robo3.isDerrotado()) {
+				robo3.loadDerrotado();
 			}
 
-			if (robo3.getX() == 1000) {
-				if (robo3.isVisivel()) {
-					robo3.drawTiroRobo(graficos);
-				}
+			graficos.drawImage(robo4.getImagem(), robo4.getX(), robo4.getY(), this);
+			if (robo4.getX() != 1000 && !robo4.isDerrotado()) {
+				graficos.drawImage(alerta, 1450, robo4.getY(), this);
 			}
-			if (robo4.getX() == 1000) {
-				if (robo4.isVisivel()) {
-					robo4.drawTiroRobo(graficos);
-				}
+			if (robo4.getX() == 1000 && !robo4.isDerrotado()) {
+				robo4.drawTiroRobo(graficos);
 			}
-			if (alien3.getX() == 1200) {
-				if (alien3.isVisivel()) {
-					alien3.drawTiroAlien(graficos);
-				}
+			if (robo4.isDerrotado()) {
+				robo4.loadDerrotado();
 			}
-			if (alien4.getX() == 1200) {
-				if (alien4.isVisivel()) {
-					alien4.drawTiroAlien(graficos);
-				}
+
+			graficos.drawImage(alien3.getImagem(), alien3.getX(), alien3.getY(), this);
+			if (alien3.getX() != 1200 && !alien3.isDerrotado()) {
+				graficos.drawImage(alerta, 1450, alien3.getY(), this);
 			}
-			if (alien5.getX() == 1200) {
-				if (alien5.isVisivel()) {
-					alien5.drawTiroAlien(graficos);
-				}
+			if (alien3.getX() == 1200 && !alien3.isDerrotado()) {
+				alien3.drawTiroAlien(graficos);
+			}
+			if (alien3.isDerrotado()) {
+				alien3.loadDerrotado();
+			}
+
+			graficos.drawImage(alien4.getImagem(), alien4.getX(), alien4.getY(), this);
+			if (alien4.getX() != 1200 && !alien4.isDerrotado()) {
+				graficos.drawImage(alerta, 1450, alien4.getY(), this);
+			}
+			if (alien4.getX() == 1200 && !alien4.isDerrotado()) {
+				alien4.drawTiroAlien(graficos);
+			}
+			if (alien4.isDerrotado()) {
+				alien4.loadDerrotado();
+			}
+
+			graficos.drawImage(alien5.getImagem(), alien5.getX(), alien5.getY(), this);
+			if (alien5.getX() != 1200 && !alien5.isDerrotado()) {
+				graficos.drawImage(alerta, 1450, alien5.getY(), this);
+			}
+			if (alien5.getX() == 1200 && !alien5.isDerrotado()) {
+				alien5.drawTiroAlien(graficos);
+			}
+			if (alien5.isDerrotado()) {
+				alien5.loadDerrotado();
 			}
 
 			for (int j = 0; j < robos2.size(); j++) {
@@ -321,7 +316,7 @@ public class Fase2 extends Fase implements ActionListener {
 			stopSoundBatalha();
 			drawTelaPausa(graficos, opcaoMenuPausa);
 		}
-		if (!pausado && !gameOver && !vitoria){
+		if (!pausado && !gameOver && !vitoria) {
 			startSoundBatalha();
 		}
 
@@ -350,8 +345,22 @@ public class Fase2 extends Fase implements ActionListener {
 				robo1.updateRoboAtirador(1000);
 				robo2.updateRoboAtirador(1000);
 
+				if (robo1.isDerrotado()) {
+					robo1.updateDerrota();
+				}
+				if (robo2.isDerrotado()) {
+					robo1.updateDerrota();
+				}
+
 				alien1.updateAlien(1200);
 				alien2.updateAlien(1200);
+
+				if (alien1.isDerrotado()) {
+					alien1.updateDerrota();
+				}
+				if (alien2.isDerrotado()) {
+					alien2.updateDerrota();
+				}
 
 				for (int j = 0; j < powerUps.size(); j++) {
 					powerUp = powerUps.get(j);
@@ -364,13 +373,18 @@ public class Fase2 extends Fase implements ActionListener {
 				}
 			}
 
-			if (robo1.getX() == 1000 && robo2.getX() == 1000) {
+			if (robo1.getX() == 1000) {
 				robo1.atirar();
+			}
+			if (robo2.getX() == 1000) {
 				robo2.atirar();
 			}
 
-			if (alien1.getX() == 1200 && alien2.getX() == 1200) {
+			if (alien1.getX() == 1200) {
 				alien1.atirar();
+			}
+
+			if (alien2.getX() == 1200) {
 				alien2.atirar();
 			}
 
@@ -389,17 +403,40 @@ public class Fase2 extends Fase implements ActionListener {
 				alien4.updateAlien(1200);
 				alien5.updateAlien(1200);
 
+				if (alien3.isDerrotado()) {
+					alien3.updateDerrota();
+				}
+				if (alien4.isDerrotado()) {
+					alien4.updateDerrota();
+				}
+				if (alien5.isDerrotado()) {
+					alien5.updateDerrota();
+				}
+
 				robo3.updateRoboAtirador(1000);
 				robo4.updateRoboAtirador(1000);
 
-				if (robo3.getX() == 1000 && robo4.getX() == 1000) {
+				if (robo3.isDerrotado()) {
+					robo3.updateDerrota();
+				}
+				if (robo4.isDerrotado()) {
+					robo4.updateDerrota();
+				}
+
+				if (robo3.getX() == 1000) {
 					robo3.atirar();
+				}
+				if (robo4.getX() == 1000) {
 					robo4.atirar();
 				}
 
 				if (alien3.getX() == 1200) {
 					alien3.atirar();
+				}
+				if (alien4.getX() == 1200) {
 					alien4.atirar();
+				}
+				if (alien5.getX() == 1200) {
 					alien5.atirar();
 				}
 
@@ -460,16 +497,16 @@ public class Fase2 extends Fase implements ActionListener {
 		alien5.colisaoNaveTiro(jogador1, jogador2);
 
 		// Checa a vida das entidades:
-		checarRobo(robo1);
-		checarRobo(robo2);
-		checarRobo(robo3);
-		checarRobo(robo4);
+		checarRobo(robo1, 130);
+		checarRobo(robo2, 620);
+		checarRobo(robo3, 130);
+		checarRobo(robo4, 640);
 
-		checarAlien(alien1);
-		checarAlien(alien2);
-		checarAlien(alien3);
-		checarAlien(alien4);
-		checarAlien(alien5);
+		checarAlien(alien1, 270);
+		checarAlien(alien2, 470);
+		checarAlien(alien3, 270);
+		checarAlien(alien4, 400);
+		checarAlien(alien5, 495);
 
 		checarRobos(robos);
 		checarRobos(robos2);

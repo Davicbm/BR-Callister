@@ -20,6 +20,7 @@ public class Alien {
 	private int largura;
 	private int altura;
 	private boolean isVisivel;
+	private boolean derrotado;
 	private int vida;
 
 	private BarraVidaAlien barraVidaAlien;
@@ -34,6 +35,7 @@ public class Alien {
 		this.x = x;
 		this.y = y;
 		this.isVisivel = true;
+		this.derrotado = false;
 		this.vida = 15;
 
 		barraVidaAlien = new BarraVidaAlien();
@@ -41,7 +43,17 @@ public class Alien {
 	}
 
 	public void load() {
-		ImageIcon referencia = new ImageIcon("assets//navealiens.gif");
+		if (!derrotado) {
+			ImageIcon referencia = new ImageIcon("assets//navealiens.gif");
+			imagem = referencia.getImage();
+
+			this.largura = imagem.getWidth(null);
+			this.altura = imagem.getHeight(null);
+		}
+	}
+
+	public void loadDerrotado() {
+		ImageIcon referencia = new ImageIcon("assets//alien_derrotado.gif");
 		imagem = referencia.getImage();
 
 		this.largura = imagem.getWidth(null);
@@ -53,6 +65,14 @@ public class Alien {
 
 		if (this.x < localizacaoX) {
 			this.x = localizacaoX;
+		}
+	}
+
+	public void updateDerrota() {
+		this.y += velocidade;
+		
+		if (this.y > 1000) {
+			this.y = 1000;
 		}
 	}
 
@@ -187,5 +207,13 @@ public class Alien {
 
 	public int getVida() {
 		return this.vida;
+	}
+
+	public boolean isDerrotado() {
+		return derrotado;
+	}
+
+	public void setDerrotado(boolean derrotado) {
+		this.derrotado = derrotado;
 	}
 }

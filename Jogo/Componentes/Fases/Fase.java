@@ -27,6 +27,7 @@ import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
 import Jogo.Componentes.Jogadores.TiroNave;
 import Jogo.Componentes.Objetos.BarraVidaJogador;
+import Jogo.Componentes.Objetos.Brilho;
 import Jogo.Componentes.Objetos.Explosao;
 import Jogo.Componentes.Objetos.PowerUp;
 
@@ -48,7 +49,7 @@ public class Fase extends JPanel {
 		explosoes = new ArrayList<>();
 
 		ImageIcon referencia = new ImageIcon("planosFundo//blackground.png");
-        fundoPausa = referencia.getImage();
+		fundoPausa = referencia.getImage();
 
 		try {
 			File audioFile = new File("assets//musica-batalha.wav");
@@ -81,7 +82,7 @@ public class Fase extends JPanel {
 	// Desenha os componentes iniciais da fase(Jogadores):
 	public void drawComponentesIniciais(Graphics2D graficos, Jogador1 jogador1, Jogador2 jogador2, String nomeJogador1,
 			String nomeJogador2, BarraVidaJogador barra, String faseAtual) {
-			
+
 		Font fonte = loadFont("assets//PressStart2P.ttf", 16);
 		Font fonte2 = loadFont("assets//PressStart2P.ttf", 12);
 
@@ -244,12 +245,13 @@ public class Fase extends JPanel {
 			musicaBoss.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 	}
+
 	public void stopSoundBoss() {
 		if (musicaBoss != null) {
 			musicaBoss.stop();
 		}
 	}
-    
+
 	// Explosões:
 	public Explosao adicionarExplosao(int x, int y) {
 		Explosao explosao = new Explosao(x, y);
@@ -257,31 +259,44 @@ public class Fase extends JPanel {
 		explosoes.removeIf(Explosao::isConcluida);
 		return explosao;
 	}
-	
+
 	public void desenharExplosoes(Graphics2D graficos) {
 		List<Explosao> explosaoAtiva = new ArrayList<>();
-	
+
 		for (Explosao explosao : explosoes) {
 			if (!explosao.isConcluida()) {
 				explosao.renderizar(graficos);
 				explosaoAtiva.add(explosao);
 			}
 		}
-	
+
 		explosoes = explosaoAtiva;
 	}
-	
+
 	// Checa o estado do Robô:
-	public void checarRobo(Robo robo) {
+	public void checarRobo(Robo robo, int y) {
 		if (robo.getVida() == 0) {
+			robo.setDerrotado(true);
+			if (robo.getY() <= y) {
+				Explosao explosao = adicionarExplosao(robo.getX(), robo.getY());
+				explosao.tocarSomExplosao();
+			}
+		}
+		if (robo.getY() == 1000) {
 			robo.setVisivel(false);
 		}
 	}
-	
 
 	// Checa o estado do Alien:
-	public void checarAlien(Alien alien) {
+	public void checarAlien(Alien alien, int y) {
 		if (alien.getVida() == 0) {
+			alien.setDerrotado(true);
+			if (alien.getY() <= y) {
+				Explosao explosao = adicionarExplosao(alien.getX(), alien.getY());
+				explosao.tocarSomExplosao();
+			}
+		}
+		if (alien.getY() == 1000) {
 			alien.setVisivel(false);
 		}
 	}
@@ -347,8 +362,8 @@ public class Fase extends JPanel {
 		for (int j = 0; j < tiros1.size(); j++) {
 			if (robo.getX() == x) {
 				robo.colisaoRoboTiro(jogador1, j);
+			}
 		}
-	}
 		for (int j = 0; j < tiros2.size(); j++) {
 			if (robo.getX() == x) {
 				robo.colisaoRoboTiro(jogador2, j);

@@ -1,0 +1,47 @@
+package Jogo.Componentes.Objetos;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class Brilho {
+
+    private ImageIcon[] brilhoFrames;
+    private int x, y;
+    private int frameAtual;
+    private int tempoBrilho;
+
+    public Brilho(int x, int y) {
+        this.x = x;
+        this.y = y;
+        
+        brilhoFrames = new ImageIcon[7];
+        carregarFrames();
+        frameAtual = 0;
+        tempoBrilho = 60;
+    }
+
+    private void carregarFrames() {
+        for (int i = 0; i < brilhoFrames.length; i++) {
+            brilhoFrames[i] = new ImageIcon("brilho//frame-" + (i + 1) + ".png");
+        }
+    }
+
+    public void renderizar(Graphics g) {
+        if (tempoBrilho > 0) {
+            brilhoFrames[frameAtual].paintIcon(null, g, x, y);
+            if (tempoBrilho % 5 == 0) {
+                frameAtual = (frameAtual + 1) % brilhoFrames.length;
+            }
+
+            tempoBrilho--;
+        }
+    }
+
+    public boolean isConcluida() {
+        return frameAtual == brilhoFrames.length - 1 && tempoBrilho <= 0;
+    }
+
+    public void setTempoBrilho(int tempoBrilho) {
+        this.tempoBrilho = tempoBrilho;
+    }
+}
