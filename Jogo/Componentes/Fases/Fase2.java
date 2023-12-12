@@ -138,7 +138,7 @@ public class Fase2 extends Fase implements ActionListener {
 		alien2 = new Alien(1800, 470);
 
 		alien3 = new Alien(1800, 270);
-		alien4 = new Alien(1800, 400);
+		alien4 = new Alien(1800, 380);
 		alien5 = new Alien(1800, 495);
 
 		alien1.load();
@@ -505,7 +505,7 @@ public class Fase2 extends Fase implements ActionListener {
 		checarAlien(alien1, 270);
 		checarAlien(alien2, 470);
 		checarAlien(alien3, 270);
-		checarAlien(alien4, 400);
+		checarAlien(alien4, 380);
 		checarAlien(alien5, 495);
 
 		checarRobos(robos);
