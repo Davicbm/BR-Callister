@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 
 import Jogo.Componentes.Jogadores.Jogador1;
 import Jogo.Componentes.Jogadores.Jogador2;
+import Jogo.Componentes.Sons.EfeitosSonoros;
 
 public class PowerUp {
     private Image imagem;
@@ -57,6 +58,11 @@ public class PowerUp {
 		}
     }
 
+    public void somPowerUp() {
+		EfeitosSonoros a = new EfeitosSonoros();
+		a.tocarPowerUp();
+	}
+
     public void colisaoPowerUp(Jogador1 jogador){
         Rectangle formaNave = jogador.getBounds();
 		Rectangle formaPowerUp = getBounds();
@@ -64,6 +70,7 @@ public class PowerUp {
             case 1:
                 if (formaNave.intersects(formaPowerUp) && jogador.isVisivel()) {
 			        jogador.regeneraVida();
+                    somPowerUp();
 			        setVisivel(false);
 		        } 
                 break;
@@ -71,6 +78,7 @@ public class PowerUp {
             case 2:
                 if (formaNave.intersects(formaPowerUp) && jogador.isVisivel()) {
 			        jogador.ganhaEscudo();
+                    somPowerUp();
 			        setVisivel(false);
 		        } 
                 break;
@@ -83,6 +91,7 @@ public class PowerUp {
             case 1:
                 if (formaNave.intersects(formaPowerUp) && jogador.isVisivel()) {
 			        jogador.regeneraVida();
+                    somPowerUp();
 			        setVisivel(false);
 		        } 
                 break;
@@ -90,6 +99,7 @@ public class PowerUp {
             case 2:
                 if (formaNave.intersects(formaPowerUp) && jogador.isVisivel()) {
 			        jogador.ganhaEscudo();
+                    somPowerUp();
 			        setVisivel(false);
 		        } 
                 break;

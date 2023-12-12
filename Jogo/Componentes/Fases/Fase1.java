@@ -51,7 +51,7 @@ public class Fase1 extends Fase implements ActionListener {
 	private Robo robo5;
 	private Robo robo6;
 	private Robo robo7;
-	
+
 	private Alien alien;
 	private List<Robo> robos;
 	private List<Robo> robos2;
@@ -300,7 +300,7 @@ public class Fase1 extends Fase implements ActionListener {
 			Robo robo = robos.get(j);
 
 			robo.load2(graficos);
-		
+
 			graficos.drawImage(robo.getImagem(), robo.getX(), robo.getY(), this);
 		}
 
@@ -311,11 +311,11 @@ public class Fase1 extends Fase implements ActionListener {
 		if (vitoria) {
 			drawTelaVitoria(graficos, nomeJogador1, nomeJogador2);
 		}
-		if (pausado) { 
+		if (pausado) {
 			drawTelaPausa(graficos, opcaoMenuPausa);
 			stopSoundBatalha();
 		}
-		if (!pausado && !gameOver && !vitoria){
+		if (!pausado && !gameOver && !vitoria) {
 			startSoundBatalha();
 		}
 
@@ -343,6 +343,16 @@ public class Fase1 extends Fase implements ActionListener {
 			robo3.updateRoboAtirador(1100);
 			robo4.updateRoboAtirador(1200);
 			robo5.updateRoboAtirador(1200);
+
+			for (int j = 0; j < powerUps.size(); j++) {
+				powerUp = powerUps.get(j);
+
+				if (powerUp.isVisivel()) {
+					powerUp.update();
+				} else {
+					powerUps.remove(j);
+				}
+			}
 		}
 		if (proximaOndaAtiradores) {
 			robo6.updateRoboAtirador(1300);
@@ -394,15 +404,7 @@ public class Fase1 extends Fase implements ActionListener {
 				}
 			}
 		}
-		for (int j = 0; j < powerUps.size(); j++) {
-			powerUp = powerUps.get(j);
 
-			if (powerUp.isVisivel()) {
-				powerUp.update();
-			} else {
-				powerUps.remove(j);
-			}
-		}
 		checarColisoes();
 		repaint();
 	}
@@ -473,7 +475,7 @@ public class Fase1 extends Fase implements ActionListener {
 			faseCompleta1 = true;
 		}
 		gameOver = checarJogadores(jogador1, jogador2, doisJogadores);
-		if (gameOver){
+		if (gameOver) {
 			stopSoundBatalha();
 			startSoundGameOver();
 		}

@@ -173,8 +173,8 @@ public class Fase extends JPanel {
 
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
-		ImageIcon vitoriaJogo = new ImageIcon("planosFundo//victory.png");
-		graficos.drawImage(vitoriaJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
+		ImageIcon venceuJogo = new ImageIcon("planosFundo//VenceuJogo.png");
+		graficos.drawImage(venceuJogo.getImage(), 0, 0, getWidth(), getHeight(), this);
 		graficos.setFont(fonte);
 		graficos.setColor(Color.WHITE);
 		graficos.drawString("Parabéns você completou o jogo!", 450, 800);
