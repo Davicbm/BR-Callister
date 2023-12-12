@@ -525,6 +525,7 @@ public class Fase3 extends Fase implements ActionListener {
 		fase.checarAlien(alien2, 620);
 
 		fase.checarRobos(robos);
+		fase.checarRobos(robos2);
 
 		fase.checarDrakthar(drakthar);
 

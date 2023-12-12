@@ -112,7 +112,7 @@ public class Fase1 extends Fase implements ActionListener {
 	public void inicializaInimigos() {
 		robos = new ArrayList<Robo>();
 
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 30; i++) {
 			int x = (int) (Math.random() * 8000) + 1980;
 			int y = (int) (Math.random() * 650) + 100;
 
@@ -474,6 +474,8 @@ public class Fase1 extends Fase implements ActionListener {
 		checarAlien(alien, 350);
 
 		checarRobos(robos);
+		checarRobos(robos2);
+		
 
 		if (robo1.isVisivel() == false && robo2.isVisivel() == false && robo3.isVisivel() == false
 				&& robo4.isVisivel() == false &&
